@@ -20,10 +20,7 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    
-#ifdef __APPLE__
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // uncomment this statement to fix compilation on OS X
-#endif
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     
     // glfw window creation
     // --------------------
@@ -37,16 +34,16 @@ int main()
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     
-    Shader boxShader("/Users/nwaters/code/go_stop/graphics-test/default.vs",
-                     "/Users/nwaters/code/go_stop/graphics-test/default.frag");
-    
-    // glad: load all OpenGL function pointers
-    // ---------------------------------------
+    // glad: load all OpenGL function pointers.  Load this early!
+    // ----------------------------------------------------------
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
+    
+    Shader boxShader("/Users/nwaters/code/go_stop/go_stop/go_stop/triangle/triangle.vert",
+                     "/Users/nwaters/code/go_stop/go_stop/go_stop/triangle/triangle.frag");
     
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -104,7 +101,7 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
         
         // draw our first triangle
-//        glUseProgram(shaderProgram);
+        boxShader.use();
         
         glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
         //glDrawArrays(GL_TRIANGLES, 0, 6);
