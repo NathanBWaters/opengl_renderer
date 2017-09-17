@@ -42,8 +42,6 @@
 		A03233611F66129000C209C9 /* libGLEW.2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.2.0.0.dylib; path = ../lib/glew/libGLEW.2.0.0.dylib; sourceTree = "<group>"; };
 		A03233641F66264200C209C9 /* GLFW */ = {isa = PBXFileReference; lastKnownFileType = folder; name = GLFW; path = ../lib/GLFW; sourceTree = "<group>"; };
 		A03233671F662D1400C209C9 /* libglfw.3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.2.dylib; path = ../lib/GLFW/glfw/3.2.1/lib/libglfw.3.2.dylib; sourceTree = "<group>"; };
-		A032336D1F66331500C209C9 /* triangle.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = triangle.vert; sourceTree = "<group>"; };
-		A032336E1F66331D00C209C9 /* triangle.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = triangle.frag; sourceTree = "<group>"; };
 		A032336F1F6633E200C209C9 /* Shader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -94,20 +92,10 @@
 		A032334D1F66104E00C209C9 /* go_stop */ = {
 			isa = PBXGroup;
 			children = (
-				A032336B1F6632D600C209C9 /* triangle */,
 				A032334E1F66104E00C209C9 /* main.cpp */,
 				A032336F1F6633E200C209C9 /* Shader.h */,
 			);
 			path = go_stop;
-			sourceTree = "<group>";
-		};
-		A032336B1F6632D600C209C9 /* triangle */ = {
-			isa = PBXGroup;
-			children = (
-				A032336D1F66331500C209C9 /* triangle.vert */,
-				A032336E1F66331D00C209C9 /* triangle.frag */,
-			);
-			name = triangle;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
