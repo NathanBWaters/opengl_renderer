@@ -31,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		A01FFE951F6EECE500E5BDF0 /* glad */ = {isa = PBXFileReference; lastKnownFileType = folder; name = glad; path = ../lib/glad/include/glad; sourceTree = "<group>"; };
+		A01FFE971F6EF3BF00E5BDF0 /* triangle */ = {isa = PBXFileReference; lastKnownFileType = folder; path = triangle; sourceTree = "<group>"; };
 		A032334B1F66104E00C209C9 /* go_stop */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = go_stop; sourceTree = BUILT_PRODUCTS_DIR; };
 		A032334E1F66104E00C209C9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		A03233551F6611B200C209C9 /* SOIL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SOIL.h; path = ../lib/SOIL/SOIL.h; sourceTree = "<group>"; };
@@ -92,6 +93,7 @@
 		A032334D1F66104E00C209C9 /* go_stop */ = {
 			isa = PBXGroup;
 			children = (
+				A01FFE971F6EF3BF00E5BDF0 /* triangle */,
 				A032334E1F66104E00C209C9 /* main.cpp */,
 				A032336F1F6633E200C209C9 /* Shader.h */,
 			);
