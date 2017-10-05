@@ -16,8 +16,17 @@
 #include <sstream>
 #include <iostream>
 #include <glm/glm.hpp>
-#include "Shader.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include "Shader.hpp"
+#include "Camera.hpp"
 #include <SOIL.h>
+
+extern const unsigned int SCR_WIDTH;
+extern const unsigned int SCR_HEIGHT;
+
+extern Camera camera;
 
 class Triangle
 {
@@ -29,6 +38,9 @@ public:
     GLuint triangleTextureLoc2;
     Shader triangleShader;
     glm::vec3 tPos;
+    glm::mat4 modelMatrix;
+    glm::mat4 viewMatrix;
+    glm::mat4 projectionMatrix;
     
     // constructor generates the shader on the fly
     // ------------------------------------------------------------------------
@@ -54,6 +66,9 @@ public:
         glGenBuffers(1, &triangleVBO);
         glGenBuffers(1, &triangleEBO);
         
+        std::cout << "triangleVBO: " << triangleVBO << std::endl;
+        std::cout << "GL_MAX_VERTEX_ATTRIBS: " << GL_MAX_VERTEX_ATTRIBS << std::endl;
+        
         // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
         glBindVertexArray(triangleVAO);
         
@@ -72,7 +87,10 @@ public:
                               GL_FALSE,          //
                               8 * sizeof(float), // span of one vertex
                               (void*)0);         // where on the vertex does it start
-        glEnableVertexAttribArray(0);            // location of position
+        // you must enable to position of the vertex location of position.  You can see the size of the
+        // vertex attribut array by calling GL_MAX_VERTEX_ATTRIBS.  They are disabled by default.
+        glEnableVertexAttribArray(0);
+        
         
         // color, location == 1
         glVertexAttribPointer(1,                          // location position
@@ -190,21 +208,47 @@ public:
         glUniform1i(glGetUniformLocation(triangleShader.ID, "triangleTexture2"), 1);
 
         
-        // remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO
+        // Unbind the VBO and VAO at the end, but not the EBO because it's part of the VAO.
         
         // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens.
         // Modifying other VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs)
         // when it's not directly necessary.
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
+        
+        // Model Matrix to convert local vertices to world space.  Save this->modelMatrix
+        glm::mat4 model;
+        modelMatrix = glm::rotate(model, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        
+        // View Matrix to convert world space to view space
+        glm::mat4 view;
+        viewMatrix = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
+        
+        // Projection Matrix to convert view space to clip space
+        glm::mat4 projection;
+        projectionMatrix = glm::perspective(50.0f, 1.0f, 0.1f, 100.0f);
     }
 
     // ------------------------------------------------------------------------
     void render()
     {
-        GLint offsetLoc = glGetUniformLocation(triangleShader.ID, "offset");
-        glUniform3f(offsetLoc, tPos.x, tPos.y, tPos.z);
-        
         triangleShader.use();
+        
+        // Let's keep it constantly rotating by rotating the model matrix
+        modelMatrix = glm::rotate(modelMatrix, glm::radians(1.0f), glm::vec3(1.0f, 1.0f, 0.0f));
+
+        // Set model matrix
+        int modelMatrixLoc = glGetUniformLocation(triangleShader.ID, "modelMatrix");
+        glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+        
+        // Set view matrix
+        int viewMatrixLoc = glGetUniformLocation(triangleShader.ID, "viewMatrix");
+        glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, glm::value_ptr(camera.GetViewMatrix()));
+        
+        // Set projection matrix
+        int projectionMatrixLoc = glGetUniformLocation(triangleShader.ID, "projectionMatrix");
+        glUniformMatrix4fv(projectionMatrixLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+        
         
         // setting image one, which is on the texture unit GL_TEXTURE0
         glActiveTexture(GL_TEXTURE0);
@@ -214,11 +258,13 @@ public:
         glBindTexture(GL_TEXTURE_2D, triangleTextureLoc2);
         
         glBindVertexArray(triangleVAO);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        glBindVertexArray(0); // no need to unbind it every time
+        
+        // Drawing from the EBO through the VAO.
+        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
     }
     
     void deAllocate() {
+        // you must delete the VAO before the EBO.
         glDeleteVertexArrays(1, &triangleVAO);
         glDeleteBuffers(1, &triangleVBO);
         glDeleteBuffers(1, &triangleEBO);

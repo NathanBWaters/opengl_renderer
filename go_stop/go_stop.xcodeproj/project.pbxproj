@@ -10,10 +10,10 @@
 		A01FFE961F6EECE500E5BDF0 /* glad in Frameworks */ = {isa = PBXBuildFile; fileRef = A01FFE951F6EECE500E5BDF0 /* glad */; };
 		A032334F1F66104E00C209C9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A032334E1F66104E00C209C9 /* main.cpp */; };
 		A032335B1F66126B00C209C9 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A03233571F66126B00C209C9 /* GLUT.framework */; };
-		A032335D1F66126B00C209C9 /* libSOIL.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A03233591F66126B00C209C9 /* libSOIL.dylib */; };
 		A032335E1F66126B00C209C9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A032335A1F66126B00C209C9 /* OpenGL.framework */; };
 		A03233631F6612AE00C209C9 /* SOIL.h in Frameworks */ = {isa = PBXBuildFile; fileRef = A03233551F6611B200C209C9 /* SOIL.h */; };
 		A03233681F662D1400C209C9 /* libglfw.3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A03233671F662D1400C209C9 /* libglfw.3.2.dylib */; };
+		A0B760B21F836B4D0074E342 /* libSOIL.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A03233591F66126B00C209C9 /* libSOIL.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -42,7 +42,8 @@
 		A03233611F66129000C209C9 /* libGLEW.2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.2.0.0.dylib; path = ../lib/glew/libGLEW.2.0.0.dylib; sourceTree = "<group>"; };
 		A03233641F66264200C209C9 /* GLFW */ = {isa = PBXFileReference; lastKnownFileType = folder; name = GLFW; path = ../lib/GLFW; sourceTree = "<group>"; };
 		A03233671F662D1400C209C9 /* libglfw.3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.2.dylib; path = ../lib/GLFW/glfw/3.2.1/lib/libglfw.3.2.dylib; sourceTree = "<group>"; };
-		A032336F1F6633E200C209C9 /* Shader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
+		A032336F1F6633E200C209C9 /* Shader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Shader.hpp; sourceTree = "<group>"; };
+		A048B8DE1F860A150026666D /* Camera.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Camera.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,10 +51,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0B760B21F836B4D0074E342 /* libSOIL.dylib in Frameworks */,
 				A01FFE961F6EECE500E5BDF0 /* glad in Frameworks */,
 				A03233681F662D1400C209C9 /* libglfw.3.2.dylib in Frameworks */,
 				A03233631F6612AE00C209C9 /* SOIL.h in Frameworks */,
-				A032335D1F66126B00C209C9 /* libSOIL.dylib in Frameworks */,
 				A032335E1F66126B00C209C9 /* OpenGL.framework in Frameworks */,
 				A032335B1F66126B00C209C9 /* GLUT.framework in Frameworks */,
 			);
@@ -76,6 +77,7 @@
 				A03233551F6611B200C209C9 /* SOIL.h */,
 				A032334D1F66104E00C209C9 /* go_stop */,
 				A032334C1F66104E00C209C9 /* Products */,
+				A0B760B11F836B4D0074E342 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -92,10 +94,18 @@
 			children = (
 				A01FFE971F6EF3BF00E5BDF0 /* triangle */,
 				A032334E1F66104E00C209C9 /* main.cpp */,
-				A032336F1F6633E200C209C9 /* Shader.h */,
+				A032336F1F6633E200C209C9 /* Shader.hpp */,
 				A01FFE991F6F0C5600E5BDF0 /* triangle.hpp */,
+				A048B8DE1F860A150026666D /* Camera.hpp */,
 			);
 			path = go_stop;
+			sourceTree = "<group>";
+		};
+		A0B760B11F836B4D0074E342 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -124,7 +134,7 @@
 		A03233431F66104E00C209C9 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Nathan Waters";
 				TargetAttributes = {
 					A032334A1F66104E00C209C9 = {
@@ -169,13 +179,21 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -212,13 +230,21 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";

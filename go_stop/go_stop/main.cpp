@@ -2,9 +2,12 @@
 #include <glad/src/glad.c>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <iostream>
-#include "Shader.h"
+#include "Shader.hpp"
+#include "Camera.hpp"
 #include "triangle/triangle.hpp"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -13,6 +16,8 @@ void processInput(GLFWwindow *window);
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+
+Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
 int main()
 {
@@ -44,29 +49,30 @@ int main()
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
-    
-    Triangle triangle(glm::vec3(0.5f, 0.5f, 0.5f));
+
+    Triangle triangle(glm::vec3(0.0f, 0.0f, 0.0f));
     triangle.render();
     
-    Triangle triangle2(glm::vec3(-0.5f, -0.5f, 0.5f));
-    triangle2.render();
-
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
     {
+        // ------------------------
         // input
-        // -----
+        // ------------------------
         processInput(window);
         
-        // render
-        // ------
+        // Clear the color buffer and the z depth buffer
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
+        // ------------------------
+        // render
+        // ------------------------
+        
+
         // draw our first triangle
         triangle.render();
-        triangle2.render();
         
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -75,7 +81,6 @@ int main()
     }
 
     triangle.deAllocate();
-    triangle2.deAllocate();
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
