@@ -1,18 +1,18 @@
 //
-//  triangle.hpp
+//  cube.hpp
 //  go_stop
 //
 //  Created by Nathan Waters on 9/17/17.
 //  Copyright © 2017 Nathan Waters. All rights reserved.
 //
 
-#ifndef TRIANGLE_MODEL_H
-#define TRIANGLE_MODEL_H
+#ifndef CUBE_MODEL_H
+#define CUBE_MODEL_H
 
-class Triangle : public Mesh
+class Cube : public Mesh
 {
 private:
-    float TRIANGLE_VERTICES[180] = {
+    float CUBE_VERTICES[180] = {
         // ---- vertex ----  -- texture --
         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
         0.5f, -0.5f,  -0.5f,  1.0f, 0.0f,
@@ -58,13 +58,13 @@ private:
     };
 
 public:
-    Triangle() : Mesh()
+    Cube() : Mesh()
     {
-        std::cout << "Making a Triangle" << std::endl;
+        std::cout << "Making a Cube" << std::endl;
     }
     
     float * getVertices() {
-        return TRIANGLE_VERTICES;
+        return CUBE_VERTICES;
     }
     
     int getNumVertices() {
@@ -73,4 +73,4 @@ public:
     
 };
 
-#endif /* triangle_hpp */
+#endif /* cube_hpp */

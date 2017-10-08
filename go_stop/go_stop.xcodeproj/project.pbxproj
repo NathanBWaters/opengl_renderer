@@ -31,7 +31,6 @@
 /* Begin PBXFileReference section */
 		A01FFE951F6EECE500E5BDF0 /* glad */ = {isa = PBXFileReference; lastKnownFileType = folder; name = glad; path = ../lib/glad/include/glad; sourceTree = "<group>"; };
 		A01FFE971F6EF3BF00E5BDF0 /* triangle */ = {isa = PBXFileReference; lastKnownFileType = folder; path = triangle; sourceTree = "<group>"; };
-		A01FFE991F6F0C5600E5BDF0 /* triangle.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = triangle.hpp; path = triangle/triangle.hpp; sourceTree = "<group>"; };
 		A032334B1F66104E00C209C9 /* go_stop */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = go_stop; sourceTree = BUILT_PRODUCTS_DIR; };
 		A032334E1F66104E00C209C9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		A03233551F6611B200C209C9 /* SOIL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SOIL.h; path = ../lib/SOIL/SOIL.h; sourceTree = "<group>"; };
@@ -44,6 +43,8 @@
 		A03233671F662D1400C209C9 /* libglfw.3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.2.dylib; path = ../lib/GLFW/glfw/3.2.1/lib/libglfw.3.2.dylib; sourceTree = "<group>"; };
 		A032336F1F6633E200C209C9 /* Shader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Shader.hpp; sourceTree = "<group>"; };
 		A048B8DE1F860A150026666D /* Camera.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Camera.hpp; sourceTree = "<group>"; };
+		A048B8E11F8610E80026666D /* cube */ = {isa = PBXFileReference; lastKnownFileType = folder; path = cube; sourceTree = "<group>"; };
+		A048B8E21F8611CB0026666D /* mesh */ = {isa = PBXFileReference; lastKnownFileType = folder; path = mesh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,10 +93,11 @@
 		A032334D1F66104E00C209C9 /* go_stop */ = {
 			isa = PBXGroup;
 			children = (
+				A048B8E21F8611CB0026666D /* mesh */,
+				A048B8E11F8610E80026666D /* cube */,
 				A01FFE971F6EF3BF00E5BDF0 /* triangle */,
 				A032334E1F66104E00C209C9 /* main.cpp */,
 				A032336F1F6633E200C209C9 /* Shader.hpp */,
-				A01FFE991F6F0C5600E5BDF0 /* triangle.hpp */,
 				A048B8DE1F860A150026666D /* Camera.hpp */,
 			);
 			path = go_stop;

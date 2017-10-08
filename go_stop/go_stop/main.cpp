@@ -9,6 +9,8 @@
 #include "Shader.hpp"
 #include "Camera.hpp"
 #include "triangle/triangle.hpp"
+#include "mesh/mesh.hpp"
+#include "cube/cube.hpp"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
@@ -49,10 +51,13 @@ int main()
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
-
-    Triangle triangle(glm::vec3(0.0f, 0.0f, 0.0f));
-    triangle.render();
     
+    glEnable(GL_DEPTH_TEST);
+    
+    Cube mesh;
+    mesh.init();
+    mesh.render();
+ 
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
@@ -69,19 +74,17 @@ int main()
         // ------------------------
         // render
         // ------------------------
-        
-
-        // draw our first triangle
-        triangle.render();
+        mesh.render();
         
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
-
-    triangle.deAllocate();
-
+    
+    //    triangle.deAllocate();
+    mesh.deAllocate();
+    
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
     glfwTerminate();
@@ -104,3 +107,4 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
 }
+
