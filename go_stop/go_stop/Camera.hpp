@@ -30,7 +30,7 @@ const float PITCH      =  0.0f;
 const float SPEED      =  3.5f;
 const float SENSITIVTY =  0.1f;
 const float ZOOM       =  45.0f;
-
+bool useMouseControls =  false;
 
 // An abstract camera class that processes input and calculates the corresponding Eular Angles, Vectors and Matrices for use in OpenGL
 class Camera
@@ -95,23 +95,25 @@ public:
     // Processes input received from a mouse input system. Expects the offset value in both the x and y direction.
     void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true)
     {
-        xoffset *= MouseSensitivity;
-        yoffset *= MouseSensitivity;
-        
-        Yaw   += xoffset;
-        Pitch += yoffset;
-        
-        // Make sure that when pitch is out of bounds, screen doesn't get flipped
-        if (constrainPitch)
-        {
-            if (Pitch > 89.0f)
-                Pitch = 89.0f;
-            if (Pitch < -89.0f)
-                Pitch = -89.0f;
+        if (useMouseControls) {
+            xoffset *= MouseSensitivity;
+            yoffset *= MouseSensitivity;
+            
+            Yaw   += xoffset;
+            Pitch += yoffset;
+            
+            // Make sure that when pitch is out of bounds, screen doesn't get flipped
+            if (constrainPitch)
+            {
+                if (Pitch > 89.0f)
+                    Pitch = 89.0f;
+                if (Pitch < -89.0f)
+                    Pitch = -89.0f;
+            }
+            
+            // Update Front, Right and Up Vectors using the updated Eular angles
+            updateCameraVectors();
         }
-        
-        // Update Front, Right and Up Vectors using the updated Eular angles
-        updateCameraVectors();
     }
     
     // Processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis

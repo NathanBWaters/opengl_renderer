@@ -12,6 +12,7 @@
 #include "mesh/mesh.hpp"
 #include "triangle/triangle.hpp"
 #include "cube/cube.hpp"
+#include "point_light/point_light.hpp"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -19,7 +20,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
 
 
-// settings
+// Window settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
@@ -28,10 +29,16 @@ Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
+extern bool useMouseControls;
+
+// Light Settings
+glm::vec3 ambientLight = glm::vec3(0.5f, 0.5f, 0.5f);
 
 // timing
 float deltaTime = 0.0f;    // time between current frame and last frame
 float lastFrame = 0.0f;
+
+glm::vec3 POINT_LIGHT_POSITION = glm::vec3(5.3f, 3.0f, -3.0f);
 
 int main()
 {
@@ -71,11 +78,17 @@ int main()
     
     glEnable(GL_DEPTH_TEST);
     
-    Cube mesh(glm::vec3(-10.0f, 0.0f, 0.0f),
+    Cube mesh(glm::vec3(-0.8f, 0.0f, 0.0f),
               glm::vec3(0.0f, 0.0f, 0.0f),
-              glm::vec3(3.0f, 1.0f, 1.0f));
+              glm::vec3(1.0f, 1.0f, 1.0f));
     mesh.init();
     mesh.render();
+    
+    PointLight lamp(POINT_LIGHT_POSITION,
+                    glm::vec3(0.0f, 0.0f, 0.0f),
+                    glm::vec3(0.2f, 0.2f, 0.2f));
+    lamp.init();
+    lamp.render();
  
     // render loop
     // -----------
@@ -100,6 +113,7 @@ int main()
         // render
         // ------------------------
         mesh.render();
+        lamp.render();
         
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -107,8 +121,7 @@ int main()
         glfwPollEvents();
     }
     
-    //    triangle.deAllocate();
-    mesh.deAllocate();
+    lamp.deAllocate();
     
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
@@ -131,6 +144,14 @@ void processInput(GLFWwindow *window)
         camera.ProcessKeyboard(LEFT, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         camera.ProcessKeyboard(RIGHT, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS) {
+        std::cout << "Set mouse controls to on" << std::endl;
+        useMouseControls = true;
+    }
+    if (useMouseControls == true && glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_RELEASE) {
+        std::cout << "Set mouse controls to off" << std::endl;
+        useMouseControls = false;
+    }
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes

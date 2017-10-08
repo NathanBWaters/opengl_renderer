@@ -26,8 +26,11 @@
 
 extern const unsigned int SCR_WIDTH;
 extern const unsigned int SCR_HEIGHT;
+extern glm::vec3 ambientLight;
 
 extern Camera camera;
+
+extern glm::vec3 POINT_LIGHT_POSITION;
 
 class Mesh
 {
@@ -66,8 +69,7 @@ public:
     }
     
     void init() {
-        meshShader = Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/mesh/mesh.vert",
-                            "/Users/nwaters/code/go_stop/go_stop/go_stop/mesh/mesh.frag");
+        meshShader = getShader();
         
         // set up vertex data (and buffer(s)) and configure vertex attributes
         // ------------------------------------------------------------------
@@ -91,8 +93,8 @@ public:
                      vertices,
                      GL_STATIC_DRAW);
         
-        // position, location == 0
-        glVertexAttribPointer(0,                 // location position
+        // vertices position, location == 0, span 3
+        glVertexAttribPointer(0,                 // location in vertex shader
                               3,                 // number of vertices for positional value
                               GL_FLOAT,          // data type
                               GL_FALSE,          //
@@ -102,14 +104,23 @@ public:
         // vertex attribut array by calling GL_MAX_VERTEX_ATTRIBS.  They are disabled by default.
         glEnableVertexAttribArray(0);
         
-        // color, location == 1
-        glVertexAttribPointer(1,                          // location position
+        // texture position, location == 1, span 2
+        glVertexAttribPointer(1,                          // location in vertex shader
                               2,                          // number of vertices for texture value
                               GL_FLOAT,                   // data type
                               GL_FALSE,                   //
                               getSpan() * sizeof(float),          // span of one vertex
                               (void*)(3* sizeof(float))); // where on the vertex does it start
         glEnableVertexAttribArray(1);                     // location of position
+        
+        // normals vertex, location == 2, span 3
+        glVertexAttribPointer(2,                          // location in vertex shader
+                              3,                          // number of vertices for normal vector
+                              GL_FLOAT,                   // data type
+                              GL_FALSE,                   //
+                              getSpan() * sizeof(float),  // span of one vertex
+                              (void*)(5* sizeof(float))); // where on the vertex does it start
+        glEnableVertexAttribArray(2);                     // location of position
         
         // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
         glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -208,6 +219,13 @@ public:
         glUniform1i(glGetUniformLocation(meshShader.ID, "meshTexture1"), 0);
         glUniform1i(glGetUniformLocation(meshShader.ID, "meshTexture2"), 1);
         
+        // Set ambient light
+        int ambientLightLoc = glGetUniformLocation(meshShader.ID, "ambientLight");
+        glUniform3f(ambientLightLoc, ambientLight.x, ambientLight.y, ambientLight.z);
+        
+        // Set point light 1 position
+        int pointLightLoc = glGetUniformLocation(meshShader.ID, "pointLightPosition1");
+        glUniform3f(pointLightLoc, POINT_LIGHT_POSITION.x, POINT_LIGHT_POSITION.y, POINT_LIGHT_POSITION.z);
         
         // Unbind the VBO and VAO at the end, but not the EBO because it's part of the VAO.
         
@@ -219,30 +237,13 @@ public:
         
         // Model Matrix to convert local vertices to world space.  Save this->modelMatrix
         // Matrix transformations are T * R * S * modelMatrix, so do scale first, then rotation, then translation
-//        modelMatrix = glm::scale(modelMatrix, Scale);
+        modelMatrix = glm::scale(modelMatrix, Scale);
 //        modelMatrix = glm::rotate(modelMatrix, glm::radians(360.0f), Rotation);
-//        modelMatrix = glm::translate(modelMatrix, Position);
+        modelMatrix = glm::translate(modelMatrix, Position);
         
         // Projection Matrix to convert view space to clip space
         glm::mat4 projection;
         projectionMatrix = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-    }
-    
-    virtual float * getVertices() {
-        std::cout << "Getting vertices for Mesh: " << std::endl;
-        return DEFAULT_MESH_VERTICES;
-    }
-    
-    virtual int getVerticesSize() {
-        return sizeof(DEFAULT_MESH_VERTICES);
-    }
-    
-    virtual int getSpan() {
-        return 5;
-    }
-    
-    virtual int getNumVertices() {
-        return 3;
     }
     
     // ------------------------------------------------------------------------
@@ -264,7 +265,6 @@ public:
         int projectionMatrixLoc = glGetUniformLocation(meshShader.ID, "projectionMatrix");
         glUniformMatrix4fv(projectionMatrixLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
         
-        
         // setting image one, which is on the texture unit GL_TEXTURE0
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, meshTextureLoc1);
@@ -276,6 +276,31 @@ public:
         
         // Drawing from the EBO through the VAO.
         glDrawArrays(GL_TRIANGLES, 0, getNumVertices());
+    }
+    
+    // ------------------------------------------------------------------------
+    // Methods that can be overridden by derived classes
+    // ------------------------------------------------------------------------
+    virtual float * getVertices() {
+        std::cout << "Getting vertices for Mesh: " << std::endl;
+        return DEFAULT_MESH_VERTICES;
+    }
+    
+    virtual int getVerticesSize() {
+        return sizeof(DEFAULT_MESH_VERTICES);
+    }
+    
+    virtual int getSpan() {
+        return 8;
+    }
+    
+    virtual int getNumVertices() {
+        return 3;
+    }
+
+    virtual Shader getShader() {
+        return Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/mesh/mesh.vert",
+                      "/Users/nwaters/code/go_stop/go_stop/go_stop/mesh/mesh.frag");
     }
     
     void deAllocate() {

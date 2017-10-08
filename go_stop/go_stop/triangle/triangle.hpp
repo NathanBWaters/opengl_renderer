@@ -12,11 +12,11 @@
 class Triangle : public Mesh
 {
 private:
-    float TRIANGLE_VERTICES[15] = {
-        // --- position ---   -- textures --
-        0.0f,   0.5f,  0.0f,  0.5f,  1.0f,   // top middle
-        0.5f,  -0.5f,  0.0f,  1.0f,  0.0f,   // bottom right
-        -0.5f,  -0.5f,  0.0f, 0.0f,  0.0f,   // bottom left
+    float TRIANGLE_VERTICES[24] = {
+        // --- position ---   -- textures --  --- normals ---
+        0.0f,   0.5f,  0.0f,  0.5f,  1.0f,   0.0f, 0.0f, 1.0f,   // top middle
+        0.5f,  -0.5f,  0.0f,  1.0f,  0.0f,   0.0f, 0.0f, 1.0f,   // bottom right
+        -0.5f,  -0.5f,  0.0f, 0.0f,  0.0f,   0.0f, 0.0f, 1.0f   // bottom left
     };
 
 public:
