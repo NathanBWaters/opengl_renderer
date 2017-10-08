@@ -261,7 +261,6 @@ public:
         
         // Drawing from the EBO through the VAO.
         glDrawArrays(GL_TRIANGLES, 0, getNumVertices());
-//        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
     }
     
     void deAllocate() {
