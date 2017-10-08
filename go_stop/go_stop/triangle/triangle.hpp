@@ -12,53 +12,17 @@
 class Triangle : public Mesh
 {
 private:
-    float TRIANGLE_VERTICES[180] = {
-        // ---- vertex ----  -- texture --
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-        0.5f, -0.5f,  -0.5f,  1.0f, 0.0f,
-        0.5f,  0.5f,  -0.5f,  1.0f, 1.0f,
-        0.5f,  0.5f,  -0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-        
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        0.5f,  -0.5f,  0.5f,  1.0f, 0.0f,
-        0.5f,   0.5f,  0.5f,  1.0f, 1.0f,
-        0.5f,   0.5f,  0.5f,  1.0f, 1.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        
-        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-        0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-        
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-        -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-        -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+    float TRIANGLE_VERTICES[15] = {
+        // --- position ---   -- textures --
+        0.0f,   0.5f,  0.0f,  0.5f,  1.0f,   // top middle
+        0.5f,  -0.5f,  0.0f,  1.0f,  0.0f,   // bottom right
+        -0.5f,  -0.5f,  0.0f, 0.0f,  0.0f,   // bottom left
     };
 
 public:
-    Triangle() : Mesh()
+    Triangle(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
+             glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f),
+             glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f)) : Mesh()
     {
         std::cout << "Making a Triangle" << std::endl;
     }
@@ -68,7 +32,7 @@ public:
     }
     
     int getNumVertices() {
-        return 36;
+        return 3;
     }
     
 };

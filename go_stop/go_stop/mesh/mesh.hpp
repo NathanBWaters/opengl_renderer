@@ -32,6 +32,11 @@ extern Camera camera;
 class Mesh
 {
 public:
+    // Starting transformation variables
+    glm::vec3 Position;
+    glm::vec3 Scale;
+    glm::vec3 Rotation;
+
     GLuint meshVBO;
     GLuint meshVAO;
     GLuint meshEBO;
@@ -51,7 +56,14 @@ public:
     
     // constructor generates the shader on the fly
     // ------------------------------------------------------------------------
-    Mesh(){}
+    Mesh(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
+         glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f),
+         glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f))
+    {
+        Position = position;
+        Scale = scale;
+        Rotation = rotation;
+    }
     
     void init() {
         meshShader = Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/mesh/mesh.vert",
@@ -206,7 +218,10 @@ public:
         glBindVertexArray(0);
         
         // Model Matrix to convert local vertices to world space.  Save this->modelMatrix
-        glm::mat4 model;
+        // Matrix transformations are T * R * S * modelMatrix, so do scale first, then rotation, then translation
+//        modelMatrix = glm::scale(modelMatrix, Scale);
+//        modelMatrix = glm::rotate(modelMatrix, glm::radians(360.0f), Rotation);
+//        modelMatrix = glm::translate(modelMatrix, Position);
         
         // Projection Matrix to convert view space to clip space
         glm::mat4 projection;
