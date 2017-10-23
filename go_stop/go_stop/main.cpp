@@ -25,20 +25,20 @@ const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 // Camera settings
-Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera camera(glm::vec3(0.0f, 0.0f, 9.0f));
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
 extern bool useMouseControls;
 
 // Light Settings
-glm::vec3 ambientLight = glm::vec3(0.5f, 0.5f, 0.5f);
+glm::vec3 ambientLight = glm::vec3(0.06f, 0.05f, 0.05f);
 
 // timing
 float deltaTime = 0.0f;    // time between current frame and last frame
 float lastFrame = 0.0f;
 
-glm::vec3 POINT_LIGHT_POSITION = glm::vec3(5.3f, 3.0f, -3.0f);
+glm::vec3 POINT_LIGHT_POSITION = glm::vec3(0.0f, 0.0f, 3.0f);
 
 int main()
 {
@@ -78,11 +78,17 @@ int main()
     
     glEnable(GL_DEPTH_TEST);
     
-    Cube mesh(glm::vec3(-0.8f, 0.0f, 0.0f),
-              glm::vec3(0.0f, 0.0f, 0.0f),
-              glm::vec3(1.0f, 1.0f, 1.0f));
+    Cube mesh(glm::vec3(2.0f, 0.0f, 0.0f),
+                  glm::vec3(0.0f, 0.0f, 0.0f),
+                  glm::vec3(1.0f, 1.0f, 1.0f));
     mesh.init();
     mesh.render();
+    
+    Cube mesh2(glm::vec3(0.0f, 0.0f, -1.0f),
+              glm::vec3(0.0f, 0.0f, 0.0f),
+              glm::vec3(1.0f, 1.0f, 1.0f));
+    mesh2.init();
+    mesh2.render();
     
     PointLight lamp(POINT_LIGHT_POSITION,
                     glm::vec3(0.0f, 0.0f, 0.0f),
@@ -106,13 +112,14 @@ int main()
         processInput(window);
         
         // Clear the color buffer and the z depth buffer
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClearColor(ambientLight.x, ambientLight.y, ambientLight.z, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         // ------------------------
         // render
         // ------------------------
         mesh.render();
+        mesh2.render();
         lamp.render();
         
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -137,13 +144,17 @@ void processInput(GLFWwindow *window)
         glfwSetWindowShouldClose(window, true);
     
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        camera.ProcessKeyboard(FORWARD, deltaTime);
+        camera.ProcessKeyboard(CAMERA_MOVE_FORWARD, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        camera.ProcessKeyboard(BACKWARD, deltaTime);
+        camera.ProcessKeyboard(CAMERA_MOVE_BACKWARD, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        camera.ProcessKeyboard(LEFT, deltaTime);
+        camera.ProcessKeyboard(CAMERA_MOVE_LEFT, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        camera.ProcessKeyboard(RIGHT, deltaTime);
+        camera.ProcessKeyboard(CAMERA_MOVE_RIGHT, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+        camera.ProcessKeyboard(CAMERA_MOVE_DOWN, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+        camera.ProcessKeyboard(CAMERA_MOVE_UP, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS) {
         std::cout << "Set mouse controls to on" << std::endl;
         useMouseControls = true;

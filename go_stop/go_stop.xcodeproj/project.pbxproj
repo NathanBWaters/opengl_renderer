@@ -46,6 +46,7 @@
 		A048B8DE1F860A150026666D /* Camera.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Camera.hpp; sourceTree = "<group>"; };
 		A048B8E11F8610E80026666D /* cube */ = {isa = PBXFileReference; lastKnownFileType = folder; path = cube; sourceTree = "<group>"; };
 		A048B8E21F8611CB0026666D /* mesh */ = {isa = PBXFileReference; lastKnownFileType = folder; path = mesh; sourceTree = "<group>"; };
+		A0F112C91F9D674D001BCB9D /* Material.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Material.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +102,7 @@
 				A032334E1F66104E00C209C9 /* main.cpp */,
 				A032336F1F6633E200C209C9 /* Shader.hpp */,
 				A048B8DE1F860A150026666D /* Camera.hpp */,
+				A0F112C91F9D674D001BCB9D /* Material.hpp */,
 			);
 			path = go_stop;
 			sourceTree = "<group>";

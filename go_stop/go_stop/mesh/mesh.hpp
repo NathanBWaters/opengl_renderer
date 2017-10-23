@@ -22,6 +22,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "Shader.hpp"
 #include "Camera.hpp"
+#include "Material.hpp"
 #include <SOIL.h>
 
 extern const unsigned int SCR_WIDTH;
@@ -36,18 +37,24 @@ class Mesh
 {
 public:
     // Starting transformation variables
-    glm::vec3 Position;
+    glm::vec3 Translation;
     glm::vec3 Scale;
-    glm::vec3 Rotation;
 
+    GLfloat rotationX;
+    GLfloat rotationY;
+    GLfloat rotationZ;
+    
     GLuint meshVBO;
     GLuint meshVAO;
     GLuint meshEBO;
     GLuint meshTextureLoc1;
     GLuint meshTextureLoc2;
+
+    Material meshMaterial;
+    
     Shader meshShader;
+
     glm::vec3 tPos;
-    glm::mat4 modelMatrix;
     glm::mat4 viewMatrix;
     glm::mat4 projectionMatrix;
     float DEFAULT_MESH_VERTICES[15] = {
@@ -63,9 +70,20 @@ public:
          glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f),
          glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f))
     {
-        Position = position;
+        Translation = position;
         Scale = scale;
-        Rotation = rotation;
+        
+        this->rotationX = rotation.x;
+        rotationY = rotation.y;
+        rotationZ = rotation.z;
+        
+        // white plastic
+        this->meshMaterial = Material{
+            glm::vec3(0.2f, 0.2f, 0.2f),     // ambient
+            glm::vec3(0.55f, 0.55f, 0.55f),  // diffuse
+            glm::vec3(1.7f, 1.7f, 1.7f),     // specular
+            128.0f,                   // shininess
+        };
     }
     
     void init() {
@@ -125,6 +143,99 @@ public:
         // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         
+        ////////////////////////////////////////////////
+        // Set texture information
+        ////////////////////////////////////////////////
+        setTexture();
+        
+        ////////////////////////////////////////////////
+        // Set material information
+        ////////////////////////////////////////////////
+        setMaterial();
+        
+        ////////////////////////////////////////////////
+        //  Light Information
+        ////////////////////////////////////////////////
+    
+        // Set ambient light
+        int ambientLightLoc = glGetUniformLocation(meshShader.ID, "ambientLight");
+        glUniform3f(ambientLightLoc, ambientLight.x, ambientLight.y, ambientLight.z);
+        
+        // Set point light 1 position
+        int pointLightLoc = glGetUniformLocation(meshShader.ID, "pointLightPosition1");
+        glUniform3f(pointLightLoc, POINT_LIGHT_POSITION.x, POINT_LIGHT_POSITION.y, POINT_LIGHT_POSITION.z);
+
+        
+        std::cout<<glm::to_string(camera.Position)<<std::endl;
+        
+        // Unbind the VBO and VAO at the end, but not the EBO because it's part of the VAO.
+        
+        // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens.
+        // Modifying other VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs)
+        // when it's not directly necessary.
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+        
+        // Projection Matrix to convert view space to clip space
+        glm::mat4 projection;
+        projectionMatrix = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+    }
+    
+    // ------------------------------------------------------------------------
+    void render(glm::vec3 positionT = glm::vec3(0.0f, 0.0f, 0.0f),
+                glm::vec3 rotationT = glm::vec3(0.0f, 0.0f, 0.0f),
+                glm::vec3 scaleT = glm::vec3(1.0f, 1.0f, 1.0f))
+    {
+        meshShader.use();
+        
+        // update the instance variables
+        Translation += positionT;
+        Scale *= scaleT;
+        rotationX += rotationT.x;
+        rotationY += rotationT.y;
+        rotationZ += rotationT.z;
+        
+        glm::mat4 scalingMatrix = glm::scale(glm::mat4(), Scale);
+        
+        glm::mat4 rotationMatrix = glm::rotate(glm::mat4(), rotationX, glm::vec3(1.0f, 0.0f, 0.0f));
+        rotationMatrix = glm::rotate(rotationMatrix, rotationY, glm::vec3(0.0f, 1.0f, 0.0f));
+        rotationMatrix = glm::rotate(rotationMatrix, rotationZ, glm::vec3(0.0f, 0.0f, 1.0f));
+        
+        std::cout << glm::to_string(rotationMatrix) << std::endl;
+        glm::mat4 translationMatrix = glm::translate(glm::mat4(), Translation);
+        
+        glm::mat4 modelMatrix = translationMatrix * rotationMatrix * scalingMatrix;
+        
+        // Set viewMatrix position (which is the camera position)
+        int viewPositionLoc = glGetUniformLocation(meshShader.ID, "viewPosition");
+        glUniform3f(viewPositionLoc, camera.Position.x, camera.Position.y, camera.Position.z);
+        
+        // Set the model matrix (where the mesh is in world space)
+        int modelMatrixLoc = glGetUniformLocation(meshShader.ID, "modelMatrix");
+        glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+        
+        // Set view matrix
+        int viewMatrixLoc = glGetUniformLocation(meshShader.ID, "viewMatrix");
+        glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, glm::value_ptr(camera.GetViewMatrix()));
+        
+        // Set projection matrix
+        int projectionMatrixLoc = glGetUniformLocation(meshShader.ID, "projectionMatrix");
+        glUniformMatrix4fv(projectionMatrixLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+        
+        // setting image one, which is on the texture unit GL_TEXTURE0
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, meshTextureLoc1);
+        // setting image two, which is on the texture unit GL_TEXTURE1
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, meshTextureLoc2);
+        
+        glBindVertexArray(meshVAO);
+        
+        // Drawing from the EBO through the VAO.
+        glDrawArrays(GL_TRIANGLES, 0, getNumVertices());
+    }
+    
+    void setTexture() {
         ////////////////////////////////////////////////
         //  Texture 1
         ////////////////////////////////////////////////
@@ -218,64 +329,20 @@ public:
         // set the uniform values to the correct texture unit
         glUniform1i(glGetUniformLocation(meshShader.ID, "meshTexture1"), 0);
         glUniform1i(glGetUniformLocation(meshShader.ID, "meshTexture2"), 1);
-        
-        // Set ambient light
-        int ambientLightLoc = glGetUniformLocation(meshShader.ID, "ambientLight");
-        glUniform3f(ambientLightLoc, ambientLight.x, ambientLight.y, ambientLight.z);
-        
-        // Set point light 1 position
-        int pointLightLoc = glGetUniformLocation(meshShader.ID, "pointLightPosition1");
-        glUniform3f(pointLightLoc, POINT_LIGHT_POSITION.x, POINT_LIGHT_POSITION.y, POINT_LIGHT_POSITION.z);
-        
-        // Unbind the VBO and VAO at the end, but not the EBO because it's part of the VAO.
-        
-        // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens.
-        // Modifying other VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs)
-        // when it's not directly necessary.
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindVertexArray(0);
-        
-        // Model Matrix to convert local vertices to world space.  Save this->modelMatrix
-        // Matrix transformations are T * R * S * modelMatrix, so do scale first, then rotation, then translation
-        modelMatrix = glm::scale(modelMatrix, Scale);
-//        modelMatrix = glm::rotate(modelMatrix, glm::radians(360.0f), Rotation);
-        modelMatrix = glm::translate(modelMatrix, Position);
-        
-        // Projection Matrix to convert view space to clip space
-        glm::mat4 projection;
-        projectionMatrix = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
     }
     
-    // ------------------------------------------------------------------------
-    void render()
-    {
-        meshShader.use();
+    void setMaterial() {
+        int ambientLoc = glGetUniformLocation(meshShader.ID, "material.ambient");
+        glUniform3f(ambientLoc, meshMaterial.ambient.x, meshMaterial.ambient.y, meshMaterial.ambient.z);
         
-        // Let's keep it constantly rotating by rotating the model matrix
-        modelMatrix = glm::rotate(modelMatrix, glm::radians(1.0f), glm::vec3(1.0f, 0.3f, 0.5f));
+        int diffuseLoc = glGetUniformLocation(meshShader.ID, "material.diffuse");
+        glUniform3f(diffuseLoc, meshMaterial.diffuse.x, meshMaterial.diffuse.y, meshMaterial.diffuse.z);
         
-        int modelMatrixLoc = glGetUniformLocation(meshShader.ID, "modelMatrix");
-        glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, glm::value_ptr(modelMatrix));
-        
-        // Set view matrix
-        int viewMatrixLoc = glGetUniformLocation(meshShader.ID, "viewMatrix");
-        glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, glm::value_ptr(camera.GetViewMatrix()));
-        
-        // Set projection matrix
-        int projectionMatrixLoc = glGetUniformLocation(meshShader.ID, "projectionMatrix");
-        glUniformMatrix4fv(projectionMatrixLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
-        
-        // setting image one, which is on the texture unit GL_TEXTURE0
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, meshTextureLoc1);
-        // setting image two, which is on the texture unit GL_TEXTURE1
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, meshTextureLoc2);
-        
-        glBindVertexArray(meshVAO);
-        
-        // Drawing from the EBO through the VAO.
-        glDrawArrays(GL_TRIANGLES, 0, getNumVertices());
+        int specularLoc = glGetUniformLocation(meshShader.ID, "material.specular");
+        glUniform3f(specularLoc, meshMaterial.specular.x, meshMaterial.specular.y, meshMaterial.specular.z);
+
+        int shininessLoc = glGetUniformLocation(meshShader.ID, "material.shininess");
+        glUniform1f(shininessLoc, meshMaterial.shininess);
     }
     
     // ------------------------------------------------------------------------
@@ -301,6 +368,10 @@ public:
     virtual Shader getShader() {
         return Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/mesh/mesh.vert",
                       "/Users/nwaters/code/go_stop/go_stop/go_stop/mesh/mesh.frag");
+    }
+    
+    virtual Material getMaterial() {
+        return this->meshMaterial;
     }
     
     void deAllocate() {

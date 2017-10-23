@@ -28,6 +28,7 @@ public:
         return Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/point_light/point_light.vert",
                       "/Users/nwaters/code/go_stop/go_stop/go_stop/point_light/point_light.frag");
     }
+    
 };
 
 #endif /* cube_hpp */
