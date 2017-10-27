@@ -18,24 +18,13 @@ public:
     std::vector<Mesh> sceneItems = {};
     std::vector<PointLight> lights = {};
     
-    Scene()
-    {
-        std::cout << "Creating scene " << std::endl;
-    }
+    Scene();
     
-    void addItem(Mesh* mesh) {
-        std::cout << "Adding mesh " << std::endl;
-        sceneItems.push_back(*mesh);
-    }
+    void addItem(Mesh* mesh);
     
-    void addLight(PointLight* light) {
-        std::cout << "Adding light " << std::endl;
-        lights.push_back(*light);
-    }
+    void addLight(PointLight* light);
     
-    std::vector<PointLight> getLights() {
-        return this->lights;
-    }
+    std::vector<PointLight> getLights();
 };
 
 #endif /* scene_hpp */
