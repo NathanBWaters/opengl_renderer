@@ -10,9 +10,10 @@
 #include "Camera.hpp"
 
 #include "mesh/mesh.cpp"
-#include "triangle/triangle.hpp"
-#include "cube/cube.hpp"
+#include "cube/cube.cpp"
+#include "triangle/triangle.cpp"
 #include "point_light/point_light.cpp"
+#include "scene/Scene.cpp"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);

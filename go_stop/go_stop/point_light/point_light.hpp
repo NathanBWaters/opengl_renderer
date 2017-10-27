@@ -9,8 +9,6 @@
 #ifndef POINT_LIGHT_H
 #define POINT_LIGHT_H
 
-#include <glm/glm.hpp>
-
 extern glm::vec3 POINT_LIGHT_POSITION;
 
 class PointLight : public Cube

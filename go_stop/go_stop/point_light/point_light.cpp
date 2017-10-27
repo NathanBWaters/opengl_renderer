@@ -6,6 +6,7 @@
 //  Copyright © 2017 Nathan Waters. All rights reserved.
 //
 
+#include "../mesh/mesh.hpp"
 #include "point_light.hpp"
 
 PointLight::PointLight(glm::vec3 position,

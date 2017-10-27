@@ -6,6 +6,9 @@
 //  Copyright © 2017 Nathan Waters. All rights reserved.
 //
 
+#include "../mesh/mesh.hpp"
+#include "../point_light/point_light.hpp"
+#include "Scene.hpp"
 
 Scene::Scene()
 {

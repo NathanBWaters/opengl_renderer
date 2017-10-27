@@ -22,18 +22,11 @@ private:
 public:
     Triangle(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
              glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f),
-             glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f)) : Mesh()
-    {
-        std::cout << "Making a Triangle" << std::endl;
-    }
+             glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f));
     
-    float * getVertices() {
-        return TRIANGLE_VERTICES;
-    }
+    float * getVertices();
     
-    int getNumVertices() {
-        return 3;
-    }
+    int getNumVertices();
     
 };
 

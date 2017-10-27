@@ -7,6 +7,7 @@
 //
 
 #include "mesh.hpp"
+#include "../scene/Scene.hpp"
 
 Mesh::Mesh(glm::vec3 position,
            glm::vec3 rotation,

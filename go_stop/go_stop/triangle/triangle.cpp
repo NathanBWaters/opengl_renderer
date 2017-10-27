@@ -1,0 +1,26 @@
+//
+//  triangle.cpp
+//  go_stop
+//
+//  Created by Nathan Waters on 9/17/17.
+//  Copyright © 2017 Nathan Waters. All rights reserved.
+//
+
+#include "../mesh/mesh.hpp"
+#include "triangle.hpp"
+
+Triangle::Triangle(glm::vec3 position,
+                   glm::vec3 rotation,
+                   glm::vec3 scale): 
+        Mesh(position, rotation, scale)
+{
+    std::cout << "Making a Triangle" << std::endl;
+}
+
+float * Triangle::getVertices() {
+    return TRIANGLE_VERTICES;
+}
+
+int Triangle::getNumVertices() {
+    return 3;
+}
