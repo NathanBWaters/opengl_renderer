@@ -9,10 +9,10 @@
 #include "Shader.hpp"
 #include "Camera.hpp"
 
-#include "mesh/mesh.hpp"
+#include "mesh/mesh.cpp"
 #include "triangle/triangle.hpp"
 #include "cube/cube.hpp"
-#include "point_light/point_light.hpp"
+#include "point_light/point_light.cpp"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -42,7 +42,7 @@ glm::vec3 POINT_LIGHT_POSITION = glm::vec3(0.0f, 0.0f, 3.0f);
 
 int main()
 {
-    std::cout << "Starting up the gears" << std::endl;
+    std::cout << "Starting up the gears with GO_STOP_PATH: " << std::getenv("GO_STOP_PATH") << std::endl;
     // glfw: initialize and configure
     // ------------------------------
     glfwInit();

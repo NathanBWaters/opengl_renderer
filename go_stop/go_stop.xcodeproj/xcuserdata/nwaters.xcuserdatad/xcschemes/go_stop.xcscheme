@@ -63,6 +63,13 @@
             ReferencedContainer = "container:go_stop.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "GO_STOP_PATH"
+            value = "/Users/nwaters/code/go_stop"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
