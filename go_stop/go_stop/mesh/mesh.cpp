@@ -8,7 +8,6 @@
 
 #include "mesh.hpp"
 #include "../scene/Scene.hpp"
-#include "../point_light/point_light.hpp"
 
 Mesh::Mesh(Scene* scene,
            glm::vec3 position,
