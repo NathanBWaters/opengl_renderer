@@ -79,7 +79,9 @@ int main()
     
     glEnable(GL_DEPTH_TEST);
     
-    Cube mesh(glm::vec3(2.0f, 0.0f, 0.0f),
+    Scene scene;
+    
+    Cube mesh(glm::vec3(2.0f, 0.0f, 2.0f),
                   glm::vec3(0.0f, 0.0f, 0.0f),
                   glm::vec3(1.0f, 1.0f, 1.0f));
     mesh.init();
@@ -90,6 +92,12 @@ int main()
               glm::vec3(1.0f, 1.0f, 1.0f));
     mesh2.init();
     mesh2.render();
+    
+    Cube mesh3(glm::vec3(-3.0f, 2.0f, -7.0f),
+               glm::vec3(0.0f, 0.0f, 0.0f),
+               glm::vec3(1.0f, 1.0f, 1.0f));
+    mesh3.init();
+    mesh3.render();
     
     PointLight lamp(POINT_LIGHT_POSITION,
                     glm::vec3(0.0f, 0.0f, 0.0f),
@@ -121,6 +129,7 @@ int main()
         // ------------------------
         mesh.render();
         mesh2.render();
+        mesh3.render();
         lamp.render();
         
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

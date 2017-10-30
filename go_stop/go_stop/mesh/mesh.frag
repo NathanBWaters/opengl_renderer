@@ -11,44 +11,42 @@ in vec3 fragmentPosition;
 // What is emitting from the vertex shader
 out vec4 FragColor;
 
-// The texture we will be displaying
-uniform sampler2D meshTexture1;
-uniform sampler2D meshTexture2;
-
-// Lighting Information
-uniform vec3 ambientLight;
-uniform vec3 pointLightPosition1;
-
 // ViewMatrix position (the position of the camera)
 uniform vec3 viewPosition;
 
 struct Material {
-    vec3 ambient;    // what color this object reflects under ambient lighting; this is usually the same as the object's color
-    vec3 diffuse;    // defines the color of the object under diffuse lighting; this is also usually the same as the object's color
-    vec3 specular;   // sets the color impact a specular light has on the object (or possibly even reflect an object-specific specular
+    sampler2D ambient;    // what color this object reflects under ambient lighting; this is usually the same as the object's color
+    sampler2D diffuse;    // defines the color of the object under diffuse lighting; this is also usually the same as the object's color
+    sampler2D specular;   // sets the color impact a specular light has on the object (or possibly even reflect an object-specific specular
                      //     highlight color)
     float shininess; // impacts the scattering/radius of the specular highlight
 };
 
-struct Light {
+struct PointLight {
     vec3 position;
+
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
+    
+    float constant;
+    float linear;
+    float quadratic;
 };
 
-uniform Light light;
+uniform int NUM_POINT_LIGHTS;
+uniform PointLight pointLights[50];
 
 uniform Material material;
 
-void main()
-{
-    vec3 lightColor = vec3(0.8, 0.8, 0.8);
 
+
+vec3 calcPointLight(PointLight light, vec3 normal, vec3 fragmentPosition, vec3 viewDir)
+{
     //////////////////////////////////////////////////////////////////
     // Calculate ambient lighting
     //////////////////////////////////////////////////////////////////
-    vec3 ambient = ambientLight * material.ambient;
+    vec3 ambient = light.ambient * vec3(texture(material.ambient, textureCoord));
     
     //////////////////////////////////////////////////////////////////
     // Calculate diffuse lighting
@@ -58,32 +56,50 @@ void main()
     
     // we can get the light direction by normalizing the vector produced by
     // subtracting the point lights position with the fragments position.
-    vec3 lightDirection = normalize(pointLightPosition1 - fragmentPosition);
+    vec3 lightDirection = normalize(light.position - fragmentPosition);
     
     // Finding the dot product between the normal and the light direction to determine
     // the impact of the light on the fragment
     float diff = max(dot(normalizedNormal, lightDirection), 0.0);
     
-    vec3 diffuse = (diff * material.diffuse) * lightColor;
+    vec3 diffuse = (diff * vec3(texture(material.diffuse, textureCoord))) * light.diffuse;
     
     //////////////////////////////////////////////////////////////////
     // Calculate specular lighting
     //////////////////////////////////////////////////////////////////
-    // the view direction, which is the angle at which the camera's view
-    // hits the fragment.
-    vec3 viewDir = normalize(viewPosition - fragmentPosition);
     
     // We want to know the vector that the light reflects off of the fragment.
     vec3 reflectDirection = reflect(-lightDirection, normalizedNormal);
     
     // the higher the dot product between the view direction
     float specularHighlight = pow(max(dot(viewDir, reflectDirection), 0.0), material.shininess);
-    vec3 specular = (specularHighlight * material.specular) * lightColor;
+    vec3 specular = (specularHighlight * vec3(texture(material.specular, textureCoord))) * light.diffuse;
     
     //////////////////////////////////////////////////////////////////
-    // Combine lights and textures
+    // Combine lights and textures and add attenuation
     //////////////////////////////////////////////////////////////////
-    vec4 textureColor = mix(texture(meshTexture1, textureCoord), texture(meshTexture2, textureCoord), 0.5);
-    FragColor = (vec4(ambient + diffuse + specular, 1.0)) * textureColor;
+    // length automatically calculates the distance between two point vectors
+    float distance = length(light.position - fragmentPosition);
+    
+    float attenuation = 1.0 / (light.constant + light.linear * distance +
+                               light.quadratic * (distance * distance));
+    
+    ambient *= attenuation;
+    diffuse *= attenuation;
+    specular *= attenuation;
+    return ambient + diffuse + specular;
+}
+
+void main()
+{
+    // the view direction, which is the angle at which the camera's view
+    // hits the fragment.
+    vec3 viewDir = normalize(viewPosition - fragmentPosition);
+    
+    vec3 pointLightResult = vec3(0.0, 0.0, 0.0);
+    for (int i = 0; i < NUM_POINT_LIGHTS; i++) {
+        pointLightResult += calcPointLight(pointLights[i], normal, fragmentPosition, viewDir);
+    }
+    FragColor = vec4(pointLightResult, 1.0);
 }
 

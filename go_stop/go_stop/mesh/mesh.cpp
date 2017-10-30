@@ -24,20 +24,11 @@ Mesh::Mesh(glm::vec3 position,
         glm::vec3(0.2f, 0.2f, 0.2f),     // ambient
         glm::vec3(0.55f, 0.55f, 0.55f),  // diffuse
         glm::vec3(1.7f, 1.7f, 1.7f),     // specular
-        128.0f,                   // shininess
+        32.0f,                   // shininess
     };
 }
 
 void Mesh::setMaterial() {
-    int ambientLoc = glGetUniformLocation(meshShader.ID, "material.ambient");
-    glUniform3f(ambientLoc, meshMaterial.ambient.x, meshMaterial.ambient.y, meshMaterial.ambient.z);
-    
-    int diffuseLoc = glGetUniformLocation(meshShader.ID, "material.diffuse");
-    glUniform3f(diffuseLoc, meshMaterial.diffuse.x, meshMaterial.diffuse.y, meshMaterial.diffuse.z);
-    
-    int specularLoc = glGetUniformLocation(meshShader.ID, "material.specular");
-    glUniform3f(specularLoc, meshMaterial.specular.x, meshMaterial.specular.y, meshMaterial.specular.z);
-    
     int shininessLoc = glGetUniformLocation(meshShader.ID, "material.shininess");
     glUniform1f(shininessLoc, meshMaterial.shininess);
 }
@@ -112,17 +103,7 @@ void Mesh::init() {
     ////////////////////////////////////////////////
     //  Light Information
     ////////////////////////////////////////////////
-    
-    // Set ambient light
-    int ambientLightLoc = glGetUniformLocation(meshShader.ID, "ambientLight");
-    glUniform3f(ambientLightLoc, ambientLight.x, ambientLight.y, ambientLight.z);
-    
-    // Set point light 1 position
-    int pointLightLoc = glGetUniformLocation(meshShader.ID, "pointLightPosition1");
-    glUniform3f(pointLightLoc, POINT_LIGHT_POSITION.x, POINT_LIGHT_POSITION.y, POINT_LIGHT_POSITION.z);
-    
-    
-    std::cout<<glm::to_string(camera.Position)<<std::endl;
+    setLights();
     
     // Unbind the VBO and VAO at the end, but not the EBO because it's part of the VAO.
     
@@ -135,6 +116,41 @@ void Mesh::init() {
     // Projection Matrix to convert view space to clip space
     glm::mat4 projection;
     projectionMatrix = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+}
+
+void Mesh::setLights() {
+//    std::vector<PointLight> scenePointLights = this->scene->getLights();
+
+    int numPointLightsLoc = glGetUniformLocation(meshShader.ID, "NUM_POINT_LIGHTS");
+    glUniform1i(numPointLightsLoc, 1);
+    
+    // Set ambient light
+    int ambientLightLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].ambient");
+    glUniform3f(ambientLightLoc, ambientLight.x, ambientLight.y, ambientLight.z);
+    
+    glm::vec3 whiteLight = glm::vec3(1.0f, 1.0f, 1.0f);
+
+    // Set specular light
+    int specularLightLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].specular");
+    glUniform3f(specularLightLoc, whiteLight.x, whiteLight.y, whiteLight.z);
+    
+    // Set diffuse light
+    int diffuseLightLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].diffuse");
+    glUniform3f(diffuseLightLoc, whiteLight.x, whiteLight.y, whiteLight.z);
+    
+    // Set point light 1 position
+    int pointLightLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].position");
+    glUniform3f(pointLightLoc, POINT_LIGHT_POSITION.x, POINT_LIGHT_POSITION.y, POINT_LIGHT_POSITION.z);
+    
+    // Set attenuation constants
+    int lightConstantLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].constant");
+    glUniform1f(lightConstantLoc, 1.0f);
+
+    int lightLinearLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].linear");
+    glUniform1f(lightLinearLoc, 0.09f);
+
+    int lightQuadraticLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].quadratic");
+    glUniform1f(lightQuadraticLoc, 0.032f);
 }
 
 void Mesh::render(glm::vec3 positionT,
@@ -156,7 +172,7 @@ void Mesh::render(glm::vec3 positionT,
     rotationMatrix = glm::rotate(rotationMatrix, rotationY, glm::vec3(0.0f, 1.0f, 0.0f));
     rotationMatrix = glm::rotate(rotationMatrix, rotationZ, glm::vec3(0.0f, 0.0f, 1.0f));
     
-    std::cout << glm::to_string(rotationMatrix) << std::endl;
+//    std::cout << glm::to_string(rotationMatrix) << std::endl;
     glm::mat4 translationMatrix = glm::translate(glm::mat4(), Translation);
     
     glm::mat4 modelMatrix = translationMatrix * rotationMatrix * scalingMatrix;
@@ -192,7 +208,7 @@ void Mesh::render(glm::vec3 positionT,
 
 void Mesh::setTexture()  {
     ////////////////////////////////////////////////
-    //  Texture 1
+    //  Diffuse and Ambient Texture
     ////////////////////////////////////////////////
     glGenTextures(1,                     // how many textures we want to generate
                   &meshTextureLoc1);  // the location of the stored texture
@@ -208,7 +224,7 @@ void Mesh::setTexture()  {
     
     // load and generate the texture
     int width, height, nrChannels;
-    unsigned char *crateImageData = SOIL_load_image("/Users/nwaters/code/go_stop/go_stop/assets/container.jpg",
+    unsigned char *crateImageData = SOIL_load_image("/Users/nwaters/code/go_stop/go_stop/assets/metal_container.png",
                                                     &width,
                                                     &height,
                                                     &nrChannels,
@@ -218,11 +234,11 @@ void Mesh::setTexture()  {
         // Now that we have loaded the data from an image, we can create the texture
         glTexImage2D(GL_TEXTURE_2D,
                      0,
-                     GL_RGB,
+                     GL_RGBA,
                      width,
                      height,
                      0,
-                     GL_RGB,
+                     GL_RGBA,
                      GL_UNSIGNED_BYTE,
                      crateImageData);
         // Create a minmap of the texture bound to GL_TEXTURE_2D
@@ -237,7 +253,7 @@ void Mesh::setTexture()  {
     
     
     ////////////////////////////////////////////////
-    //  Texture 2
+    //  Specular Texture
     ////////////////////////////////////////////////
     glGenTextures(1,                     // how many textures we want to generate
                   &meshTextureLoc2);  // the location of the stored texture
@@ -252,23 +268,23 @@ void Mesh::setTexture()  {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     
     // load and generate the texture
-    unsigned char *awesomeFaceData = SOIL_load_image("/Users/nwaters/code/go_stop/go_stop/assets/awesomeface.png",
-                                                     &width,
-                                                     &height,
-                                                     &nrChannels,
-                                                     0);
-    if (awesomeFaceData)
+    unsigned char *specularMap = SOIL_load_image("/Users/nwaters/code/go_stop/go_stop/assets/metal_container_specular.png",
+                                                 &width,
+                                                 &height,
+                                                 &nrChannels,
+                                                 0);
+    if (specularMap)
     {
         // Now that we have loaded the data from an image, we can create the texture
         glTexImage2D(GL_TEXTURE_2D,
                      0,
-                     GL_RGB,
+                     GL_RGBA,
                      width,
                      height,
                      0,
                      GL_RGBA, // it has alpha data, so we need to tell OpenGL that
                      GL_UNSIGNED_BYTE,
-                     awesomeFaceData);
+                     specularMap);
         // Create a minmap of the texture bound to GL_TEXTURE_2D
         glGenerateMipmap(GL_TEXTURE_2D);
     }
@@ -277,13 +293,14 @@ void Mesh::setTexture()  {
         std::cout << "Failed to load texture" << std::endl;
     }
     // free the image
-    SOIL_free_image_data(awesomeFaceData);
+    SOIL_free_image_data(specularMap);
     
     // You MUST activate the shader before assigning uniforms
     meshShader.use();
     // set the uniform values to the correct texture unit
-    glUniform1i(glGetUniformLocation(meshShader.ID, "meshTexture1"), 0);
-    glUniform1i(glGetUniformLocation(meshShader.ID, "meshTexture2"), 1);
+    glUniform1i(glGetUniformLocation(meshShader.ID, "material.ambient"), 0);
+    glUniform1i(glGetUniformLocation(meshShader.ID, "material.diffuse"), 0);
+    glUniform1i(glGetUniformLocation(meshShader.ID, "material.specular"), 1);
 }
 
 

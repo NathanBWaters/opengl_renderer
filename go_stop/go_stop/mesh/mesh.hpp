@@ -33,9 +33,13 @@ extern Camera camera;
 
 extern glm::vec3 POINT_LIGHT_POSITION;
 
+class Scene;
+
 class Mesh
 {
 public:
+    Scene* scene;
+
     // Starting transformation variables
     glm::vec3 Translation;
     glm::vec3 Scale;
@@ -82,7 +86,12 @@ public:
                 glm::vec3 rotationT = glm::vec3(0.0f, 0.0f, 0.0f),
                 glm::vec3 scaleT = glm::vec3(1.0f, 1.0f, 1.0f));
 
+    /**
+     * Sets texture information on the mesh
+     */
     void setTexture();
+    
+    void setLights();
     
     // ------------------------------------------------------------------------
     // Methods that can be overridden by derived classes
