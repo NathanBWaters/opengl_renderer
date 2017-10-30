@@ -25,6 +25,10 @@ public:
     void addLight(PointLight* light);
     
     std::vector<PointLight> getLights();
+    
+    void initialize();
+    
+    void render();
 };
 
 #endif /* scene_hpp */

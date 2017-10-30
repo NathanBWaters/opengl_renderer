@@ -25,6 +25,24 @@ void Scene::addLight(PointLight* light) {
     lights.push_back(*light);
 }
 
+void Scene::initialize() {
+    std::cout << "Initializing the scene" << std::endl;
+    for ( auto item : sceneItems )
+    {
+        std::cout << "Initializing a thing..." << std::endl;
+        item.init();
+    }
+}
+
+void Scene::render() {
+    std::cout << "Rendering the scene" << std::endl;
+    for ( auto item : sceneItems )
+    {
+        std::cout << "Rendering a thing..." << std::endl;
+        item.render();
+    }
+}
+
 std::vector<PointLight> Scene::getLights() {
     return this->lights;
 }

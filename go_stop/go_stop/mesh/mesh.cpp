@@ -9,15 +9,18 @@
 #include "mesh.hpp"
 #include "../scene/Scene.hpp"
 
-Mesh::Mesh(glm::vec3 position,
+Mesh::Mesh(Scene* scene,
+           glm::vec3 position,
            glm::vec3 rotation,
            glm::vec3 scale) {
+    this->scene = scene;
+
     Translation = position;
     Scale = scale;
     
     this->rotationX = rotation.x;
-    rotationY = rotation.y;
-    rotationZ = rotation.z;
+    this->rotationY = rotation.y;
+    this->rotationZ = rotation.z;
     
     // white plastic
     this->meshMaterial = Material{
@@ -26,6 +29,8 @@ Mesh::Mesh(glm::vec3 position,
         glm::vec3(1.7f, 1.7f, 1.7f),     // specular
         32.0f,                   // shininess
     };
+    
+    addToScene();
 }
 
 void Mesh::setMaterial() {
@@ -119,38 +124,47 @@ void Mesh::init() {
 }
 
 void Mesh::setLights() {
-//    std::vector<PointLight> scenePointLights = this->scene->getLights();
+    std::vector<PointLight> scenePointLights = this->scene->getLights();
+    
+    std::cout << "Number of point lights: " << scenePointLights.size() << std::endl;
 
     int numPointLightsLoc = glGetUniformLocation(meshShader.ID, "NUM_POINT_LIGHTS");
     glUniform1i(numPointLightsLoc, 1);
     
-    // Set ambient light
-    int ambientLightLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].ambient");
-    glUniform3f(ambientLightLoc, ambientLight.x, ambientLight.y, ambientLight.z);
-    
-    glm::vec3 whiteLight = glm::vec3(1.0f, 1.0f, 1.0f);
+    for(int i = 0; i < scenePointLights.size(); i++) {
+//        PointLight pointLight = scenePointLights[i];
+        
+        std::cout << "Inside for loop" << std::endl;
+        // Set ambient light
+        glm::vec3 whiteLight = glm::vec3(1.0f, 1.0f, 1.0f);
 
-    // Set specular light
-    int specularLightLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].specular");
-    glUniform3f(specularLightLoc, whiteLight.x, whiteLight.y, whiteLight.z);
-    
-    // Set diffuse light
-    int diffuseLightLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].diffuse");
-    glUniform3f(diffuseLightLoc, whiteLight.x, whiteLight.y, whiteLight.z);
-    
-    // Set point light 1 position
-    int pointLightLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].position");
-    glUniform3f(pointLightLoc, POINT_LIGHT_POSITION.x, POINT_LIGHT_POSITION.y, POINT_LIGHT_POSITION.z);
-    
-    // Set attenuation constants
-    int lightConstantLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].constant");
-    glUniform1f(lightConstantLoc, 1.0f);
-
-    int lightLinearLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].linear");
-    glUniform1f(lightLinearLoc, 0.09f);
-
-    int lightQuadraticLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].quadratic");
-    glUniform1f(lightQuadraticLoc, 0.032f);
+        int ambientLightLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].ambient");
+        glUniform3fv(ambientLightLoc, 1, &whiteLight[0]);
+        
+        
+        // Set specular light
+        int specularLightLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].specular");
+        glUniform3fv(specularLightLoc, 1, &whiteLight[0]);
+        
+        // Set diffuse light
+        int diffuseLightLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].diffuse");
+        glUniform3fv(diffuseLightLoc, 1, &whiteLight[0]);
+        
+        // Set point light 1 position
+        int pointLightLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].position");
+//        glm::vec3 lightPosition = pointLight.getPosition();
+        glUniform3f(pointLightLoc, 0.0f, 0.0f, 3.0f);
+        
+        // Set attenuation constants
+        int lightConstantLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].constant");
+        glUniform1f(lightConstantLoc, 1.0f);
+        
+        int lightLinearLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].linear");
+        glUniform1f(lightLinearLoc, 0.09f);
+        
+        int lightQuadraticLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].quadratic");
+        glUniform1f(lightQuadraticLoc, 0.032f);
+    }
 }
 
 void Mesh::render(glm::vec3 positionT,
@@ -204,6 +218,10 @@ void Mesh::render(glm::vec3 positionT,
     
     // Drawing from the EBO through the VAO.
     glDrawArrays(GL_TRIANGLES, 0, getNumVertices());
+}
+
+void Mesh::addToScene() {
+    this->scene->addItem(this);
 }
 
 void Mesh::setTexture()  {
@@ -303,6 +321,9 @@ void Mesh::setTexture()  {
     glUniform1i(glGetUniformLocation(meshShader.ID, "material.specular"), 1);
 }
 
+glm::vec3 Mesh::getPosition()  {
+    return Translation;
+}
 
 // ------------------------------------------------------------------------
     // Methods that can be overridden by derived classes
