@@ -9,11 +9,14 @@
 #include "../mesh/mesh.hpp"
 #include "point_light.hpp"
 
-PointLight::PointLight(glm::vec3 position,
+PointLight::PointLight(Scene* scene,
+                       glm::vec3 position,
            			   glm::vec3 rotation,
            			   glm::vec3 scale) :
-        Cube(position, rotation, scale) {
+        Cube(scene, position, rotation, scale) {
 	std::cout << "Making a PointLight" << std::endl;
+            
+    this->addLightToScene();
 }
     
 /**
@@ -22,4 +25,9 @@ PointLight::PointLight(glm::vec3 position,
 Shader PointLight::getShader() {
     return Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/point_light/point_light.vert",
                   "/Users/nwaters/code/go_stop/go_stop/go_stop/point_light/point_light.frag");
+}
+
+void PointLight::addLightToScene() {
+    std::cout << "ADDING THE POINT LIGHT TO THE SCENE" << std::endl;
+    this->scene->addLight(this);
 }

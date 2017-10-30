@@ -9,14 +9,13 @@
 #ifndef POINT_LIGHT_H
 #define POINT_LIGHT_H
 
-extern glm::vec3 POINT_LIGHT_POSITION;
-
 class PointLight : public Cube
 {
 private:
 
 public:
-    PointLight(glm::vec3 position = POINT_LIGHT_POSITION,
+    PointLight(Scene* scene,
+               glm::vec3 position = POINT_LIGHT_POSITION,
                glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f),
                glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f));
     
@@ -24,6 +23,8 @@ public:
      * Returns the shader for the light, which makes it white
      */
     Shader getShader();
+    
+    void addLightToScene();
     
 };
 

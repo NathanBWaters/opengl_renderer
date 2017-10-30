@@ -39,8 +39,6 @@ glm::vec3 ambientLight = glm::vec3(0.06f, 0.05f, 0.05f);
 float deltaTime = 0.0f;    // time between current frame and last frame
 float lastFrame = 0.0f;
 
-glm::vec3 POINT_LIGHT_POSITION = glm::vec3(0.0f, 0.0f, 3.0f);
-
 int main()
 {
     std::cout << "Starting up the gears with GO_STOP_PATH: " << std::getenv("GO_STOP_PATH") << std::endl;
@@ -81,29 +79,32 @@ int main()
     
     Scene scene;
     
-    Cube mesh(glm::vec3(2.0f, 0.0f, 2.0f),
-                  glm::vec3(0.0f, 0.0f, 0.0f),
-                  glm::vec3(1.0f, 1.0f, 1.0f));
-    mesh.init();
-    mesh.render();
-    
-    Cube mesh2(glm::vec3(0.0f, 0.0f, -1.0f),
+    Cube mesh(&scene,
+              glm::vec3(2.0f, 0.0f, 2.0f),
               glm::vec3(0.0f, 0.0f, 0.0f),
               glm::vec3(1.0f, 1.0f, 1.0f));
-    mesh2.init();
-    mesh2.render();
     
-    Cube mesh3(glm::vec3(-3.0f, 2.0f, -7.0f),
+    Cube mesh2(&scene,
+               glm::vec3(0.0f, 0.0f, -1.0f),
                glm::vec3(0.0f, 0.0f, 0.0f),
                glm::vec3(1.0f, 1.0f, 1.0f));
-    mesh3.init();
-    mesh3.render();
     
-    PointLight lamp(POINT_LIGHT_POSITION,
-                    glm::vec3(0.0f, 0.0f, 0.0f),
-                    glm::vec3(0.2f, 0.2f, 0.2f));
-    lamp.init();
-    lamp.render();
+    Cube mesh3(&scene,
+               glm::vec3(-3.0f, 2.0f, -7.0f),
+               glm::vec3(0.0f, 0.0f, 0.0f),
+               glm::vec3(1.0f, 1.0f, 1.0f));
+    
+    PointLight pointLight1(&scene,
+                           glm::vec3(0.0f, 0.0f, 3.0f),
+                           glm::vec3(0.0f, 0.0f, 0.0f),
+                           glm::vec3(0.2f, 0.2f, 0.2f));
+    
+    // initializes all of the objects in the scene to prepare them for being rendered
+//    scene.initialize();
+    mesh.init();
+    mesh2.init();
+    mesh3.init();
+    pointLight1.init();
  
     // render loop
     // -----------
@@ -127,10 +128,11 @@ int main()
         // ------------------------
         // render
         // ------------------------
+//        scene.render();
         mesh.render();
         mesh2.render();
         mesh3.render();
-        lamp.render();
+        pointLight1.render();
         
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -138,7 +140,7 @@ int main()
         glfwPollEvents();
     }
     
-    lamp.deAllocate();
+    pointLight1.deAllocate();
     
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------

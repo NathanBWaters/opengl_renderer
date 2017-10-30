@@ -9,10 +9,11 @@
 #include "../mesh/mesh.hpp"
 #include "triangle.hpp"
 
-Triangle::Triangle(glm::vec3 position,
+Triangle::Triangle(Scene* scene,
+                   glm::vec3 position,
                    glm::vec3 rotation,
                    glm::vec3 scale): 
-        Mesh(position, rotation, scale)
+        Mesh(scene, position, rotation, scale)
 {
     std::cout << "Making a Triangle" << std::endl;
 }

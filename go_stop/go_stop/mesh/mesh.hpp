@@ -34,6 +34,7 @@ extern Camera camera;
 extern glm::vec3 POINT_LIGHT_POSITION;
 
 class Scene;
+class PointLight;
 
 class Mesh
 {
@@ -70,7 +71,8 @@ public:
     /**
      * Constructor generates the shader on the fly
      */
-    Mesh(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
+    Mesh(Scene* scene,
+         glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
          glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f),
          glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f));
 
@@ -91,11 +93,18 @@ public:
      */
     void setTexture();
     
+    /**
+     * Sets the lighting information from the scene onto mesh
+     */
     void setLights();
+    
+    glm::vec3 getPosition();
     
     // ------------------------------------------------------------------------
     // Methods that can be overridden by derived classes
     // ------------------------------------------------------------------------
+    void addToScene();
+
     virtual float * getVertices();
     
     virtual int getVerticesSize();
