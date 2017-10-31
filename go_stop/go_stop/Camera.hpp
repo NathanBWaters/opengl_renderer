@@ -32,7 +32,7 @@ const float PITCH      =  0.0f;
 const float SPEED      =  3.5f;
 const float SENSITIVTY =  0.1f;
 const float ZOOM       =  45.0f;
-bool useMouseControls =  false;
+const bool useMouseControls =  false;
 
 // An abstract camera class that processes input and calculates the corresponding Eular Angles, Vectors and Matrices for use in OpenGL
 class Camera

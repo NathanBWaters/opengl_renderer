@@ -9,6 +9,10 @@
 #ifndef POINT_LIGHT_H
 #define POINT_LIGHT_H
 
+#include "../cube/cube.hpp"
+
+class Scene;
+
 class PointLight : public Cube
 {
 private:

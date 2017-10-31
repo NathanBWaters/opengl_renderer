@@ -9,14 +9,15 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-class Mesh;
-class PointLight;
+#include <string>
+#include "../mesh/mesh.hpp"
+#include "../point_light/point_light.hpp"
 
 class Scene
 {
 public:
-    std::vector<Mesh> sceneItems = {};
-    std::vector<PointLight> lights = {};
+    std::vector<Mesh> sceneItems;
+    std::vector<PointLight> lights;
     
     Scene();
     

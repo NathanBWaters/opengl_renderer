@@ -9,6 +9,8 @@
 #ifndef CUBE_MODEL_H
 #define CUBE_MODEL_H
 
+#include "../mesh/mesh.hpp"
+
 class Cube : public Mesh
 {
 private:

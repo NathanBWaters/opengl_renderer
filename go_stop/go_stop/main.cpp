@@ -13,7 +13,7 @@
 #include "cube/cube.cpp"
 #include "triangle/triangle.cpp"
 #include "point_light/point_light.cpp"
-#include "scene/Scene.cpp"
+#include "scene/Scene.hpp"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -30,7 +30,7 @@ Camera camera(glm::vec3(0.0f, 0.0f, 9.0f));
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
-extern bool useMouseControls;
+//extern bool useMouseControls;
 
 // Light Settings
 glm::vec3 ambientLight = glm::vec3(0.06f, 0.05f, 0.05f);
@@ -169,12 +169,12 @@ void processInput(GLFWwindow *window)
         camera.ProcessKeyboard(CAMERA_MOVE_UP, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS) {
         std::cout << "Set mouse controls to on" << std::endl;
-        useMouseControls = true;
+//        useMouseControls = true;
     }
-    if (useMouseControls == true && glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_RELEASE) {
-        std::cout << "Set mouse controls to off" << std::endl;
-        useMouseControls = false;
-    }
+//    if (useMouseControls == true && glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_RELEASE) {
+//        std::cout << "Set mouse controls to off" << std::endl;
+//        useMouseControls = false;
+//    }
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes

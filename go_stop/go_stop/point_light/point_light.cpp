@@ -6,7 +6,8 @@
 //  Copyright © 2017 Nathan Waters. All rights reserved.
 //
 
-#include "../mesh/mesh.hpp"
+#include <iostream>
+
 #include "point_light.hpp"
 
 PointLight::PointLight(Scene* scene,

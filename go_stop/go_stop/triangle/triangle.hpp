@@ -9,6 +9,8 @@
 #ifndef TRIANGLE_MODEL_H
 #define TRIANGLE_MODEL_H
 
+#include "../mesh/mesh.hpp"
+
 class Triangle : public Mesh
 {
 private:

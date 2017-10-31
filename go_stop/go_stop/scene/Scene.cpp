@@ -6,9 +6,10 @@
 //  Copyright © 2017 Nathan Waters. All rights reserved.
 //
 
+#include "Scene.hpp"
 #include "../mesh/mesh.hpp"
 #include "../point_light/point_light.hpp"
-#include "Scene.hpp"
+
 
 Scene::Scene()
 {
@@ -17,7 +18,7 @@ Scene::Scene()
 
 void Scene::addItem(Mesh* mesh) {
     std::cout << "Adding mesh " << std::endl;
-    sceneItems.push_back(*mesh);
+    this->sceneItems.push_back(*mesh);
 }
 
 void Scene::addLight(PointLight* light) {
@@ -27,7 +28,7 @@ void Scene::addLight(PointLight* light) {
 
 void Scene::initialize() {
     std::cout << "Initializing the scene" << std::endl;
-    for ( auto item : sceneItems )
+    for ( auto item : this->sceneItems )
     {
         std::cout << "Initializing a thing..." << std::endl;
         item.init();
