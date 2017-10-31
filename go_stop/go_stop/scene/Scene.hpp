@@ -16,8 +16,8 @@
 class Scene
 {
 public:
-    std::vector<Mesh> sceneItems;
-    std::vector<PointLight> lights;
+    std::vector<Mesh*> sceneItems;
+    std::vector<PointLight*> lights;
     
     Scene();
     
@@ -25,7 +25,7 @@ public:
     
     void addLight(PointLight* light);
     
-    std::vector<PointLight> getLights();
+    std::vector<PointLight*> getLights();
     
     void initialize();
     

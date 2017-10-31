@@ -18,12 +18,12 @@ Scene::Scene()
 
 void Scene::addItem(Mesh* mesh) {
     std::cout << "Adding mesh " << std::endl;
-    this->sceneItems.push_back(*mesh);
+    this->sceneItems.push_back(mesh);
 }
 
 void Scene::addLight(PointLight* light) {
     std::cout << "Adding light " << std::endl;
-    lights.push_back(*light);
+    lights.push_back(light);
 }
 
 void Scene::initialize() {
@@ -31,7 +31,7 @@ void Scene::initialize() {
     for ( auto item : this->sceneItems )
     {
         std::cout << "Initializing a thing..." << std::endl;
-        item.init();
+        item->init();
     }
 }
 
@@ -40,10 +40,10 @@ void Scene::render() {
     for ( auto item : sceneItems )
     {
         std::cout << "Rendering a thing..." << std::endl;
-        item.render();
+        item->render();
     }
 }
 
-std::vector<PointLight> Scene::getLights() {
+std::vector<PointLight*> Scene::getLights() {
     return this->lights;
 }

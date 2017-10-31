@@ -13,12 +13,13 @@
 #include "point_light.hpp"
 
 PointLight::PointLight(Scene* scene,
+                       glm::vec3 color,
                        glm::vec3 position,
            			   glm::vec3 rotation,
            			   glm::vec3 scale) :
         Cube(scene, position, rotation, scale) {
 	std::cout << "Making a PointLight" << std::endl;
-            
+    this->color = color;
     this->addLightToScene();
 }
     
@@ -33,4 +34,8 @@ Shader PointLight::getShader() {
 void PointLight::addLightToScene() {
     std::cout << "ADDING THE POINT LIGHT TO THE SCENE" << std::endl;
     this->scene->addLight(this);
+}
+
+glm::vec3 PointLight::getLightColor() {
+    return this->color;
 }

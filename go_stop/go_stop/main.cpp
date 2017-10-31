@@ -95,12 +95,20 @@ int main()
                glm::vec3(1.0f, 1.0f, 1.0f));
     
     PointLight pointLight1(&scene,
-                           glm::vec3(0.0f, 0.0f, 3.0f),
+                           glm::vec3(0.4f, 0.6f, 2.2f),
+                           glm::vec3(-1.0f, 0.0f, 2.0f),
                            glm::vec3(0.0f, 0.0f, 0.0f),
                            glm::vec3(0.2f, 0.2f, 0.2f));
     
     PointLight pointLight2(&scene,
-                           glm::vec3(3.0f, 0.0f, 2.0f),
+                           glm::vec3(1.0f, 0.5f, 0.2f),
+                           glm::vec3(2.0f, 0.0f, -1.0f),
+                           glm::vec3(0.0f, 0.0f, 0.0f),
+                           glm::vec3(0.2f, 0.2f, 0.2f));
+    
+    PointLight pointLight3(&scene,
+                           glm::vec3(0.5f, 2.0f, 0.2f),
+                           glm::vec3(0.0f, -2.5f, -2.0f),
                            glm::vec3(0.0f, 0.0f, 0.0f),
                            glm::vec3(0.2f, 0.2f, 0.2f));
     
@@ -111,6 +119,7 @@ int main()
     mesh3.init();
     pointLight1.init();
     pointLight2.init();
+    pointLight3.init();
  
     // render loop
     // -----------
@@ -138,8 +147,15 @@ int main()
         mesh.render();
         mesh2.render();
         mesh3.render();
-        pointLight1.render();
-        pointLight2.render();
+        
+        float timeValue = glfwGetTime();
+        pointLight1.render(glm::vec3(sin(timeValue) / 70.0,
+                                     sin(timeValue) / 50.0,
+                                     sin(timeValue) / 40.0));
+        pointLight2.render(glm::vec3(-(sin(timeValue) / 70.0),
+                                     -(sin(timeValue) / 50.0),
+                                     sin(timeValue) / 40.0));
+        pointLight3.render();
         
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------

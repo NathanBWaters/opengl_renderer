@@ -46,8 +46,6 @@ void Mesh::init() {
     // ------------------------------------------------------------------
     float * vertices = getVertices();
     int verticesSize = getVerticesSize();
-    std::cout << "getNumVertices() * getSpan() * sizeof(float): " << getNumVertices() * getSpan() * sizeof(float) << std::endl;
-    std::cout << "verticesSize: " << verticesSize << std::endl;
     glGenVertexArrays(1, &meshVAO);
     glGenBuffers(1, &meshVBO);
     
@@ -125,35 +123,32 @@ void Mesh::init() {
 }
 
 void Mesh::setLights() {
-    std::vector<PointLight> scenePointLights = this->scene->getLights();
+    std::vector<PointLight*> scenePointLights = this->scene->getLights();
     
-    std::cout << "Number of point lights: " << scenePointLights.size() << std::endl;
-
     int numPointLightsLoc = glGetUniformLocation(meshShader.ID, "NUM_POINT_LIGHTS");
     glUniform1i(numPointLightsLoc, scenePointLights.size());
     
     for(int i = 0; i < scenePointLights.size(); i++) {
         std::string index = std::to_string(i);
-        PointLight pointLight = scenePointLights[i];
+        PointLight* pointLight = scenePointLights[i];
         
-        std::cout << "Inside for loop" << std::endl;
         // Set ambient light
-        glm::vec3 whiteLight = glm::vec3(1.0f, 1.0f, 1.0f);
+        glm::vec3 lightColor = pointLight->getLightColor();
 
         int ambientLightLoc = glGetUniformLocation(meshShader.ID, ("pointLight[" + index + "].ambient").c_str());
-        glUniform3fv(ambientLightLoc, 1, &whiteLight[0]);
+        glUniform3fv(ambientLightLoc, 1, &lightColor[0]);
         
         // Set specular light
         int specularLightLoc = glGetUniformLocation(meshShader.ID, ("pointLights[" + index + "].specular").c_str());
-        glUniform3fv(specularLightLoc, 1, &whiteLight[0]);
+        glUniform3fv(specularLightLoc, 1, &lightColor[0]);
         
         // Set diffuse light
         int diffuseLightLoc = glGetUniformLocation(meshShader.ID, ("pointLights[" + index + "].diffuse").c_str());
-        glUniform3fv(diffuseLightLoc, 1, &whiteLight[0]);
+        glUniform3fv(diffuseLightLoc, 1, &lightColor[0]);
         
         // Set point light 1 position
         int pointLightLoc = glGetUniformLocation(meshShader.ID, ("pointLights[" + index + "].position").c_str());
-        glm::vec3 lightPosition = pointLight.getPosition();
+        glm::vec3 lightPosition = pointLight->getPosition();
         glUniform3fv(pointLightLoc, 1, &lightPosition[0]);
         
         // Set attenuation constants
@@ -181,13 +176,14 @@ void Mesh::render(glm::vec3 positionT,
     rotationY += rotationT.y;
     rotationZ += rotationT.z;
     
+    setLights();
+    
     glm::mat4 scalingMatrix = glm::scale(glm::mat4(), Scale);
     
     glm::mat4 rotationMatrix = glm::rotate(glm::mat4(), rotationX, glm::vec3(1.0f, 0.0f, 0.0f));
     rotationMatrix = glm::rotate(rotationMatrix, rotationY, glm::vec3(0.0f, 1.0f, 0.0f));
     rotationMatrix = glm::rotate(rotationMatrix, rotationZ, glm::vec3(0.0f, 0.0f, 1.0f));
-    
-//    std::cout << glm::to_string(rotationMatrix) << std::endl;
+
     glm::mat4 translationMatrix = glm::translate(glm::mat4(), Translation);
     
     glm::mat4 modelMatrix = translationMatrix * rotationMatrix * scalingMatrix;
@@ -323,7 +319,7 @@ void Mesh::setTexture()  {
 }
 
 glm::vec3 Mesh::getPosition()  {
-    return Translation;
+    return this->Translation;
 }
 
 // ------------------------------------------------------------------------
