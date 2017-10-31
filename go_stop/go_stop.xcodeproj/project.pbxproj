@@ -14,6 +14,10 @@
 		A03233631F6612AE00C209C9 /* SOIL.h in Frameworks */ = {isa = PBXBuildFile; fileRef = A03233551F6611B200C209C9 /* SOIL.h */; };
 		A03233681F662D1400C209C9 /* libglfw.3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A03233671F662D1400C209C9 /* libglfw.3.2.dylib */; };
 		A0733B051FA84CBE00AC84D4 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0733B011FA8481A00AC84D4 /* Scene.cpp */; };
+		A0733B1B1FA84F2200AC84D4 /* point_light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0733B0C1FA84DA500AC84D4 /* point_light.cpp */; };
+		A0733B1C1FA84F2D00AC84D4 /* triangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0733B191FA84E6600AC84D4 /* triangle.cpp */; };
+		A0733B1D1FA84F3000AC84D4 /* cube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0733B161FA84E4200AC84D4 /* cube.cpp */; };
+		A0733B1E1FA84F3400AC84D4 /* mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0733B111FA84E0A00AC84D4 /* mesh.cpp */; };
 		A0B760B21F836B4D0074E342 /* libSOIL.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A03233591F66126B00C209C9 /* libSOIL.dylib */; };
 /* End PBXBuildFile section */
 
@@ -236,6 +240,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0733B1E1FA84F3400AC84D4 /* mesh.cpp in Sources */,
+				A0733B1D1FA84F3000AC84D4 /* cube.cpp in Sources */,
+				A0733B1C1FA84F2D00AC84D4 /* triangle.cpp in Sources */,
+				A0733B1B1FA84F2200AC84D4 /* point_light.cpp in Sources */,
 				A0733B051FA84CBE00AC84D4 /* Scene.cpp in Sources */,
 				A032334F1F66104E00C209C9 /* main.cpp in Sources */,
 			);

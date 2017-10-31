@@ -9,10 +9,10 @@
 #include "Shader.hpp"
 #include "Camera.hpp"
 
-#include "mesh/mesh.cpp"
-#include "cube/cube.cpp"
-#include "triangle/triangle.cpp"
-#include "point_light/point_light.cpp"
+#include "mesh/mesh.hpp"
+#include "cube/cube.hpp"
+#include "triangle/triangle.hpp"
+#include "point_light/point_light.hpp"
 #include "scene/Scene.hpp"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);

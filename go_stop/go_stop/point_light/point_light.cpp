@@ -8,6 +8,8 @@
 
 #include <iostream>
 
+#include "../scene/Scene.hpp"
+#include "../cube/cube.hpp"
 #include "point_light.hpp"
 
 PointLight::PointLight(Scene* scene,
