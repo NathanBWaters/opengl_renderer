@@ -8,7 +8,7 @@
 
 #include "mesh.hpp"
 #include "../scene/Scene.hpp"
-//#include "../point_light/point_light.hpp"
+#include "../point_light/point_light.hpp"
 
 Mesh::Mesh(Scene* scene,
            glm::vec3 position,
@@ -130,40 +130,40 @@ void Mesh::setLights() {
     std::cout << "Number of point lights: " << scenePointLights.size() << std::endl;
 
     int numPointLightsLoc = glGetUniformLocation(meshShader.ID, "NUM_POINT_LIGHTS");
-    glUniform1i(numPointLightsLoc, 1);
+    glUniform1i(numPointLightsLoc, scenePointLights.size());
     
     for(int i = 0; i < scenePointLights.size(); i++) {
-//        PointLight pointLight = scenePointLights[i];
+        std::string index = std::to_string(i);
+        PointLight pointLight = scenePointLights[i];
         
         std::cout << "Inside for loop" << std::endl;
         // Set ambient light
         glm::vec3 whiteLight = glm::vec3(1.0f, 1.0f, 1.0f);
 
-        int ambientLightLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].ambient");
+        int ambientLightLoc = glGetUniformLocation(meshShader.ID, ("pointLight[" + index + "].ambient").c_str());
         glUniform3fv(ambientLightLoc, 1, &whiteLight[0]);
         
-        
         // Set specular light
-        int specularLightLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].specular");
+        int specularLightLoc = glGetUniformLocation(meshShader.ID, ("pointLights[" + index + "].specular").c_str());
         glUniform3fv(specularLightLoc, 1, &whiteLight[0]);
         
         // Set diffuse light
-        int diffuseLightLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].diffuse");
+        int diffuseLightLoc = glGetUniformLocation(meshShader.ID, ("pointLights[" + index + "].diffuse").c_str());
         glUniform3fv(diffuseLightLoc, 1, &whiteLight[0]);
         
         // Set point light 1 position
-        int pointLightLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].position");
-//        glm::vec3 lightPosition = pointLight.getPosition();
-        glUniform3f(pointLightLoc, 0.0f, 0.0f, 3.0f);
+        int pointLightLoc = glGetUniformLocation(meshShader.ID, ("pointLights[" + index + "].position").c_str());
+        glm::vec3 lightPosition = pointLight.getPosition();
+        glUniform3fv(pointLightLoc, 1, &lightPosition[0]);
         
         // Set attenuation constants
-        int lightConstantLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].constant");
+        int lightConstantLoc = glGetUniformLocation(meshShader.ID, ("pointLights[" + index + "].constant").c_str());
         glUniform1f(lightConstantLoc, 1.0f);
         
-        int lightLinearLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].linear");
+        int lightLinearLoc = glGetUniformLocation(meshShader.ID, ("pointLights[" + index + "].linear").c_str());
         glUniform1f(lightLinearLoc, 0.09f);
         
-        int lightQuadraticLoc = glGetUniformLocation(meshShader.ID, "pointLights[0].quadratic");
+        int lightQuadraticLoc = glGetUniformLocation(meshShader.ID, ("pointLights[" + index + "].quadratic").c_str());
         glUniform1f(lightQuadraticLoc, 0.032f);
     }
 }

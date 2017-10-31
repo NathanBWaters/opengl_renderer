@@ -99,12 +99,18 @@ int main()
                            glm::vec3(0.0f, 0.0f, 0.0f),
                            glm::vec3(0.2f, 0.2f, 0.2f));
     
+    PointLight pointLight2(&scene,
+                           glm::vec3(3.0f, 0.0f, 2.0f),
+                           glm::vec3(0.0f, 0.0f, 0.0f),
+                           glm::vec3(0.2f, 0.2f, 0.2f));
+    
     // initializes all of the objects in the scene to prepare them for being rendered
 //    scene.initialize();
     mesh.init();
     mesh2.init();
     mesh3.init();
     pointLight1.init();
+    pointLight2.init();
  
     // render loop
     // -----------
@@ -133,6 +139,7 @@ int main()
         mesh2.render();
         mesh3.render();
         pointLight1.render();
+        pointLight2.render();
         
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
