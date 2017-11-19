@@ -29,6 +29,8 @@ public:
     
     void initialize();
     
+    void deAllocate();
+    
     void render();
 };
 

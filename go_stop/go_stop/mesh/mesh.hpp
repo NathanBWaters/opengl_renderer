@@ -75,8 +75,6 @@ public:
          glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
          glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f),
          glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f));
-
-    void setMaterial();
     
     /**
      * Initializes the Mesh
@@ -94,11 +92,13 @@ public:
     void setTexture();
     
     /**
-     * Sets the lighting information from the scene onto mesh
+     * Translates the object
      */
-    void setLights();
+    void translate(glm::vec3 positionT);
     
     glm::vec3 getPosition();
+    
+    void setLights();
     
     // ------------------------------------------------------------------------
     // Methods that can be overridden by derived classes
@@ -116,6 +116,11 @@ public:
     virtual Shader getShader();
     
     virtual Material getMaterial();
+    
+    /**
+     * Sets the look of the object
+     */
+    virtual void setMaterial();
     
     void deAllocate();
 };

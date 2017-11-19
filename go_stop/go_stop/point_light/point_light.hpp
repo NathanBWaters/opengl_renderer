@@ -34,6 +34,7 @@ public:
     
     void addLightToScene();
     
+    void setMaterial();
 };
 
 #endif /* cube_hpp */

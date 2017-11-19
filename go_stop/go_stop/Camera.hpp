@@ -32,7 +32,6 @@ const float PITCH      =  0.0f;
 const float SPEED      =  3.5f;
 const float SENSITIVTY =  0.1f;
 const float ZOOM       =  45.0f;
-const bool useMouseControls =  false;
 
 // An abstract camera class that processes input and calculates the corresponding Eular Angles, Vectors and Matrices for use in OpenGL
 class Camera
@@ -52,6 +51,8 @@ public:
     float MouseSensitivity;
     float Zoom;
     
+    bool mouseControl;
+    
     // Constructor with vectors
     Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
            glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f),
@@ -63,6 +64,7 @@ public:
         Yaw = yaw;
         Pitch = pitch;
         updateCameraVectors();
+        mouseControl = false;
     }
     // Constructor with scalar values
     Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVTY), Zoom(ZOOM)
@@ -99,10 +101,18 @@ public:
             Position += glm::vec3(0.0f, -1.0f, 0.0f)  * velocity;
     }
     
+    void setMouseControl(bool mouseControl) {
+        this->mouseControl = mouseControl;
+    }
+    
+    bool getMouseControl() {
+        return this->mouseControl;
+    }
+    
     // Processes input received from a mouse input system. Expects the offset value in both the x and y direction.
     void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true)
     {
-        if (useMouseControls) {
+        if (this->mouseControl) {
             xoffset *= MouseSensitivity;
             yoffset *= MouseSensitivity;
             

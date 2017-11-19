@@ -61,7 +61,6 @@ vec3 calcPointLight(PointLight light, vec3 normal, vec3 fragmentPosition, vec3 v
     // Finding the dot product between the normal and the light direction to determine
     // the impact of the light on the fragment
     float diff = max(dot(normalizedNormal, lightDirection), 0.0);
-    
     vec3 diffuse = (diff * vec3(texture(material.diffuse, textureCoord))) * light.diffuse;
     
     //////////////////////////////////////////////////////////////////
@@ -69,10 +68,15 @@ vec3 calcPointLight(PointLight light, vec3 normal, vec3 fragmentPosition, vec3 v
     //////////////////////////////////////////////////////////////////
     
     // We want to know the vector that the light reflects off of the fragment.
+    // we get the negative lightDirection because reflect expects where the direction
+    // is going to instead of from.  For example, if the light is above and to the right,
+    // the light direction would be (1, 1) for example.  We want to get the direction from
+    // the light to the fragCoord, so we want (-1, -1)
     vec3 reflectDirection = reflect(-lightDirection, normalizedNormal);
     
     // the higher the dot product between the view direction
     float specularHighlight = pow(max(dot(viewDir, reflectDirection), 0.0), material.shininess);
+
     vec3 specular = (specularHighlight * vec3(texture(material.specular, textureCoord))) * light.diffuse;
     
     //////////////////////////////////////////////////////////////////

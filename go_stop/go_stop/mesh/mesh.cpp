@@ -34,11 +34,6 @@ Mesh::Mesh(Scene* scene,
     addToScene();
 }
 
-void Mesh::setMaterial() {
-    int shininessLoc = glGetUniformLocation(meshShader.ID, "material.shininess");
-    glUniform1f(shininessLoc, meshMaterial.shininess);
-}
-
 void Mesh::init() {
     meshShader = getShader();
     
@@ -153,13 +148,13 @@ void Mesh::setLights() {
         
         // Set attenuation constants
         int lightConstantLoc = glGetUniformLocation(meshShader.ID, ("pointLights[" + index + "].constant").c_str());
-        glUniform1f(lightConstantLoc, 1.0f);
+        glUniform1f(lightConstantLoc, 0.5f);
         
         int lightLinearLoc = glGetUniformLocation(meshShader.ID, ("pointLights[" + index + "].linear").c_str());
-        glUniform1f(lightLinearLoc, 0.09f);
+        glUniform1f(lightLinearLoc, 0.045f);
         
         int lightQuadraticLoc = glGetUniformLocation(meshShader.ID, ("pointLights[" + index + "].quadratic").c_str());
-        glUniform1f(lightQuadraticLoc, 0.032f);
+        glUniform1f(lightQuadraticLoc, 0.016f);
     }
 }
 
@@ -168,13 +163,6 @@ void Mesh::render(glm::vec3 positionT,
                   glm::vec3 scaleT)
 {
     meshShader.use();
-    
-    // update the instance variables
-    Translation += positionT;
-    Scale *= scaleT;
-    rotationX += rotationT.x;
-    rotationY += rotationT.y;
-    rotationZ += rotationT.z;
     
     setLights();
     
@@ -219,6 +207,15 @@ void Mesh::render(glm::vec3 positionT,
 
 void Mesh::addToScene() {
     this->scene->addItem(this);
+}
+
+void Mesh::translate(glm::vec3 positionT) {
+    // update the instance variables
+    Translation += positionT;
+//    Scale *= scaleT;
+//    rotationX += rotationT.x;
+//    rotationY += rotationT.y;
+//    rotationZ += rotationT.z;
 }
 
 void Mesh::setTexture()  {
@@ -345,11 +342,16 @@ int Mesh::getNumVertices() {
 
 Shader Mesh::getShader() {
     return Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/mesh/mesh.vert",
-                  "/Users/nwaters/code/go_stop/go_stop/go_stop/mesh/mesh.frag");
+                  "/Users/nwaters/code/go_stop/go_stop/go_stop/mesh/mesh.frag");;
 }
 
 Material Mesh::getMaterial() {
     return this->meshMaterial;
+}
+
+void Mesh::setMaterial() {
+    int shininessLoc = glGetUniformLocation(meshShader.ID, "material.shininess");
+    glUniform1f(shininessLoc, meshMaterial.shininess);
 }
 
 void Mesh::deAllocate() {

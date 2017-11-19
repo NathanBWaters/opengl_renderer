@@ -85,7 +85,7 @@ int main()
               glm::vec3(1.0f, 1.0f, 1.0f));
     
     Cube mesh2(&scene,
-               glm::vec3(0.0f, 0.0f, -1.0f),
+               glm::vec3(0.0f, 3.0f, -1.0f),
                glm::vec3(0.0f, 0.0f, 0.0f),
                glm::vec3(1.0f, 1.0f, 1.0f));
     
@@ -94,18 +94,21 @@ int main()
                glm::vec3(0.0f, 0.0f, 0.0f),
                glm::vec3(1.0f, 1.0f, 1.0f));
     
+    // blue light
     PointLight pointLight1(&scene,
                            glm::vec3(0.4f, 0.6f, 2.2f),
                            glm::vec3(-1.0f, 0.0f, 2.0f),
                            glm::vec3(0.0f, 0.0f, 0.0f),
                            glm::vec3(0.2f, 0.2f, 0.2f));
     
+    // orange light
     PointLight pointLight2(&scene,
                            glm::vec3(1.0f, 0.5f, 0.2f),
-                           glm::vec3(2.0f, 0.0f, -1.0f),
+                           glm::vec3(2.0f, 2.5f, -1.0f),
                            glm::vec3(0.0f, 0.0f, 0.0f),
                            glm::vec3(0.2f, 0.2f, 0.2f));
     
+    // green light
     PointLight pointLight3(&scene,
                            glm::vec3(0.5f, 2.0f, 0.2f),
                            glm::vec3(0.0f, -2.5f, -2.0f),
@@ -113,13 +116,7 @@ int main()
                            glm::vec3(0.2f, 0.2f, 0.2f));
     
     // initializes all of the objects in the scene to prepare them for being rendered
-//    scene.initialize();
-    mesh.init();
-    mesh2.init();
-    mesh3.init();
-    pointLight1.init();
-    pointLight2.init();
-    pointLight3.init();
+    scene.initialize();
  
     // render loop
     // -----------
@@ -140,30 +137,26 @@ int main()
         glClearColor(ambientLight.x, ambientLight.y, ambientLight.z, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
+        float timeValue = glfwGetTime();
+        pointLight1.translate(glm::vec3(sin(timeValue) / 70.0,
+                                        sin(timeValue) / 50.0,
+                                        sin(timeValue) / 40.0));
+        pointLight2.translate(glm::vec3(-(sin(timeValue) / 70.0),
+                                        -(sin(timeValue) / 50.0),
+                                        sin(timeValue) / 40.0));
+        
         // ------------------------
         // render
         // ------------------------
-//        scene.render();
-        mesh.render();
-        mesh2.render();
-        mesh3.render();
-        
-        float timeValue = glfwGetTime();
-        pointLight1.render(glm::vec3(sin(timeValue) / 70.0,
-                                     sin(timeValue) / 50.0,
-                                     sin(timeValue) / 40.0));
-        pointLight2.render(glm::vec3(-(sin(timeValue) / 70.0),
-                                     -(sin(timeValue) / 50.0),
-                                     sin(timeValue) / 40.0));
-        pointLight3.render();
-        
+        scene.render();
+
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
     
-    pointLight1.deAllocate();
+    scene.deAllocate();
     
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
@@ -192,12 +185,12 @@ void processInput(GLFWwindow *window)
         camera.ProcessKeyboard(CAMERA_MOVE_UP, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS) {
         std::cout << "Set mouse controls to on" << std::endl;
-//        useMouseControls = true;
+        camera.setMouseControl(true);
     }
-//    if (useMouseControls == true && glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_RELEASE) {
-//        std::cout << "Set mouse controls to off" << std::endl;
-//        useMouseControls = false;
-//    }
+    if (camera.getMouseControl() && glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_RELEASE) {
+        std::cout << "Set mouse controls to off" << std::endl;
+        camera.setMouseControl(false);
+    }
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
