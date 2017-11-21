@@ -8,7 +8,7 @@ in vec3 normal;
 // Where the fragment is in in world space
 in vec3 fragmentPosition;
 
-// What is emitting from the vertex shader
+// What is emitting from the fragment shader
 out vec4 FragColor;
 
 // ViewMatrix position (the position of the camera)

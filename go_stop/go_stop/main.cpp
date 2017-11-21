@@ -33,7 +33,7 @@ bool firstMouse = true;
 //extern bool useMouseControls;
 
 // Light Settings
-glm::vec3 ambientLight = glm::vec3(0.06f, 0.05f, 0.05f);
+glm::vec3 ambientLight = glm::vec3(0.2f, 0.2f, 0.2f);
 
 // timing
 float deltaTime = 0.0f;    // time between current frame and last frame
@@ -75,8 +75,6 @@ int main()
         return -1;
     }
     
-    glEnable(GL_DEPTH_TEST);
-    
     Scene scene;
     
     Cube mesh(&scene,
@@ -117,7 +115,14 @@ int main()
     
     // initializes all of the objects in the scene to prepare them for being rendered
     scene.initialize();
- 
+    
+    Shader stencilShader = Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/mesh/mesh.vert",
+                                  "/Users/nwaters/code/go_stop/go_stop/go_stop/border/border.frag");
+
+    
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_BACK);
+
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
@@ -135,7 +140,9 @@ int main()
         
         // Clear the color buffer and the z depth buffer
         glClearColor(ambientLight.x, ambientLight.y, ambientLight.z, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_DEPTH_BUFFER_BIT);
+        glClear(GL_STENCIL_BUFFER_BIT);
         
         float timeValue = glfwGetTime();
         pointLight1.translate(glm::vec3(sin(timeValue) / 70.0,
@@ -148,7 +155,47 @@ int main()
         // ------------------------
         // render
         // ------------------------
+        
+        // 1st. render pass, draw objects as normal, writing to the stencil buffer
+        // --------------------------------------------------------------------
+        glEnable(GL_DEPTH_TEST);
+        glEnable(GL_STENCIL_TEST);
+        
+        // glStencilFunc only described what OpenGL should do with the content of the stencil buffer,
+        // not how we can actually update the buffer
+        glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should update the stencil buffer
+
+        // The glStencilOp(GLenum sfail, GLenum dpfail, GLenum dppass) describes what to do with the buffer.
+        // GL_KEEP: means keep what is already in the stencil
+        // GL_REPLACE: means replace what is in the stencil
+        glStencilOp(GL_KEEP,     // sfail: action to take if the stencil test fails.
+                    GL_KEEP,     // dpfail: action to take if the stencil test passes, but the depth test fails.
+                    GL_REPLACE); // dppass: action to take if both the stencil and the depth test pass
+        
+        glStencilMask(0xFF); // each bit is written to the stencil buffer as is
+        
+        scene.resetShader();
         scene.render();
+        
+        // 2nd. render pass: now draw slightly scaled versions of the objects, this time
+        // disabling stencil writing.  Because the stencil buffer is now filled with several 1s.
+        // The parts of the buffer that are 1 are not drawn, thus only drawing the objects'
+        // size differences, making it look like borders.
+        // --------------------------------------------------------------------
+        glStencilFunc(GL_NOTEQUAL,  // func: Passes if the stencils value is not equal to the stored stencil value.
+                      1,            // ref: Reference value for the stencil test that is compared against
+                      0xFF);        // mask: mask that is ANDed with both the reference value and the stored stencil
+                                    // value before the test compares them
+        
+        // each bit ends up as 0 in the stencil buffer (disabling writes)
+        glStencilMask(0x00);
+        glDisable(GL_DEPTH_TEST);
+        scene.setShader(stencilShader);
+        scene.scale(glm::vec3(1.1, 1.1, 1.1));
+        scene.render();
+        scene.scale(glm::vec3(0.90909090909, 0.90909090909, 0.90909090909));
+        
+        glEnable(GL_DEPTH_TEST);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------

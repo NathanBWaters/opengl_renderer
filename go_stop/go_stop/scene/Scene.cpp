@@ -31,6 +31,46 @@ void Scene::initialize() {
     }
 }
 
+/*
+ * Scales all objects in the scene
+ */
+void Scene::scale(glm::vec3 scaleT) {
+    for ( auto item : this->sceneItems )
+    {
+        item->scale(scaleT);
+    }
+}
+
+/*
+ * Sets all items in the scene to the default shader
+ */
+void Scene::resetShader() {
+    for ( auto item : this->sceneItems )
+    {
+        item->resetShader();
+    }
+}
+
+/*
+ * Scales all objects in the scene
+ */
+void Scene::setShader(Shader newShader) {
+    for ( auto item : this->sceneItems )
+    {
+        item->setShader(newShader);
+    }
+}
+
+/*
+ * Rotates all objects in the scene
+ */
+void Scene::rotate(glm::vec3 rotationT) {
+    for ( auto item : this->sceneItems )
+    {
+        item->rotate(rotationT);
+    }
+}
+
 void Scene::render() {
     for ( auto item : sceneItems )
     {

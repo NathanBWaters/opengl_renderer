@@ -27,6 +27,14 @@ public:
     
     std::vector<PointLight*> getLights();
     
+    void scale(glm::vec3 scaleT);
+    
+    void setShader(Shader newShader);
+    
+    void resetShader();
+    
+    void rotate(glm::vec3 rotationT);
+    
     void initialize();
     
     void deAllocate();

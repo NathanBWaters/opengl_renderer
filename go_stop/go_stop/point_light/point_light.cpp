@@ -23,14 +23,6 @@ PointLight::PointLight(Scene* scene,
     this->addLightToScene();
 }
     
-/**
- * Returns the shader for the light, which makes it white
- */
-Shader PointLight::getShader() {
-    return Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/point_light/point_light.vert",
-                  "/Users/nwaters/code/go_stop/go_stop/go_stop/point_light/point_light.frag");
-}
-
 void PointLight::addLightToScene() {
     std::cout << "ADDING THE POINT LIGHT TO THE SCENE" << std::endl;
     this->scene->addLight(this);
@@ -44,4 +36,9 @@ void PointLight::setMaterial() {
     int lightColorLoc = glGetUniformLocation(meshShader.ID, "lightColor");
     glm::vec3 lightColor = this->getLightColor();
     glUniform4f(lightColorLoc, lightColor.r, lightColor.g, lightColor.b, 1.0);
+}
+
+void PointLight::setDefaultShader() {
+    this->defaultShader = Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/point_light/point_light.vert",
+                                 "/Users/nwaters/code/go_stop/go_stop/go_stop/point_light/point_light.frag");
 }

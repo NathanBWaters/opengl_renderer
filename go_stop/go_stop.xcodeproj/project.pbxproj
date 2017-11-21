@@ -34,6 +34,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A01576231FC2077400FD0A78 /* border.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = border.frag; sourceTree = "<group>"; };
 		A01FFE951F6EECE500E5BDF0 /* glad */ = {isa = PBXFileReference; lastKnownFileType = folder; name = glad; path = ../lib/glad/include/glad; sourceTree = "<group>"; };
 		A032334B1F66104E00C209C9 /* go_stop */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = go_stop; sourceTree = BUILT_PRODUCTS_DIR; };
 		A032334E1F66104E00C209C9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -81,6 +82,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A01576221FC2074E00FD0A78 /* border */ = {
+			isa = PBXGroup;
+			children = (
+				A01576231FC2077400FD0A78 /* border.frag */,
+			);
+			path = border;
+			sourceTree = "<group>";
+		};
 		A03233421F66104E00C209C9 = {
 			isa = PBXGroup;
 			children = (
@@ -110,6 +119,7 @@
 		A032334D1F66104E00C209C9 /* go_stop */ = {
 			isa = PBXGroup;
 			children = (
+				A01576221FC2074E00FD0A78 /* border */,
 				A0733B181FA84E5B00AC84D4 /* triangle */,
 				A0733B151FA84E2E00AC84D4 /* cube */,
 				A0733B101FA84DDC00AC84D4 /* mesh */,

@@ -58,6 +58,8 @@ public:
     Material meshMaterial;
     
     Shader meshShader;
+    
+    Shader defaultShader;
 
     glm::mat4 viewMatrix;
     glm::mat4 projectionMatrix;
@@ -96,9 +98,28 @@ public:
      */
     void translate(glm::vec3 positionT);
     
+    /**
+     * Scales the object
+     */
+    void scale(glm::vec3 scaleT);
+    
+    /**
+     * Rotates the object
+     */
+    void rotate(glm::vec3 rotationT);
+    
     glm::vec3 getPosition();
     
     void setLights();
+
+    void setShader(Shader newShader);
+    
+    /**
+     * Resets the shader to the default shader
+     */
+    void resetShader();
+    
+    Shader getShader();
     
     // ------------------------------------------------------------------------
     // Methods that can be overridden by derived classes
@@ -113,7 +134,9 @@ public:
     
     virtual int getNumVertices();
 
-    virtual Shader getShader();
+    virtual void setDefaultShader();
+    
+    virtual Shader getDefaultShader();
     
     virtual Material getMaterial();
     

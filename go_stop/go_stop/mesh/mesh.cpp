@@ -34,13 +34,21 @@ Mesh::Mesh(Scene* scene,
     addToScene();
 }
 
+void Mesh::setShader(Shader newShader) {
+    this->meshShader = newShader;
+}
+
+Shader Mesh::getShader() {
+    return this->meshShader;
+}
+
 void Mesh::init() {
-    meshShader = getShader();
+    setDefaultShader();
+    resetShader();
     
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
     float * vertices = getVertices();
-    int verticesSize = getVerticesSize();
     glGenVertexArrays(1, &meshVAO);
     glGenBuffers(1, &meshVBO);
     
@@ -162,7 +170,7 @@ void Mesh::render(glm::vec3 positionT,
                   glm::vec3 rotationT,
                   glm::vec3 scaleT)
 {
-    meshShader.use();
+    this->meshShader.use();
     
     setLights();
     
@@ -212,10 +220,18 @@ void Mesh::addToScene() {
 void Mesh::translate(glm::vec3 positionT) {
     // update the instance variables
     Translation += positionT;
-//    Scale *= scaleT;
-//    rotationX += rotationT.x;
-//    rotationY += rotationT.y;
-//    rotationZ += rotationT.z;
+}
+
+void Mesh::scale(glm::vec3 scaleT) {
+    // update the instance variables
+    Scale *= scaleT;
+}
+
+void Mesh::rotate(glm::vec3 rotationT) {
+    // update the instance variables
+    rotationX += rotationT.x;
+    rotationY += rotationT.y;
+    rotationZ += rotationT.z;
 }
 
 void Mesh::setTexture()  {
@@ -340,9 +356,17 @@ int Mesh::getNumVertices() {
     return 3;
 }
 
-Shader Mesh::getShader() {
-    return Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/mesh/mesh.vert",
-                  "/Users/nwaters/code/go_stop/go_stop/go_stop/mesh/mesh.frag");;
+void Mesh::resetShader() {
+    this->meshShader = this->defaultShader;
+}
+
+void Mesh::setDefaultShader() {
+    this->defaultShader = Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/mesh/mesh.vert",
+                                 "/Users/nwaters/code/go_stop/go_stop/go_stop/mesh/mesh.frag");
+}
+
+Shader Mesh::getDefaultShader() {
+    return this->defaultShader;
 }
 
 Material Mesh::getMaterial() {
