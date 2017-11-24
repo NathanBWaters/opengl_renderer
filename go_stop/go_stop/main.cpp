@@ -11,6 +11,7 @@
 
 #include "mesh/mesh.hpp"
 #include "cube/cube.hpp"
+#include "framebuffer/framebuffer.hpp"
 #include "triangle/triangle.hpp"
 #include "point_light/point_light.hpp"
 #include "scene/Scene.hpp"
@@ -20,15 +21,14 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
 
-
 // Window settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+const unsigned int SCREEN_WIDTH = 800;
+const unsigned int SCREEN_HEIGHT = 600;
 
 // Camera settings
 Camera camera(glm::vec3(0.0f, 0.0f, 9.0f));
-float lastX = SCR_WIDTH / 2.0f;
-float lastY = SCR_HEIGHT / 2.0f;
+float lastX = SCREEN_WIDTH / 2.0f;
+float lastY = SCREEN_HEIGHT / 2.0f;
 bool firstMouse = true;
 //extern bool useMouseControls;
 
@@ -52,7 +52,7 @@ int main()
     
     // glfw window creation
     // --------------------
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "LearnOpenGL", NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -92,6 +92,8 @@ int main()
                glm::vec3(0.0f, 0.0f, 0.0f),
                glm::vec3(1.0f, 1.0f, 1.0f));
     
+    FrameBuffer frameBuffer(SCREEN_WIDTH, SCREEN_HEIGHT);
+    
     // blue light
     PointLight pointLight1(&scene,
                            glm::vec3(0.4f, 0.6f, 2.2f),
@@ -120,8 +122,15 @@ int main()
                                   "/Users/nwaters/code/go_stop/go_stop/go_stop/border/border.frag");
 
     
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_BACK);
+    // configure global opengl state
+    // -----------------------------
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+    glEnable(GL_STENCIL_TEST);
+    glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+//    glEnable(GL_CULL_FACE);
+//    glEnable(GL_BACK);
 
     // render loop
     // -----------
@@ -142,6 +151,17 @@ int main()
         glClearColor(ambientLight.x, ambientLight.y, ambientLight.z, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         glClear(GL_DEPTH_BUFFER_BIT);
+        
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+        glEnable(GL_STENCIL_TEST);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); // don't forget to clear the stencil buffer!
+        
+        
+        glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should update the stencil buffer
+        glStencilOp(GL_REPLACE,     // sfail: action to take if the stencil test fails.
+                    GL_REPLACE,     // dpfail: action to take if the stencil test passes, but the depth test fails.
+                    GL_REPLACE); // dppass: action to take if both the stencil and the depth test pass
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_STENCIL_BUFFER_BIT);
         
         float timeValue = glfwGetTime();
@@ -152,14 +172,14 @@ int main()
                                         -(sin(timeValue) / 50.0),
                                         sin(timeValue) / 40.0));
         
-        // ------------------------
-        // render
-        // ------------------------
+        // --------------------------------------------------------------------
+        // Render the scene
+        // --------------------------------------------------------------------
+//        glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer.framebuffer);
         
         // 1st. render pass, draw objects as normal, writing to the stencil buffer
         // --------------------------------------------------------------------
         glEnable(GL_DEPTH_TEST);
-        glEnable(GL_STENCIL_TEST);
         
         // glStencilFunc only described what OpenGL should do with the content of the stencil buffer,
         // not how we can actually update the buffer
@@ -176,7 +196,7 @@ int main()
         
         scene.resetShader();
         scene.render();
-        
+
         // 2nd. render pass: now draw slightly scaled versions of the objects, this time
         // disabling stencil writing.  Because the stencil buffer is now filled with several 1s.
         // The parts of the buffer that are 1 are not drawn, thus only drawing the objects'
@@ -187,15 +207,22 @@ int main()
                       0xFF);        // mask: mask that is ANDed with both the reference value and the stored stencil
                                     // value before the test compares them
         
-        // each bit ends up as 0 in the stencil buffer (disabling writes)
-        glStencilMask(0x00);
-        glDisable(GL_DEPTH_TEST);
+        // THIS SHOULD WORK BUT DOESN'T. Each bit ends up as 0 in the stencil buffer (disabling writes)
+        // glStencilMask(0x00);
         scene.setShader(stencilShader);
         scene.scale(glm::vec3(1.1, 1.1, 1.1));
         scene.render();
         scene.scale(glm::vec3(0.90909090909, 0.90909090909, 0.90909090909));
         
         glEnable(GL_DEPTH_TEST);
+        
+        // --------------------------------------------------------------------
+        // Post-Processing
+        // --------------------------------------------------------------------
+//        glBindFramebuffer(GL_FRAMEBUFFER, 0); // back to default
+//        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+//        glClear(GL_COLOR_BUFFER_BIT);
+//        frameBuffer.render();
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------

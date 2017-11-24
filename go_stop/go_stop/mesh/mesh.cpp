@@ -10,6 +10,9 @@
 #include "../scene/Scene.hpp"
 #include "../point_light/point_light.hpp"
 
+extern const unsigned int SCREEN_WIDTH;
+extern const unsigned int SCREEN_HEIGHT;
+
 Mesh::Mesh(Scene* scene,
            glm::vec3 position,
            glm::vec3 rotation,
@@ -122,7 +125,7 @@ void Mesh::init() {
     
     // Projection Matrix to convert view space to clip space
     glm::mat4 projection;
-    projectionMatrix = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+    projectionMatrix = glm::perspective(glm::radians(45.0f), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
 }
 
 void Mesh::setLights() {
@@ -211,6 +214,8 @@ void Mesh::render(glm::vec3 positionT,
     
     // Drawing from the EBO through the VAO.
     glDrawArrays(GL_TRIANGLES, 0, getNumVertices());
+    
+    glBindVertexArray(0);
 }
 
 void Mesh::addToScene() {
@@ -238,7 +243,7 @@ void Mesh::setTexture()  {
     ////////////////////////////////////////////////
     //  Diffuse and Ambient Texture
     ////////////////////////////////////////////////
-    glGenTextures(1,                     // how many textures we want to generate
+    glGenTextures(1,                  // how many textures we want to generate
                   &meshTextureLoc1);  // the location of the stored texture
     
     // Bind the texture location so any further subsequent texture commands will operate on the bounded object

@@ -25,8 +25,8 @@
 #include "Material.hpp"
 #include <SOIL.h>
 
-extern const unsigned int SCR_WIDTH;
-extern const unsigned int SCR_HEIGHT;
+extern const unsigned int SCREEN_WIDTH;
+extern const unsigned int SCREEN_HEIGHT;
 extern glm::vec3 ambientLight;
 
 extern Camera camera;

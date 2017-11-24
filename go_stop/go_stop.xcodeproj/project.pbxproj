@@ -13,6 +13,7 @@
 		A032335E1F66126B00C209C9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A032335A1F66126B00C209C9 /* OpenGL.framework */; };
 		A03233631F6612AE00C209C9 /* SOIL.h in Frameworks */ = {isa = PBXBuildFile; fileRef = A03233551F6611B200C209C9 /* SOIL.h */; };
 		A03233681F662D1400C209C9 /* libglfw.3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A03233671F662D1400C209C9 /* libglfw.3.2.dylib */; };
+		A03F85761FC448620003CFC0 /* framebuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A03F85741FC448620003CFC0 /* framebuffer.cpp */; };
 		A0733B051FA84CBE00AC84D4 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0733B011FA8481A00AC84D4 /* Scene.cpp */; };
 		A0733B1B1FA84F2200AC84D4 /* point_light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0733B0C1FA84DA500AC84D4 /* point_light.cpp */; };
 		A0733B1C1FA84F2D00AC84D4 /* triangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0733B191FA84E6600AC84D4 /* triangle.cpp */; };
@@ -47,6 +48,10 @@
 		A03233641F66264200C209C9 /* GLFW */ = {isa = PBXFileReference; lastKnownFileType = folder; name = GLFW; path = ../lib/GLFW; sourceTree = "<group>"; };
 		A03233671F662D1400C209C9 /* libglfw.3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.2.dylib; path = ../lib/GLFW/glfw/3.2.1/lib/libglfw.3.2.dylib; sourceTree = "<group>"; };
 		A032336F1F6633E200C209C9 /* Shader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Shader.hpp; sourceTree = "<group>"; };
+		A03F85721FC445C80003CFC0 /* framebuffer.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = framebuffer.vert; sourceTree = "<group>"; };
+		A03F85731FC445D70003CFC0 /* framebuffer.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = framebuffer.frag; sourceTree = "<group>"; };
+		A03F85741FC448620003CFC0 /* framebuffer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = framebuffer.cpp; sourceTree = "<group>"; };
+		A03F85751FC448620003CFC0 /* framebuffer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = framebuffer.hpp; sourceTree = "<group>"; };
 		A048B8DE1F860A150026666D /* Camera.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Camera.hpp; sourceTree = "<group>"; };
 		A0733B011FA8481A00AC84D4 /* Scene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Scene.cpp; path = go_stop/scene/Scene.cpp; sourceTree = SOURCE_ROOT; };
 		A0733B021FA8481A00AC84D4 /* Scene.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Scene.hpp; path = go_stop/scene/Scene.hpp; sourceTree = SOURCE_ROOT; };
@@ -119,6 +124,7 @@
 		A032334D1F66104E00C209C9 /* go_stop */ = {
 			isa = PBXGroup;
 			children = (
+				A03F85711FC4459E0003CFC0 /* framebuffer */,
 				A01576221FC2074E00FD0A78 /* border */,
 				A0733B181FA84E5B00AC84D4 /* triangle */,
 				A0733B151FA84E2E00AC84D4 /* cube */,
@@ -131,6 +137,17 @@
 				A0F112C91F9D674D001BCB9D /* Material.hpp */,
 			);
 			path = go_stop;
+			sourceTree = "<group>";
+		};
+		A03F85711FC4459E0003CFC0 /* framebuffer */ = {
+			isa = PBXGroup;
+			children = (
+				A03F85721FC445C80003CFC0 /* framebuffer.vert */,
+				A03F85731FC445D70003CFC0 /* framebuffer.frag */,
+				A03F85741FC448620003CFC0 /* framebuffer.cpp */,
+				A03F85751FC448620003CFC0 /* framebuffer.hpp */,
+			);
+			path = framebuffer;
 			sourceTree = "<group>";
 		};
 		A0733B001FA8480B00AC84D4 /* scene */ = {
@@ -252,6 +269,7 @@
 			files = (
 				A0733B1E1FA84F3400AC84D4 /* mesh.cpp in Sources */,
 				A0733B1D1FA84F3000AC84D4 /* cube.cpp in Sources */,
+				A03F85761FC448620003CFC0 /* framebuffer.cpp in Sources */,
 				A0733B1C1FA84F2D00AC84D4 /* triangle.cpp in Sources */,
 				A0733B1B1FA84F2200AC84D4 /* point_light.cpp in Sources */,
 				A0733B051FA84CBE00AC84D4 /* Scene.cpp in Sources */,
