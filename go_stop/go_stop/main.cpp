@@ -39,6 +39,39 @@ glm::vec3 ambientLight = glm::vec3(0.2f, 0.2f, 0.2f);
 float deltaTime = 0.0f;    // time between current frame and last frame
 float lastFrame = 0.0f;
 
+unsigned int loadCubemap(std::vector<std::string> faces) {
+    unsigned int skyboxID;
+    glGenTextures(1, &skyboxID);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxID);
+    
+    int width, height, nrChannels;
+    for (unsigned int i = 0; i < faces.size(); i++) {
+        unsigned char * data = SOIL_load_image(faces[i].c_str(),
+                                               &width,
+                                               &height,
+                                               &nrChannels,
+                                               0);
+        if (data) {
+            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+                         0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+            SOIL_free_image_data(data);
+        }
+        else
+        {
+            std::cout << "Cubemap texture failed to load at path: " << faces[i] << std::endl;
+            SOIL_free_image_data(data);
+        }
+    }
+    
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+    return skyboxID;
+}
+
 int main()
 {
     std::cout << "Starting up the gears with GO_STOP_PATH: " << std::getenv("GO_STOP_PATH") << std::endl;
@@ -65,7 +98,7 @@ int main()
     glfwSetScrollCallback(window, scroll_callback);
     
     // tell GLFW to capture our mouse
-//    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    // glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     // glad: load all OpenGL function pointers.  Load this early!
     // ----------------------------------------------------------
@@ -120,17 +153,22 @@ int main()
     
     Shader stencilShader = Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/mesh/mesh.vert",
                                   "/Users/nwaters/code/go_stop/go_stop/go_stop/border/border.frag");
-
+    
+    std::vector<std::string> faces =
+    {
+        "right.jpg",
+        "left.jpg",
+        "top.jpg",
+        "bottom.jpg",
+        "back.jpg",
+        "front.jpg"
+    };
+    unsigned int cubemapTexture = loadCubemap(faces);
     
     // configure global opengl state
     // -----------------------------
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-    glEnable(GL_STENCIL_TEST);
-    glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-//    glEnable(GL_CULL_FACE);
-//    glEnable(GL_BACK);
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_BACK);
 
     // render loop
     // -----------
@@ -149,20 +187,9 @@ int main()
         
         // Clear the color buffer and the z depth buffer
         glClearColor(ambientLight.x, ambientLight.y, ambientLight.z, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        glClear(GL_DEPTH_BUFFER_BIT);
-        
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glEnable(GL_STENCIL_TEST);
+        glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); // don't forget to clear the stencil buffer!
-        
-        
-        glStencilFunc(GL_ALWAYS, 1, 0xFF); // all fragments should update the stencil buffer
-        glStencilOp(GL_REPLACE,     // sfail: action to take if the stencil test fails.
-                    GL_REPLACE,     // dpfail: action to take if the stencil test passes, but the depth test fails.
-                    GL_REPLACE); // dppass: action to take if both the stencil and the depth test pass
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-        glClear(GL_STENCIL_BUFFER_BIT);
         
         float timeValue = glfwGetTime();
         pointLight1.translate(glm::vec3(sin(timeValue) / 70.0,
@@ -197,6 +224,8 @@ int main()
         scene.resetShader();
         scene.render();
 
+        // --------------------------------------------------------------------
+        // Border
         // 2nd. render pass: now draw slightly scaled versions of the objects, this time
         // disabling stencil writing.  Because the stencil buffer is now filled with several 1s.
         // The parts of the buffer that are 1 are not drawn, thus only drawing the objects'

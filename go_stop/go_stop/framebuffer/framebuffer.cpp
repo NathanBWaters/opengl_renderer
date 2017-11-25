@@ -11,6 +11,8 @@
 FrameBuffer::FrameBuffer(int screen_width, int screen_height)
 {
     std::cout << "Making a FrameBuffer" << std::endl;
+    this->createDefaultShader();
+
     // Create the FrameBuffer
     glGenFramebuffers(1, &this->framebuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, this->framebuffer);
@@ -55,7 +57,6 @@ FrameBuffer::FrameBuffer(int screen_width, int screen_height)
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     
     this->createPlane();
-    this->createDefaultShader();
 }
 
 void FrameBuffer::createPlane() {
@@ -114,16 +115,28 @@ void FrameBuffer::createPlane() {
 void FrameBuffer::createDefaultShader() {
     this->defaultShader = Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/framebuffer/framebuffer.vert",
                                  "/Users/nwaters/code/go_stop/go_stop/go_stop/framebuffer/framebuffer.frag");
-    
     this->defaultShader.use();
-    this->defaultShader.setInt("screenTexture", 0);
 }
 
 void FrameBuffer::render() {
+    // activate the framebuffer shader
     this->defaultShader.use();
-    this->defaultShader.setInt("screenTexture", 0);
+    
+    // bind the frame buffer VAO, key for knowing what to draw with glDrawArrays
     glBindVertexArray(this->frameBufferPlaneVAO);
-    glDisable(GL_DEPTH_TEST);
+    
+    // set the active texture to 0 unit
+    glActiveTexture(GL_TEXTURE0);
+    
+    // bind the 2D texture to the color buffer
     glBindTexture(GL_TEXTURE_2D, this->textureColorBuffer);
+    
+    // set the texture to 0 unit
+    this->defaultShader.setInt("screenTexture", 0);
+    
+    // disable depth testing, because we won't need it for the quad
+    glDisable(GL_DEPTH_TEST);
+    
+    // draw the quad
     glDrawArrays(GL_TRIANGLES, 0, this->numVertices);
 }
