@@ -81,17 +81,17 @@ public:
     /**
      * Initializes the Mesh
      */
-    void init();
+    virtual void init();
     
     // ------------------------------------------------------------------------
-    void render(glm::vec3 positionT = glm::vec3(0.0f, 0.0f, 0.0f),
-                glm::vec3 rotationT = glm::vec3(0.0f, 0.0f, 0.0f),
-                glm::vec3 scaleT = glm::vec3(1.0f, 1.0f, 1.0f));
+    virtual void render(glm::vec3 positionT = glm::vec3(0.0f, 0.0f, 0.0f),
+                        glm::vec3 rotationT = glm::vec3(0.0f, 0.0f, 0.0f),
+                        glm::vec3 scaleT = glm::vec3(1.0f, 1.0f, 1.0f));
 
     /**
      * Sets texture information on the mesh
      */
-    void setTexture();
+    virtual void setTexture();
     
     /**
      * Translates the object
@@ -112,7 +112,7 @@ public:
     
     void setLights();
 
-    void setShader(Shader newShader);
+    virtual void setShader(Shader newShader);
     
     /**
      * Resets the shader to the default shader

@@ -11,6 +11,7 @@
 
 #include "mesh/mesh.hpp"
 #include "cube/cube.hpp"
+#include "skybox/skybox.hpp"
 #include "framebuffer/framebuffer.hpp"
 #include "triangle/triangle.hpp"
 #include "point_light/point_light.hpp"
@@ -38,39 +39,6 @@ glm::vec3 ambientLight = glm::vec3(0.2f, 0.2f, 0.2f);
 // timing
 float deltaTime = 0.0f;    // time between current frame and last frame
 float lastFrame = 0.0f;
-
-unsigned int loadCubemap(std::vector<std::string> faces) {
-    unsigned int skyboxID;
-    glGenTextures(1, &skyboxID);
-    glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxID);
-    
-    int width, height, nrChannels;
-    for (unsigned int i = 0; i < faces.size(); i++) {
-        unsigned char * data = SOIL_load_image(faces[i].c_str(),
-                                               &width,
-                                               &height,
-                                               &nrChannels,
-                                               0);
-        if (data) {
-            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-                         0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-            SOIL_free_image_data(data);
-        }
-        else
-        {
-            std::cout << "Cubemap texture failed to load at path: " << faces[i] << std::endl;
-            SOIL_free_image_data(data);
-        }
-    }
-    
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
-    return skyboxID;
-}
 
 int main()
 {
@@ -127,6 +95,9 @@ int main()
     
     FrameBuffer frameBuffer(SCREEN_WIDTH, SCREEN_HEIGHT);
     
+    
+    Skybox skybox(&scene);
+    
     // blue light
     PointLight pointLight1(&scene,
                            glm::vec3(0.4f, 0.6f, 2.2f),
@@ -153,17 +124,6 @@ int main()
     
     Shader stencilShader = Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/mesh/mesh.vert",
                                   "/Users/nwaters/code/go_stop/go_stop/go_stop/border/border.frag");
-    
-    std::vector<std::string> faces =
-    {
-        "right.jpg",
-        "left.jpg",
-        "top.jpg",
-        "bottom.jpg",
-        "back.jpg",
-        "front.jpg"
-    };
-    unsigned int cubemapTexture = loadCubemap(faces);
     
     // configure global opengl state
     // -----------------------------
