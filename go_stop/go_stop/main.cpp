@@ -1,3 +1,5 @@
+#include <assimp/Importer.hpp>
+
 #include <glad/include/glad/glad.h>
 #include <glad/src/glad.c>
 #include <GLFW/glfw3.h>
@@ -96,7 +98,7 @@ int main()
     FrameBuffer frameBuffer(SCREEN_WIDTH, SCREEN_HEIGHT);
     
     
-    Skybox skybox(&scene);
+//    Skybox skybox(&scene);
     
     // blue light
     PointLight pointLight1(&scene,
