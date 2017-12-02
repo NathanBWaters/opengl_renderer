@@ -12,7 +12,7 @@ Cube::Cube(Scene* scene,
            glm::vec3 position,
            glm::vec3 rotation,
            glm::vec3 scale) :
-    Mesh(scene, position, rotation, scale)
+    SceneObject(scene, position, rotation, scale)
 {
     std::cout << "Making a Cube" << std::endl;
 }

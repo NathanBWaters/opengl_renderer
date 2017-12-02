@@ -7,7 +7,7 @@
 //
 
 #include "Scene.hpp"
-#include "../mesh/mesh.hpp"
+#include "../scene_object/scene_object.hpp"
 #include "../point_light/point_light.hpp"
 
 
@@ -16,8 +16,8 @@ Scene::Scene()
     std::cout << "Creating scene " << std::endl;
 }
 
-void Scene::addItem(Mesh* mesh) {
-    this->sceneItems.push_back(mesh);
+void Scene::addItem(SceneObject* scene_object) {
+    this->sceneItems.push_back(scene_object);
 }
 
 void Scene::addLight(PointLight* light) {

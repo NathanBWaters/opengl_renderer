@@ -28,22 +28,22 @@ void Skybox::render() {
 
     glm::mat4 scalingMatrix = glm::scale(glm::mat4(), glm::vec3(5.0f, 5.0f, 5.0f));
 
-    // Set the model matrix (where the mesh is in world space)
-    int modelMatrixLoc = glGetUniformLocation(meshShader.ID, "modelMatrix");
+    // Set the model matrix (where the scene_object is in world space)
+    int modelMatrixLoc = glGetUniformLocation(scene_objectShader.ID, "modelMatrix");
     glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, glm::value_ptr(scalingMatrix));
     
     // Set view matrix
-    int viewMatrixLoc = glGetUniformLocation(meshShader.ID, "viewMatrix");
+    int viewMatrixLoc = glGetUniformLocation(scene_objectShader.ID, "viewMatrix");
     glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, glm::value_ptr(camera.GetViewMatrix()));
     
     // Set projection matrix
-    int projectionMatrixLoc = glGetUniformLocation(meshShader.ID, "projectionMatrix");
+    int projectionMatrixLoc = glGetUniformLocation(scene_objectShader.ID, "projectionMatrix");
     glUniformMatrix4fv(projectionMatrixLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
     
     // setting image one, which is on the texture unit GL_TEXTURE0
-    glBindVertexArray(this->meshVAO);
+    glBindVertexArray(this->scene_objectVAO);
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_CUBE_MAP, this->meshTextureLoc1);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, this->scene_objectTextureLoc1);
     glDrawArrays(GL_TRIANGLES, 0, this->getNumVertices());
     glBindVertexArray(0);
 //    glDepthFunc(GL_LESS); // set depth function back to default
@@ -52,8 +52,8 @@ void Skybox::render() {
 }
 
 void Skybox::setTexture() {
-    glGenTextures(1, &this->meshTextureLoc1);
-    glBindTexture(GL_TEXTURE_CUBE_MAP, this->meshTextureLoc1);
+    glGenTextures(1, &this->scene_objectTextureLoc1);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, this->scene_objectTextureLoc1);
     
     // Skybox faces
     std::vector<std::string> faces = {

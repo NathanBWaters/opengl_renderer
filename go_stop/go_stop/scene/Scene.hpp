@@ -10,18 +10,18 @@
 #define SCENE_H
 
 #include <string>
-#include "../mesh/mesh.hpp"
+#include "../scene_object/scene_object.hpp"
 #include "../point_light/point_light.hpp"
 
 class Scene
 {
 public:
-    std::vector<Mesh*> sceneItems;
+    std::vector<SceneObject*> sceneItems;
     std::vector<PointLight*> lights;
     
     Scene();
     
-    void addItem(Mesh* mesh);
+    void addItem(SceneObject* scene_object);
     
     void addLight(PointLight* light);
     

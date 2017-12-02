@@ -1,19 +1,19 @@
 //
-//  mesh.cpp
+//  scene_object.cpp
 //  go_stop
 //
 //  Created by Nathan Waters on 9/24/17.
 //  Copyright © 2017 Nathan Waters. All rights reserved.
 //
 
-#include "mesh.hpp"
+#include "scene_object.hpp"
 #include "../scene/Scene.hpp"
 #include "../point_light/point_light.hpp"
 
 extern const unsigned int SCREEN_WIDTH;
 extern const unsigned int SCREEN_HEIGHT;
 
-Mesh::Mesh(Scene* scene,
+SceneObject::SceneObject(Scene* scene,
            glm::vec3 position,
            glm::vec3 rotation,
            glm::vec3 scale) {
@@ -27,7 +27,7 @@ Mesh::Mesh(Scene* scene,
     this->rotationZ = rotation.z;
     
     // white plastic
-    this->meshMaterial = Material{
+    this->scene_objectMaterial = Material{
         glm::vec3(0.2f, 0.2f, 0.2f),     // ambient
         glm::vec3(0.55f, 0.55f, 0.55f),  // diffuse
         glm::vec3(1.7f, 1.7f, 1.7f),     // specular
@@ -37,31 +37,31 @@ Mesh::Mesh(Scene* scene,
     addToScene();
 }
 
-void Mesh::setShader(Shader newShader) {
-    this->meshShader = newShader;
+void SceneObject::setShader(Shader newShader) {
+    this->scene_objectShader = newShader;
 }
 
-Shader Mesh::getShader() {
-    return this->meshShader;
+Shader SceneObject::getShader() {
+    return this->scene_objectShader;
 }
 
-void Mesh::init() {
+void SceneObject::init() {
     setDefaultShader();
     resetShader();
     
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
     float * vertices = getVertices();
-    glGenVertexArrays(1, &meshVAO);
-    glGenBuffers(1, &meshVBO);
+    glGenVertexArrays(1, &scene_objectVAO);
+    glGenBuffers(1, &scene_objectVBO);
     
     // VAO
     // You bind the Vertex Array Object first, then bind and set vertex buffer(s), and then
     // configure vertex attributes(s).
-    glBindVertexArray(meshVAO);
+    glBindVertexArray(scene_objectVAO);
     
     // VBO
-    glBindBuffer(GL_ARRAY_BUFFER, meshVBO);
+    glBindBuffer(GL_ARRAY_BUFFER, scene_objectVBO);
     
     glBufferData(GL_ARRAY_BUFFER,
                  getNumVertices() * getSpan() * sizeof(float),
@@ -128,10 +128,10 @@ void Mesh::init() {
     projectionMatrix = glm::perspective(glm::radians(45.0f), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
 }
 
-void Mesh::setLights() {
+void SceneObject::setLights() {
     std::vector<PointLight*> scenePointLights = this->scene->getLights();
     
-    int numPointLightsLoc = glGetUniformLocation(meshShader.ID, "NUM_POINT_LIGHTS");
+    int numPointLightsLoc = glGetUniformLocation(scene_objectShader.ID, "NUM_POINT_LIGHTS");
     glUniform1i(numPointLightsLoc, scenePointLights.size());
     
     for(int i = 0; i < scenePointLights.size(); i++) {
@@ -141,39 +141,39 @@ void Mesh::setLights() {
         // Set ambient light
         glm::vec3 lightColor = pointLight->getLightColor();
 
-        int ambientLightLoc = glGetUniformLocation(meshShader.ID, ("pointLight[" + index + "].ambient").c_str());
+        int ambientLightLoc = glGetUniformLocation(scene_objectShader.ID, ("pointLight[" + index + "].ambient").c_str());
         glUniform3fv(ambientLightLoc, 1, &lightColor[0]);
         
         // Set specular light
-        int specularLightLoc = glGetUniformLocation(meshShader.ID, ("pointLights[" + index + "].specular").c_str());
+        int specularLightLoc = glGetUniformLocation(scene_objectShader.ID, ("pointLights[" + index + "].specular").c_str());
         glUniform3fv(specularLightLoc, 1, &lightColor[0]);
         
         // Set diffuse light
-        int diffuseLightLoc = glGetUniformLocation(meshShader.ID, ("pointLights[" + index + "].diffuse").c_str());
+        int diffuseLightLoc = glGetUniformLocation(scene_objectShader.ID, ("pointLights[" + index + "].diffuse").c_str());
         glUniform3fv(diffuseLightLoc, 1, &lightColor[0]);
         
         // Set point light 1 position
-        int pointLightLoc = glGetUniformLocation(meshShader.ID, ("pointLights[" + index + "].position").c_str());
+        int pointLightLoc = glGetUniformLocation(scene_objectShader.ID, ("pointLights[" + index + "].position").c_str());
         glm::vec3 lightPosition = pointLight->getPosition();
         glUniform3fv(pointLightLoc, 1, &lightPosition[0]);
         
         // Set attenuation constants
-        int lightConstantLoc = glGetUniformLocation(meshShader.ID, ("pointLights[" + index + "].constant").c_str());
+        int lightConstantLoc = glGetUniformLocation(scene_objectShader.ID, ("pointLights[" + index + "].constant").c_str());
         glUniform1f(lightConstantLoc, 0.5f);
         
-        int lightLinearLoc = glGetUniformLocation(meshShader.ID, ("pointLights[" + index + "].linear").c_str());
+        int lightLinearLoc = glGetUniformLocation(scene_objectShader.ID, ("pointLights[" + index + "].linear").c_str());
         glUniform1f(lightLinearLoc, 0.045f);
         
-        int lightQuadraticLoc = glGetUniformLocation(meshShader.ID, ("pointLights[" + index + "].quadratic").c_str());
+        int lightQuadraticLoc = glGetUniformLocation(scene_objectShader.ID, ("pointLights[" + index + "].quadratic").c_str());
         glUniform1f(lightQuadraticLoc, 0.016f);
     }
 }
 
-void Mesh::render(glm::vec3 positionT,
+void SceneObject::render(glm::vec3 positionT,
                   glm::vec3 rotationT,
                   glm::vec3 scaleT)
 {
-    this->meshShader.use();
+    this->scene_objectShader.use();
     
     setLights();
     
@@ -188,29 +188,29 @@ void Mesh::render(glm::vec3 positionT,
     glm::mat4 modelMatrix = translationMatrix * rotationMatrix * scalingMatrix;
     
     // Set viewMatrix position (which is the camera position)
-    int viewPositionLoc = glGetUniformLocation(meshShader.ID, "viewPosition");
+    int viewPositionLoc = glGetUniformLocation(scene_objectShader.ID, "viewPosition");
     glUniform3f(viewPositionLoc, camera.Position.x, camera.Position.y, camera.Position.z);
     
-    // Set the model matrix (where the mesh is in world space)
-    int modelMatrixLoc = glGetUniformLocation(meshShader.ID, "modelMatrix");
+    // Set the model matrix (where the scene_object is in world space)
+    int modelMatrixLoc = glGetUniformLocation(scene_objectShader.ID, "modelMatrix");
     glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, glm::value_ptr(modelMatrix));
     
     // Set view matrix
-    int viewMatrixLoc = glGetUniformLocation(meshShader.ID, "viewMatrix");
+    int viewMatrixLoc = glGetUniformLocation(scene_objectShader.ID, "viewMatrix");
     glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, glm::value_ptr(camera.GetViewMatrix()));
     
     // Set projection matrix
-    int projectionMatrixLoc = glGetUniformLocation(meshShader.ID, "projectionMatrix");
+    int projectionMatrixLoc = glGetUniformLocation(scene_objectShader.ID, "projectionMatrix");
     glUniformMatrix4fv(projectionMatrixLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
     
     // setting image one, which is on the texture unit GL_TEXTURE0
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, meshTextureLoc1);
+    glBindTexture(GL_TEXTURE_2D, scene_objectTextureLoc1);
     // setting image two, which is on the texture unit GL_TEXTURE1
     glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, meshTextureLoc2);
+    glBindTexture(GL_TEXTURE_2D, scene_objectTextureLoc2);
     
-    glBindVertexArray(meshVAO);
+    glBindVertexArray(scene_objectVAO);
     
     // Drawing from the EBO through the VAO.
     glDrawArrays(GL_TRIANGLES, 0, getNumVertices());
@@ -218,36 +218,36 @@ void Mesh::render(glm::vec3 positionT,
     glBindVertexArray(0);
 }
 
-void Mesh::addToScene() {
+void SceneObject::addToScene() {
     this->scene->addItem(this);
 }
 
-void Mesh::translate(glm::vec3 positionT) {
+void SceneObject::translate(glm::vec3 positionT) {
     // update the instance variables
     Translation += positionT;
 }
 
-void Mesh::scale(glm::vec3 scaleT) {
+void SceneObject::scale(glm::vec3 scaleT) {
     // update the instance variables
     Scale *= scaleT;
 }
 
-void Mesh::rotate(glm::vec3 rotationT) {
+void SceneObject::rotate(glm::vec3 rotationT) {
     // update the instance variables
     rotationX += rotationT.x;
     rotationY += rotationT.y;
     rotationZ += rotationT.z;
 }
 
-void Mesh::setTexture()  {
+void SceneObject::setTexture()  {
     ////////////////////////////////////////////////
     //  Diffuse and Ambient Texture
     ////////////////////////////////////////////////
     glGenTextures(1,                  // how many textures we want to generate
-                  &meshTextureLoc1);  // the location of the stored texture
+                  &scene_objectTextureLoc1);  // the location of the stored texture
     
     // Bind the texture location so any further subsequent texture commands will operate on the bounded object
-    glBindTexture(GL_TEXTURE_2D, meshTextureLoc1);
+    glBindTexture(GL_TEXTURE_2D, scene_objectTextureLoc1);
     
     // set the texture wrapping/filtering options (on the currently bound texture object)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -289,10 +289,10 @@ void Mesh::setTexture()  {
     //  Specular Texture
     ////////////////////////////////////////////////
     glGenTextures(1,                     // how many textures we want to generate
-                  &meshTextureLoc2);  // the location of the stored texture
+                  &scene_objectTextureLoc2);  // the location of the stored texture
     
     // Bind the texture location so any further subsequent texture commands will operate on the bounded object
-    glBindTexture(GL_TEXTURE_2D, meshTextureLoc2);
+    glBindTexture(GL_TEXTURE_2D, scene_objectTextureLoc2);
     
     // set the texture wrapping/filtering options (on the currently bound texture object)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -329,63 +329,63 @@ void Mesh::setTexture()  {
     SOIL_free_image_data(specularMap);
     
     // You MUST activate the shader before assigning uniforms
-    meshShader.use();
+    scene_objectShader.use();
     // set the uniform values to the correct texture unit
-    glUniform1i(glGetUniformLocation(meshShader.ID, "material.ambient"), 0);
-    glUniform1i(glGetUniformLocation(meshShader.ID, "material.diffuse"), 0);
-    glUniform1i(glGetUniformLocation(meshShader.ID, "material.specular"), 1);
+    glUniform1i(glGetUniformLocation(scene_objectShader.ID, "material.ambient"), 0);
+    glUniform1i(glGetUniformLocation(scene_objectShader.ID, "material.diffuse"), 0);
+    glUniform1i(glGetUniformLocation(scene_objectShader.ID, "material.specular"), 1);
 }
 
-glm::vec3 Mesh::getPosition()  {
+glm::vec3 SceneObject::getPosition()  {
     return this->Translation;
 }
 
 // ------------------------------------------------------------------------
     // Methods that can be overridden by derived classes
     // ------------------------------------------------------------------------
-float * Mesh::getVertices()  {
-    std::cout << "Getting vertices for Mesh: " << std::endl;
+float * SceneObject::getVertices()  {
+    std::cout << "Getting vertices for SceneObject: " << std::endl;
     return DEFAULT_MESH_VERTICES;
 }
 
 
-int Mesh::getVerticesSize() {
+int SceneObject::getVerticesSize() {
     return sizeof(DEFAULT_MESH_VERTICES);
 }
 
-int Mesh::getSpan() {
+int SceneObject::getSpan() {
     return 8;
 }
 
-int Mesh::getNumVertices() {
+int SceneObject::getNumVertices() {
     return 3;
 }
 
-void Mesh::resetShader() {
-    this->meshShader = this->defaultShader;
+void SceneObject::resetShader() {
+    this->scene_objectShader = this->defaultShader;
 }
 
-void Mesh::setDefaultShader() {
-    this->defaultShader = Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/mesh/mesh.vert",
-                                 "/Users/nwaters/code/go_stop/go_stop/go_stop/mesh/mesh.frag");
+void SceneObject::setDefaultShader() {
+    this->defaultShader = Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/scene_object/scene_object.vert",
+                                 "/Users/nwaters/code/go_stop/go_stop/go_stop/scene_object/scene_object.frag");
 }
 
-Shader Mesh::getDefaultShader() {
+Shader SceneObject::getDefaultShader() {
     return this->defaultShader;
 }
 
-Material Mesh::getMaterial() {
-    return this->meshMaterial;
+Material SceneObject::getMaterial() {
+    return this->scene_objectMaterial;
 }
 
-void Mesh::setMaterial() {
-    int shininessLoc = glGetUniformLocation(meshShader.ID, "material.shininess");
-    glUniform1f(shininessLoc, meshMaterial.shininess);
+void SceneObject::setMaterial() {
+    int shininessLoc = glGetUniformLocation(scene_objectShader.ID, "material.shininess");
+    glUniform1f(shininessLoc, scene_objectMaterial.shininess);
 }
 
-void Mesh::deAllocate() {
+void SceneObject::deAllocate() {
     // you must delete the VAO before the EBO.
-    glDeleteVertexArrays(1, &meshVAO);
-    glDeleteBuffers(1, &meshVBO);
-    glDeleteBuffers(1, &meshEBO);
+    glDeleteVertexArrays(1, &scene_objectVAO);
+    glDeleteBuffers(1, &scene_objectVBO);
+    glDeleteBuffers(1, &scene_objectEBO);
 }

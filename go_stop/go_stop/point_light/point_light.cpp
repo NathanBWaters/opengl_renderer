@@ -33,7 +33,7 @@ glm::vec3 PointLight::getLightColor() {
 }
 
 void PointLight::setMaterial() {
-    int lightColorLoc = glGetUniformLocation(meshShader.ID, "lightColor");
+    int lightColorLoc = glGetUniformLocation(scene_objectShader.ID, "lightColor");
     glm::vec3 lightColor = this->getLightColor();
     glUniform4f(lightColorLoc, lightColor.r, lightColor.g, lightColor.b, 1.0);
 }

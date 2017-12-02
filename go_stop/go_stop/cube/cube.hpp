@@ -9,9 +9,9 @@
 #ifndef CUBE_MODEL_H
 #define CUBE_MODEL_H
 
-#include "../mesh/mesh.hpp"
+#include "../scene_object/scene_object.hpp"
 
-class Cube : public Mesh
+class Cube : public SceneObject
 {
 private:
     float CUBE_VERTICES[288] = {

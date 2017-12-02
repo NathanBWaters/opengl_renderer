@@ -1,5 +1,5 @@
 //
-//  mesh.hpp
+//  scene_object.hpp
 //  go_stop
 //
 //  Created by Nathan Waters on 9/17/17.
@@ -36,7 +36,7 @@ extern glm::vec3 POINT_LIGHT_POSITION;
 class Scene;
 class PointLight;
 
-class Mesh
+class SceneObject
 {
 public:
     Scene* scene;
@@ -49,15 +49,15 @@ public:
     GLfloat rotationY;
     GLfloat rotationZ;
     
-    GLuint meshVBO;
-    GLuint meshVAO;
-    GLuint meshEBO;
-    GLuint meshTextureLoc1;
-    GLuint meshTextureLoc2;
+    GLuint scene_objectVBO;
+    GLuint scene_objectVAO;
+    GLuint scene_objectEBO;
+    GLuint scene_objectTextureLoc1;
+    GLuint scene_objectTextureLoc2;
 
-    Material meshMaterial;
+    Material scene_objectMaterial;
     
-    Shader meshShader;
+    Shader scene_objectShader;
     
     Shader defaultShader;
 
@@ -73,13 +73,13 @@ public:
     /**
      * Constructor generates the shader on the fly
      */
-    Mesh(Scene* scene,
+    SceneObject(Scene* scene,
          glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
          glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f),
          glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f));
     
     /**
-     * Initializes the Mesh
+     * Initializes the SceneObject
      */
     virtual void init();
     
@@ -89,7 +89,7 @@ public:
                         glm::vec3 scaleT = glm::vec3(1.0f, 1.0f, 1.0f));
 
     /**
-     * Sets texture information on the mesh
+     * Sets texture information on the scene_object
      */
     virtual void setTexture();
     
@@ -148,5 +148,5 @@ public:
     void deAllocate();
 };
 
-#endif /* mesh_hpp */
+#endif /* scene_object_hpp */
 

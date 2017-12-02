@@ -9,9 +9,9 @@
 #ifndef TRIANGLE_MODEL_H
 #define TRIANGLE_MODEL_H
 
-#include "../mesh/mesh.hpp"
+#include "../scene_object/scene_object.hpp"
 
-class Triangle : public Mesh
+class Triangle : public SceneObject
 {
 private:
     float TRIANGLE_VERTICES[24] = {

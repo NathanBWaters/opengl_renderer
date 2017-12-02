@@ -11,7 +11,7 @@
 #include "Shader.hpp"
 #include "Camera.hpp"
 
-#include "mesh/mesh.hpp"
+#include "scene_object/scene_object.hpp"
 #include "cube/cube.hpp"
 #include "skybox/skybox.hpp"
 #include "framebuffer/framebuffer.hpp"
@@ -80,17 +80,17 @@ int main()
     
     Scene scene;
     
-    Cube mesh(&scene,
+    Cube scene_object(&scene,
               glm::vec3(2.0f, 0.0f, 2.0f),
               glm::vec3(0.0f, 0.0f, 0.0f),
               glm::vec3(1.0f, 1.0f, 1.0f));
     
-    Cube mesh2(&scene,
+    Cube scene_object2(&scene,
                glm::vec3(0.0f, 3.0f, -1.0f),
                glm::vec3(0.0f, 0.0f, 0.0f),
                glm::vec3(1.0f, 1.0f, 1.0f));
     
-    Cube mesh3(&scene,
+    Cube scene_object3(&scene,
                glm::vec3(-3.0f, 2.0f, -7.0f),
                glm::vec3(0.0f, 0.0f, 0.0f),
                glm::vec3(1.0f, 1.0f, 1.0f));
@@ -124,7 +124,7 @@ int main()
     // initializes all of the objects in the scene to prepare them for being rendered
     scene.initialize();
     
-    Shader stencilShader = Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/mesh/mesh.vert",
+    Shader stencilShader = Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/scene_object/scene_object.vert",
                                   "/Users/nwaters/code/go_stop/go_stop/go_stop/border/border.frag");
     
     // configure global opengl state

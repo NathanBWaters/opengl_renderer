@@ -10,7 +10,7 @@
 #define framebuffer_hpp
 
 #include <stdio.h>
-#include "../mesh/mesh.hpp"
+#include "../scene_object/scene_object.hpp"
 
 extern const unsigned int SCREEN_WIDTH;
 extern const unsigned int SCREEN_HEIGHT;
