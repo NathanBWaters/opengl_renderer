@@ -7,9 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A01FFE961F6EECE500E5BDF0 /* glad in Frameworks */ = {isa = PBXBuildFile; fileRef = A01FFE951F6EECE500E5BDF0 /* glad */; };
 		A032334F1F66104E00C209C9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A032334E1F66104E00C209C9 /* main.cpp */; };
-		A032335B1F66126B00C209C9 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A03233571F66126B00C209C9 /* GLUT.framework */; };
 		A032335E1F66126B00C209C9 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A032335A1F66126B00C209C9 /* OpenGL.framework */; };
 		A03233631F6612AE00C209C9 /* SOIL.h in Frameworks */ = {isa = PBXBuildFile; fileRef = A03233551F6611B200C209C9 /* SOIL.h */; };
 		A03233681F662D1400C209C9 /* libglfw.3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A03233671F662D1400C209C9 /* libglfw.3.2.dylib */; };
@@ -39,16 +37,12 @@
 
 /* Begin PBXFileReference section */
 		A01576231FC2077400FD0A78 /* border.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = border.frag; sourceTree = "<group>"; };
-		A01FFE951F6EECE500E5BDF0 /* glad */ = {isa = PBXFileReference; lastKnownFileType = folder; name = glad; path = ../lib/glad/include/glad; sourceTree = "<group>"; };
 		A032334B1F66104E00C209C9 /* go_stop */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = go_stop; sourceTree = BUILT_PRODUCTS_DIR; };
 		A032334E1F66104E00C209C9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		A03233551F6611B200C209C9 /* SOIL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SOIL.h; path = ../lib/SOIL/SOIL.h; sourceTree = "<group>"; };
-		A03233571F66126B00C209C9 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../lib/GLUT.framework; sourceTree = "<group>"; };
-		A03233581F66126B00C209C9 /* libSOIL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSOIL.a; path = ../lib/libSOIL.a; sourceTree = "<group>"; };
 		A03233591F66126B00C209C9 /* libSOIL.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libSOIL.dylib; path = ../lib/libSOIL.dylib; sourceTree = "<group>"; };
 		A032335A1F66126B00C209C9 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		A03233611F66129000C209C9 /* libGLEW.2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.2.0.0.dylib; path = ../lib/glew/libGLEW.2.0.0.dylib; sourceTree = "<group>"; };
-		A03233641F66264200C209C9 /* GLFW */ = {isa = PBXFileReference; lastKnownFileType = folder; name = GLFW; path = ../lib/GLFW; sourceTree = "<group>"; };
 		A03233671F662D1400C209C9 /* libglfw.3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.2.dylib; path = ../lib/GLFW/glfw/3.2.1/lib/libglfw.3.2.dylib; sourceTree = "<group>"; };
 		A032336F1F6633E200C209C9 /* Shader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Shader.hpp; sourceTree = "<group>"; };
 		A03F85721FC445C80003CFC0 /* framebuffer.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = framebuffer.vert; sourceTree = "<group>"; };
@@ -87,11 +81,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A0B760B21F836B4D0074E342 /* libSOIL.dylib in Frameworks */,
-				A01FFE961F6EECE500E5BDF0 /* glad in Frameworks */,
 				A03233681F662D1400C209C9 /* libglfw.3.2.dylib in Frameworks */,
 				A03233631F6612AE00C209C9 /* SOIL.h in Frameworks */,
 				A032335E1F66126B00C209C9 /* OpenGL.framework in Frameworks */,
-				A032335B1F66126B00C209C9 /* GLUT.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,12 +101,8 @@
 		A03233421F66104E00C209C9 = {
 			isa = PBXGroup;
 			children = (
-				A01FFE951F6EECE500E5BDF0 /* glad */,
 				A03233671F662D1400C209C9 /* libglfw.3.2.dylib */,
-				A03233641F66264200C209C9 /* GLFW */,
 				A03233611F66129000C209C9 /* libGLEW.2.0.0.dylib */,
-				A03233571F66126B00C209C9 /* GLUT.framework */,
-				A03233581F66126B00C209C9 /* libSOIL.a */,
 				A03233591F66126B00C209C9 /* libSOIL.dylib */,
 				A032335A1F66126B00C209C9 /* OpenGL.framework */,
 				A03233551F6611B200C209C9 /* SOIL.h */,
