@@ -22,6 +22,7 @@
 		A0733B1E1FA84F3400AC84D4 /* scene_object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0733B111FA84E0A00AC84D4 /* scene_object.cpp */; };
 		A0B760B21F836B4D0074E342 /* libSOIL.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A03233591F66126B00C209C9 /* libSOIL.dylib */; };
 		A0B84B3A1FD35BF800A1631C /* mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0B84B381FD35BF800A1631C /* mesh.cpp */; };
+		A0B84B3E1FD3612100A1631C /* model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0B84B3C1FD3612100A1631C /* model.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -75,6 +76,8 @@
 		A0733B1A1FA84E6C00AC84D4 /* triangle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = triangle.hpp; path = go_stop/triangle/triangle.hpp; sourceTree = SOURCE_ROOT; };
 		A0B84B381FD35BF800A1631C /* mesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = mesh.cpp; sourceTree = "<group>"; };
 		A0B84B391FD35BF800A1631C /* mesh.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mesh.hpp; sourceTree = "<group>"; };
+		A0B84B3C1FD3612100A1631C /* model.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = model.cpp; sourceTree = "<group>"; };
+		A0B84B3D1FD3612100A1631C /* model.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = model.hpp; sourceTree = "<group>"; };
 		A0F112C91F9D674D001BCB9D /* Material.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Material.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -132,6 +135,7 @@
 		A032334D1F66104E00C209C9 /* go_stop */ = {
 			isa = PBXGroup;
 			children = (
+				A0B84B3B1FD3611300A1631C /* model */,
 				A0B84B371FD35BE600A1631C /* mesh */,
 				A0B84B351FD3579900A1631C /* scene_object */,
 				A03F85791FC92AD60003CFC0 /* skybox */,
@@ -240,6 +244,15 @@
 			path = mesh;
 			sourceTree = "<group>";
 		};
+		A0B84B3B1FD3611300A1631C /* model */ = {
+			isa = PBXGroup;
+			children = (
+				A0B84B3C1FD3612100A1631C /* model.cpp */,
+				A0B84B3D1FD3612100A1631C /* model.hpp */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -301,6 +314,7 @@
 				A0B84B3A1FD35BF800A1631C /* mesh.cpp in Sources */,
 				A03F85761FC448620003CFC0 /* framebuffer.cpp in Sources */,
 				A03F857C1FC92AE70003CFC0 /* skybox.cpp in Sources */,
+				A0B84B3E1FD3612100A1631C /* model.cpp in Sources */,
 				A0733B1C1FA84F2D00AC84D4 /* triangle.cpp in Sources */,
 				A0733B1B1FA84F2200AC84D4 /* point_light.cpp in Sources */,
 				A0733B051FA84CBE00AC84D4 /* Scene.cpp in Sources */,
