@@ -6,8 +6,8 @@
 //  Copyright © 2017 Nathan Waters. All rights reserved.
 //
 
-#ifndef MESH_MODEL_H
-#define MESH_MODEL_H
+#ifndef SCENE_OBJECT_H
+#define SCENE_OBJECT_H
 
 #include <glad/glad.h>
 
