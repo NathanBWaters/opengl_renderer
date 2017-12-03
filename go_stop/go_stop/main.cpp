@@ -12,7 +12,8 @@
 #include "Camera.hpp"
 
 #include "scene_object/scene_object.hpp"
-//#include "model/model.hpp"
+#include "model/model.hpp"
+#include "mesh/mesh.hpp"
 #include "cube/cube.hpp"
 #include "skybox/skybox.hpp"
 #include "framebuffer/framebuffer.hpp"
@@ -123,7 +124,7 @@ int main()
                            glm::vec3(0.2f, 0.2f, 0.2f));
     
     Assimp::Importer importer;
-//    Model ourModel("/Users/nwaters/code/go_stop/assets/nanosuit/nanosuit.obj");
+    Model ourModel("/Users/nwaters/code/go_stop/assets/nanosuit/nanosuit.obj");
     
     // initializes all of the objects in the scene to prepare them for being rendered
     scene.initialize();

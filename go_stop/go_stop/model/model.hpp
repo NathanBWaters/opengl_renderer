@@ -7,7 +7,6 @@
 //
 
 
-
 #ifndef MODEL_H
 #define MODEL_H
 
@@ -17,6 +16,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <stb_image.h>
 #include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 #include "../mesh/mesh.hpp"
 #include "Shader.hpp"
@@ -51,7 +52,7 @@ public:
     void Draw(Shader shader)
     {
         for(unsigned int i = 0; i < meshes.size(); i++)
-        meshes[i].Draw(shader);
+            meshes[i].Draw(shader);
     }
     
 private:
@@ -127,7 +128,7 @@ private:
                 vertex.TexCoords = vec;
             }
             else
-            vertex.TexCoords = glm::vec2(0.0f, 0.0f);
+                vertex.TexCoords = glm::vec2(0.0f, 0.0f);
             // tangent
             vector.x = mesh->mTangents[i].x;
             vector.y = mesh->mTangents[i].y;
@@ -146,7 +147,7 @@ private:
             aiFace face = mesh->mFaces[i];
             // retrieve all indices of the face and store them in the indices vector
             for(unsigned int j = 0; j < face.mNumIndices; j++)
-            indices.push_back(face.mIndices[j]);
+                indices.push_back(face.mIndices[j]);
         }
         // process materials
         aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
@@ -223,11 +224,11 @@ unsigned int TextureFromFile(const char *path, const string &directory, bool gam
     {
         GLenum format;
         if (nrComponents == 1)
-        format = GL_RED;
+            format = GL_RED;
         else if (nrComponents == 3)
-        format = GL_RGB;
+            format = GL_RGB;
         else if (nrComponents == 4)
-        format = GL_RGBA;
+            format = GL_RGBA;
         
         glBindTexture(GL_TEXTURE_2D, textureID);
         glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
@@ -249,5 +250,4 @@ unsigned int TextureFromFile(const char *path, const string &directory, bool gam
     return textureID;
 }
 #endif
-
 

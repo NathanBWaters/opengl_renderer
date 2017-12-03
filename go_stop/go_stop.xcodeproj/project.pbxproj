@@ -18,6 +18,7 @@
 		A0733B1E1FA84F3400AC84D4 /* scene_object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0733B111FA84E0A00AC84D4 /* scene_object.cpp */; };
 		A0B760B21F836B4D0074E342 /* libSOIL.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A03233591F66126B00C209C9 /* libSOIL.dylib */; };
 		A0FECA0B1FD379E50072268D /* libassimp.4.0.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A0B84B3F1FD3714500A1631C /* libassimp.4.0.1.dylib */; };
+		A0FECA0D1FD37C3B0072268D /* mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0B84B381FD35BF800A1631C /* mesh.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -65,7 +66,6 @@
 		A0733B1A1FA84E6C00AC84D4 /* triangle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = triangle.hpp; path = go_stop/triangle/triangle.hpp; sourceTree = SOURCE_ROOT; };
 		A0B84B381FD35BF800A1631C /* mesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = mesh.cpp; sourceTree = "<group>"; };
 		A0B84B391FD35BF800A1631C /* mesh.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = mesh.hpp; sourceTree = "<group>"; };
-		A0B84B3C1FD3612100A1631C /* model.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = model.cpp; sourceTree = "<group>"; };
 		A0B84B3D1FD3612100A1631C /* model.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = model.hpp; sourceTree = "<group>"; };
 		A0B84B3F1FD3714500A1631C /* libassimp.4.0.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.4.0.1.dylib; path = ../lib/assimp/lib/libassimp.4.0.1.dylib; sourceTree = "<group>"; };
 		A0B84B411FD3727A00A1631C /* libassimp.4.0.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.4.0.1.dylib; path = ../lib/libassimp.4.0.1.dylib; sourceTree = "<group>"; };
@@ -233,7 +233,6 @@
 		A0B84B3B1FD3611300A1631C /* model */ = {
 			isa = PBXGroup;
 			children = (
-				A0B84B3C1FD3612100A1631C /* model.cpp */,
 				A0B84B3D1FD3612100A1631C /* model.hpp */,
 			);
 			path = model;
@@ -295,6 +294,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0FECA0D1FD37C3B0072268D /* mesh.cpp in Sources */,
 				A0733B1E1FA84F3400AC84D4 /* scene_object.cpp in Sources */,
 				A0733B1D1FA84F3000AC84D4 /* cube.cpp in Sources */,
 				A03F85761FC448620003CFC0 /* framebuffer.cpp in Sources */,
