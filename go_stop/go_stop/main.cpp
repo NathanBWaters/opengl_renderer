@@ -122,7 +122,7 @@ int main()
                            glm::vec3(0.0f, 0.0f, 0.0f),
                            glm::vec3(0.2f, 0.2f, 0.2f));
     
-//    Assimp::Importer import;
+    Assimp::Importer importer;
 //    Model ourModel("/Users/nwaters/code/go_stop/assets/nanosuit/nanosuit.obj");
     
     // initializes all of the objects in the scene to prepare them for being rendered
