@@ -74,7 +74,6 @@
 		A0F112C91F9D674D001BCB9D /* Material.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Material.hpp; sourceTree = "<group>"; };
 		A0FECA0F1FD3A60F0072268D /* libassimp.3.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.1.1.dylib; path = "../lib/assimp-3.1.1/lib/libassimp.3.1.1.dylib"; sourceTree = "<group>"; };
 		A0FECA111FD4D9100072268D /* model.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = model.cpp; sourceTree = "<group>"; };
-		A0FECA131FD4E9EA0072268D /* model.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = model.frag; sourceTree = "<group>"; };
 		A0FECA141FD4E9F60072268D /* model.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = model.vert; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -241,7 +240,6 @@
 			children = (
 				A0B84B3D1FD3612100A1631C /* model.hpp */,
 				A0FECA111FD4D9100072268D /* model.cpp */,
-				A0FECA131FD4E9EA0072268D /* model.frag */,
 				A0FECA141FD4E9F60072268D /* model.vert */,
 			);
 			path = model;

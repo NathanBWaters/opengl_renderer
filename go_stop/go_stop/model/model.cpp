@@ -233,5 +233,4 @@ unsigned int Model::TextureFromFile(const char *path, const string &directory, b
 void Model::setDefaultShader() {
     this->defaultShader = Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/scene_object/scene_object.vert",
                                  "/Users/nwaters/code/go_stop/go_stop/go_stop/scene_object/scene_object.frag");
-//                                 "/Users/nwaters/code/go_stop/go_stop/go_stop/model/model.frag");
 }
