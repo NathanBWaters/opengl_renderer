@@ -38,7 +38,7 @@ bool firstMouse = true;
 //extern bool useMouseControls;
 
 // Light Settings
-glm::vec3 ambientLight = glm::vec3(0.2f, 0.2f, 0.2f);
+glm::vec3 ambientLight = glm::vec3(0.5f, 0.5f, 0.5f);
 
 // timing
 float deltaTime = 0.0f;    // time between current frame and last frame
@@ -124,7 +124,12 @@ int main()
                            glm::vec3(0.2f, 0.2f, 0.2f));
     
     Assimp::Importer importer;
-    Model ourModel("/Users/nwaters/code/go_stop/assets/nanosuit/nanosuit.obj");
+    
+    Cube nanoSuiteSceneObj(&scene,
+                      glm::vec3(1.0f, 0.0f, 2.0f),
+                      glm::vec3(0.0f, 0.0f, 0.0f),
+                      glm::vec3(0.2f, 0.2f, 0.2f));
+    Model nanoSuit("/Users/nwaters/code/go_stop/go_stop/assets/nanosuit/nanosuit.obj");
     
     // initializes all of the objects in the scene to prepare them for being rendered
     scene.initialize();
@@ -190,6 +195,7 @@ int main()
         
         scene.resetShader();
         scene.render();
+        nanoSuit.Draw(nanoSuiteSceneObj.getShader());
 
         // --------------------------------------------------------------------
         // Border

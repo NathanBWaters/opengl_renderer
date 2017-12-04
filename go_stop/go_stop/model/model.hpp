@@ -43,7 +43,7 @@ public:
     
     /*  Functions   */
     // constructor, expects a filepath to a 3D model.
-    Model(string const &path, bool gamma = false) : gammaCorrection(gamma)
+    Model(string const &path)
     {
         loadModel(path);
     }
@@ -102,21 +102,31 @@ private:
         vector<unsigned int> indices;
         vector<Texture> textures;
         
+        std::cout << "Mesh name: " << mesh->mName.C_Str() << std::endl;
+        std::cout << "Mesh has position: " << mesh->HasPositions() << std::endl;
+        std::cout << "Mesh mNormals: " << mesh->HasNormals() << std::endl;
+        std::cout << "Mesh HasTangentsAndBitangents: " << mesh->HasTangentsAndBitangents() << std::endl;
+        
         // Walk through each of the mesh's vertices
         for(unsigned int i = 0; i < mesh->mNumVertices; i++)
         {
             Vertex vertex;
             glm::vec3 vector; // we declare a placeholder vector since assimp uses its own vector class that doesn't directly convert to glm's vec3 class so we transfer the data to this placeholder glm::vec3 first.
             // positions
+//            std::cout << "i is: " << i << std::endl;
             vector.x = mesh->mVertices[i].x;
             vector.y = mesh->mVertices[i].y;
             vector.z = mesh->mVertices[i].z;
             vertex.Position = vector;
+            
             // normals
-            vector.x = mesh->mNormals[i].x;
-            vector.y = mesh->mNormals[i].y;
-            vector.z = mesh->mNormals[i].z;
-            vertex.Normal = vector;
+            if(mesh->HasNormals()) {
+                vector.x = mesh->mNormals[i].x;
+                vector.y = mesh->mNormals[i].y;
+                vector.z = mesh->mNormals[i].z;
+                vertex.Normal = vector;
+            }
+    
             // texture coordinates
             if(mesh->mTextureCoords[0]) // does the mesh contain texture coordinates?
             {
@@ -127,18 +137,24 @@ private:
                 vec.y = mesh->mTextureCoords[0][i].y;
                 vertex.TexCoords = vec;
             }
-            else
+            else {
                 vertex.TexCoords = glm::vec2(0.0f, 0.0f);
-            // tangent
-            vector.x = mesh->mTangents[i].x;
-            vector.y = mesh->mTangents[i].y;
-            vector.z = mesh->mTangents[i].z;
-            vertex.Tangent = vector;
-            // bitangent
-            vector.x = mesh->mBitangents[i].x;
-            vector.y = mesh->mBitangents[i].y;
-            vector.z = mesh->mBitangents[i].z;
-            vertex.Bitangent = vector;
+            }
+            
+            if (mesh->HasTangentsAndBitangents()) {
+                // tangent
+                vector.x = mesh->mTangents[i].x;
+                vector.y = mesh->mTangents[i].y;
+                vector.z = mesh->mTangents[i].z;
+                vertex.Tangent = vector;
+
+                // bitangent
+                vector.x = mesh->mBitangents[i].x;
+                vector.y = mesh->mBitangents[i].y;
+                vector.z = mesh->mBitangents[i].z;
+                vertex.Bitangent = vector;
+            }
+            
             vertices.push_back(vertex);
         }
         // now wak through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
