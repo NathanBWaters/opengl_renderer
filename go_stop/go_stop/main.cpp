@@ -123,13 +123,11 @@ int main()
                            glm::vec3(0.0f, 0.0f, 0.0f),
                            glm::vec3(0.2f, 0.2f, 0.2f));
     
-    Assimp::Importer importer;
-    
-    Cube nanoSuiteSceneObj(&scene,
-                      glm::vec3(1.0f, 0.0f, 2.0f),
-                      glm::vec3(0.0f, 0.0f, 0.0f),
-                      glm::vec3(0.2f, 0.2f, 0.2f));
-    Model nanoSuit("/Users/nwaters/code/go_stop/go_stop/assets/nanosuit/nanosuit.obj");
+    Model nanoSuit(&scene,
+                   "/Users/nwaters/code/go_stop/go_stop/assets/nanosuit/nanosuit.obj",
+                   glm::vec3(-1.0f, 0.0f, 2.0f),
+                   glm::vec3(0.0f, 0.0f, 0.0f),
+                   glm::vec3(0.2f, 0.2f, 0.2f));
     
     // initializes all of the objects in the scene to prepare them for being rendered
     scene.initialize();
@@ -170,7 +168,7 @@ int main()
         pointLight2.translate(glm::vec3(-(sin(timeValue) / 70.0),
                                         -(sin(timeValue) / 50.0),
                                         sin(timeValue) / 40.0));
-        
+
         // --------------------------------------------------------------------
         // Render the scene
         // --------------------------------------------------------------------
@@ -195,7 +193,7 @@ int main()
         
         scene.resetShader();
         scene.render();
-        nanoSuit.Draw(nanoSuiteSceneObj.getShader());
+        nanoSuit.Draw(nanoSuit.getShader());
 
         // --------------------------------------------------------------------
         // Border

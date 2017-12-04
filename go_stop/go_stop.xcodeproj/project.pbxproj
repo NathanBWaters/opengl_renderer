@@ -19,6 +19,7 @@
 		A0B760B21F836B4D0074E342 /* libSOIL.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A03233591F66126B00C209C9 /* libSOIL.dylib */; };
 		A0FECA0D1FD37C3B0072268D /* mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0B84B381FD35BF800A1631C /* mesh.cpp */; };
 		A0FECA101FD3A60F0072268D /* libassimp.3.1.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A0FECA0F1FD3A60F0072268D /* libassimp.3.1.1.dylib */; };
+		A0FECA121FD4D9100072268D /* model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0FECA111FD4D9100072268D /* model.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -72,6 +73,9 @@
 		A0B84B461FD3791500A1631C /* libassimp.4.0.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.4.0.1.dylib; path = ../lib/assimp_dylib/lib/libassimp.4.0.1.dylib; sourceTree = "<group>"; };
 		A0F112C91F9D674D001BCB9D /* Material.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Material.hpp; sourceTree = "<group>"; };
 		A0FECA0F1FD3A60F0072268D /* libassimp.3.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.1.1.dylib; path = "../lib/assimp-3.1.1/lib/libassimp.3.1.1.dylib"; sourceTree = "<group>"; };
+		A0FECA111FD4D9100072268D /* model.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = model.cpp; sourceTree = "<group>"; };
+		A0FECA131FD4E9EA0072268D /* model.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = model.frag; sourceTree = "<group>"; };
+		A0FECA141FD4E9F60072268D /* model.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = model.vert; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -236,6 +240,9 @@
 			isa = PBXGroup;
 			children = (
 				A0B84B3D1FD3612100A1631C /* model.hpp */,
+				A0FECA111FD4D9100072268D /* model.cpp */,
+				A0FECA131FD4E9EA0072268D /* model.frag */,
+				A0FECA141FD4E9F60072268D /* model.vert */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -301,6 +308,7 @@
 				A0733B1D1FA84F3000AC84D4 /* cube.cpp in Sources */,
 				A03F85761FC448620003CFC0 /* framebuffer.cpp in Sources */,
 				A03F857C1FC92AE70003CFC0 /* skybox.cpp in Sources */,
+				A0FECA121FD4D9100072268D /* model.cpp in Sources */,
 				A0733B1C1FA84F2D00AC84D4 /* triangle.cpp in Sources */,
 				A0733B1B1FA84F2200AC84D4 /* point_light.cpp in Sources */,
 				A0733B051FA84CBE00AC84D4 /* Scene.cpp in Sources */,
