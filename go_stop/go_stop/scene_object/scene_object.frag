@@ -39,6 +39,8 @@ uniform PointLight pointLights[50];
 
 uniform Material material;
 
+// The sun
+uniform vec3 globalLight;
 
 
 vec3 calcPointLight(PointLight light, vec3 normal, vec3 fragmentPosition, vec3 viewDir)

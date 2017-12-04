@@ -11,6 +11,15 @@
 #include "model.hpp"
 
 
+Model::Model(Scene* scene,
+          	 string const &path,
+          	 glm::vec3 position,
+          	 glm::vec3 rotation,
+          	 glm::vec3 scale) :
+	SceneObject(scene, position, rotation, scale) {
+	loadModel(path);
+}
+
 void Model::Draw(Shader shader)
 {
     for(unsigned int i = 0; i < meshes.size(); i++)
@@ -184,6 +193,8 @@ unsigned int Model::TextureFromFile(const char *path, const string &directory, b
     string filename = string(path);
     filename = directory + '/' + filename;
     
+    std::cout << "filename: " << filename << std::endl;
+    
     unsigned int textureID;
     glGenTextures(1, &textureID);
     
@@ -217,4 +228,10 @@ unsigned int Model::TextureFromFile(const char *path, const string &directory, b
     }
     
     return textureID;
+}
+
+void Model::setDefaultShader() {
+    this->defaultShader = Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/scene_object/scene_object.vert",
+                                 "/Users/nwaters/code/go_stop/go_stop/go_stop/scene_object/scene_object.frag");
+//                                 "/Users/nwaters/code/go_stop/go_stop/go_stop/model/model.frag");
 }

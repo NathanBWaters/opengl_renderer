@@ -46,14 +46,12 @@ public:
           string const &path,
           glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
           glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f),
-          glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f))
-        : SceneObject(scene, position, rotation, scale)
-    {
-        loadModel(path);
-    }
+          glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f));
     
     // draws the model, and thus all its meshes
     void Draw(Shader shader);
+    
+    void setDefaultShader();
     
 private:
     /*  Functions   */
@@ -64,7 +62,7 @@ private:
     void processNode(aiNode *node, const aiScene *scene);
     
     Mesh processMesh(aiMesh *mesh, const aiScene *scene);
-    
+
     // checks all material textures of a given type and loads the textures if they're not loaded yet.
     // the required info is returned as a Texture struct.
     vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName);

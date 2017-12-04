@@ -79,22 +79,22 @@ void SceneObject::init() {
     // vertex attribut array by calling GL_MAX_VERTEX_ATTRIBS.  They are disabled by default.
     glEnableVertexAttribArray(0);
     
-    // texture position, location == 1, span 2
+    // normals vertex, location == 1, span 3
     glVertexAttribPointer(1,                          // location in vertex shader
-                          2,                          // number of vertices for texture value
-                          GL_FLOAT,                   // data type
-                          GL_FALSE,                   //
-                          getSpan() * sizeof(float),          // span of one vertex
-                          (void*)(3* sizeof(float))); // where on the vertex does it start
-    glEnableVertexAttribArray(1);                     // location of position
-    
-    // normals vertex, location == 2, span 3
-    glVertexAttribPointer(2,                          // location in vertex shader
                           3,                          // number of vertices for normal vector
                           GL_FLOAT,                   // data type
                           GL_FALSE,                   //
                           getSpan() * sizeof(float),  // span of one vertex
                           (void*)(5* sizeof(float))); // where on the vertex does it start
+    glEnableVertexAttribArray(1);                     // location of position
+    
+    // texture position, location == 2, span 2
+    glVertexAttribPointer(2,                          // location in vertex shader
+                          2,                          // number of vertices for texture value
+                          GL_FLOAT,                   // data type
+                          GL_FALSE,                   //
+                          getSpan() * sizeof(float),          // span of one vertex
+                          (void*)(3* sizeof(float))); // where on the vertex does it start
     glEnableVertexAttribArray(2);                     // location of position
     
     // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
@@ -177,6 +177,9 @@ void SceneObject::render(glm::vec3 positionT,
     
     setLights();
     
+    int globalLightLoc = glGetUniformLocation(scene_objectShader.ID, "globalLight");
+    glUniform3f(globalLightLoc, ambientLight.r, ambientLight.g, ambientLight.b);
+
     glm::mat4 scalingMatrix = glm::scale(glm::mat4(), Scale);
     
     glm::mat4 rotationMatrix = glm::rotate(glm::mat4(), rotationX, glm::vec3(1.0f, 0.0f, 0.0f));

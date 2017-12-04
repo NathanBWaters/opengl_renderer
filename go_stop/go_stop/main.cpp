@@ -38,7 +38,7 @@ bool firstMouse = true;
 //extern bool useMouseControls;
 
 // Light Settings
-glm::vec3 ambientLight = glm::vec3(0.5f, 0.5f, 0.5f);
+glm::vec3 ambientLight = glm::vec3(0.1f, 0.1f, 0.1f);
 
 // timing
 float deltaTime = 0.0f;    // time between current frame and last frame
@@ -105,7 +105,7 @@ int main()
     // blue light
     PointLight pointLight1(&scene,
                            glm::vec3(0.4f, 0.6f, 2.2f),
-                           glm::vec3(-1.0f, 0.0f, 2.0f),
+                           glm::vec3(-1.0f, 1.3f, 5.0f),
                            glm::vec3(0.0f, 0.0f, 0.0f),
                            glm::vec3(0.2f, 0.2f, 0.2f));
     
