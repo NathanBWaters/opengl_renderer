@@ -1,3 +1,7 @@
+// QT Libs
+#include <QApplication>
+#include <QTextEdit>
+
 #include <assimp/Importer.hpp>
 
 #include <glad/include/glad/glad.h>
@@ -43,6 +47,16 @@ glm::vec3 ambientLight = glm::vec3(0.1f, 0.1f, 0.1f);
 // timing
 float deltaTime = 0.0f;    // time between current frame and last frame
 float lastFrame = 0.0f;
+
+
+int main2(int argv, char **args) {
+    QApplication app(argv, args);
+
+    QTextEdit textEdit;
+    textEdit.show();
+
+    return app.exec();
+}
 
 int main()
 {
@@ -99,8 +113,7 @@ int main()
     
     FrameBuffer frameBuffer(SCREEN_WIDTH, SCREEN_HEIGHT);
     
-    
-//    Skybox skybox(&scene);
+    Skybox skybox(&scene);
     
     // blue light
     PointLight pointLight1(&scene,

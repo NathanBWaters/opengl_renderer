@@ -9,7 +9,7 @@
 #ifndef SCENE_OBJECT_H
 #define SCENE_OBJECT_H
 
-#include <glad/glad.h>
+#include <OpenGL/gl3.h>
 
 #include <string>
 #include <fstream>
@@ -27,6 +27,7 @@
 
 extern const unsigned int SCREEN_WIDTH;
 extern const unsigned int SCREEN_HEIGHT;
+
 extern glm::vec3 ambientLight;
 
 extern Camera camera;

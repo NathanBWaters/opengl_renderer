@@ -23,7 +23,9 @@ void Skybox::setShader(Shader newShader) {
     // do nothing
 }
 
-void Skybox::render() {
+void Skybox::render(glm::vec3 positionT,
+                    glm::vec3 rotationT,
+                    glm::vec3 scaleT) {
     this->defaultShader.use();
 
     glm::mat4 scalingMatrix = glm::scale(glm::mat4(), glm::vec3(5.0f, 5.0f, 5.0f));

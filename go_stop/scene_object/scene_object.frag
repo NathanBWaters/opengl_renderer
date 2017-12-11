@@ -108,4 +108,3 @@ void main()
     }
     FragColor = vec4(pointLightResult, 1.0);
 }
-

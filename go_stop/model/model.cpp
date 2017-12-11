@@ -193,8 +193,6 @@ unsigned int Model::TextureFromFile(const char *path, const string &directory, b
     string filename = string(path);
     filename = directory + '/' + filename;
     
-    std::cout << "filename: " << filename << std::endl;
-    
     unsigned int textureID;
     glGenTextures(1, &textureID);
     
@@ -228,9 +226,4 @@ unsigned int Model::TextureFromFile(const char *path, const string &directory, b
     }
     
     return textureID;
-}
-
-void Model::setDefaultShader() {
-    this->defaultShader = Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/scene_object/scene_object.vert",
-                                 "/Users/nwaters/code/go_stop/go_stop/go_stop/scene_object/scene_object.frag");
 }
