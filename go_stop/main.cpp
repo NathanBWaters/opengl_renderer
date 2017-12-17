@@ -43,9 +43,58 @@ float lastFrame = 0.0f;
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    MainWindow w;
+    QApplication app(argc, argv);
+
+    // Set GLSL format to version 330.
+    QSurfaceFormat glFormat;
+    glFormat.setVersion(3, 3);
+    glFormat.setProfile(QSurfaceFormat::CoreProfile);
+    QSurfaceFormat::setDefaultFormat(glFormat);
+
+    // create initial scene
+    Scene scene;
+    Cube scene_object(&scene,
+                  glm::vec3(2.0f, 0.0f, 2.0f),
+                  glm::vec3(0.0f, 0.0f, 0.0f),
+                  glm::vec3(1.0f, 1.0f, 1.0f));
+
+    qDebug() << "Broke";
+
+    Cube scene_object2(&scene,
+               glm::vec3(0.0f, 3.0f, -1.0f),
+               glm::vec3(0.0f, 0.0f, 0.0f),
+               glm::vec3(1.0f, 1.0f, 1.0f));
+
+    Cube scene_object3(&scene,
+               glm::vec3(-3.0f, 2.0f, -7.0f),
+               glm::vec3(0.0f, 0.0f, 0.0f),
+               glm::vec3(1.0f, 1.0f, 1.0f));
+
+    // blue light
+    PointLight pointLight1(&scene,
+                           glm::vec3(0.4f, 0.6f, 2.2f),
+                           glm::vec3(-1.0f, 1.3f, 5.0f),
+                           glm::vec3(0.0f, 0.0f, 0.0f),
+                           glm::vec3(0.2f, 0.2f, 0.2f));
+
+    // orange light
+    PointLight pointLight2(&scene,
+                           glm::vec3(1.0f, 0.5f, 0.2f),
+                           glm::vec3(2.0f, 2.5f, -1.0f),
+                           glm::vec3(0.0f, 0.0f, 0.0f),
+                           glm::vec3(0.2f, 0.2f, 0.2f));
+
+    // green light
+    PointLight pointLight3(&scene,
+                           glm::vec3(0.5f, 2.0f, 0.2f),
+                           glm::vec3(0.0f, -2.5f, -2.0f),
+                           glm::vec3(0.0f, 0.0f, 0.0f),
+                           glm::vec3(0.2f, 0.2f, 0.2f));
+
+    // create main window
+    MainWindow w(0, &scene);
+    w.resize(SCREEN_WIDTH, SCREEN_HEIGHT);
     w.show();
 
-    return a.exec();
+    return app.exec();
 }

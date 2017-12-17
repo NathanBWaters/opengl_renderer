@@ -15,8 +15,8 @@ Skybox::Skybox(Scene* scene) : Cube(scene)
 }
 
 void Skybox::setDefaultShader() {
-    this->defaultShader = Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/skybox/skybox.vert",
-                                 "/Users/nwaters/code/go_stop/go_stop/go_stop/skybox/skybox.frag");
+    this->defaultShader = Shader("/Users/nwaters/code/go_stop/go_stop/skybox/skybox.vert",
+                                 "/Users/nwaters/code/go_stop/go_stop/skybox/skybox.frag");
 }
 
 void Skybox::setShader(Shader newShader) {
@@ -59,12 +59,12 @@ void Skybox::setTexture() {
     
     // Skybox faces
     std::vector<std::string> faces = {
-        "/Users/nwaters/code/go_stop/go_stop/assets/skybox/right.jpg",
-        "/Users/nwaters/code/go_stop/go_stop/assets/skybox/left.jpg",
-        "/Users/nwaters/code/go_stop/go_stop/assets/skybox/top.jpg",
-        "/Users/nwaters/code/go_stop/go_stop/assets/skybox/bottom.jpg",
-        "/Users/nwaters/code/go_stop/go_stop/assets/skybox/back.jpg",
-        "/Users/nwaters/code/go_stop/go_stop/assets/skybox/front.jpg"
+        "/Users/nwaters/code/go_stop/assets/skybox/right.jpg",
+        "/Users/nwaters/code/go_stop/assets/skybox/left.jpg",
+        "/Users/nwaters/code/go_stop/assets/skybox/top.jpg",
+        "/Users/nwaters/code/go_stop/assets/skybox/bottom.jpg",
+        "/Users/nwaters/code/go_stop/assets/skybox/back.jpg",
+        "/Users/nwaters/code/go_stop/assets/skybox/front.jpg"
     };
     
     int width, height, nrChannels;

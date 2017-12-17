@@ -15,11 +15,14 @@
 
 class Scene
 {
+private:
+    glm::vec3 ambientLight_;
+
 public:
     std::vector<SceneObject*> sceneItems;
     std::vector<PointLight*> lights;
     
-    Scene();
+    Scene(glm::vec3 ambientLight = glm::vec3(0.0f, 0.0f, 0.0f));
     
     void addItem(SceneObject* scene_object);
     
@@ -30,6 +33,10 @@ public:
     void scale(glm::vec3 scaleT);
     
     void setShader(Shader newShader);
+
+    glm::vec3 getAmbientLight();
+
+    void setAmbientLight(glm::vec3 updatedAmbientLight);
     
     void resetShader();
     

@@ -137,7 +137,7 @@ int main()
                            glm::vec3(0.2f, 0.2f, 0.2f));
     
     Model nanoSuit(&scene,
-                   "/Users/nwaters/code/go_stop/go_stop/assets/nanosuit/nanosuit.obj",
+                   "/Users/nwaters/code/go_stop/assets/nanosuit/nanosuit.obj",
                    glm::vec3(-1.0f, 0.0f, 2.0f),
                    glm::vec3(0.0f, 0.0f, 0.0f),
                    glm::vec3(0.2f, 0.2f, 0.2f));
@@ -145,8 +145,8 @@ int main()
     // initializes all of the objects in the scene to prepare them for being rendered
     scene.initialize();
     
-    Shader stencilShader = Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/scene_object/scene_object.vert",
-                                  "/Users/nwaters/code/go_stop/go_stop/go_stop/border/border.frag");
+    Shader stencilShader = Shader("/Users/nwaters/code/go_stop/go_stop/scene_object/scene_object.vert",
+                                  "/Users/nwaters/code/go_stop/go_stop/border/border.frag");
     
     // configure global opengl state
     // -----------------------------

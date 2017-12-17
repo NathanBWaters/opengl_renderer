@@ -5,6 +5,8 @@
 //  Created by Nathan Waters on 9/24/17.
 //  Copyright © 2017 Nathan Waters. All rights reserved.
 //
+#include <QDebug>
+#include <QOpenGLFunctions>
 
 #include "scene_object.hpp"
 #include "../scene/Scene.hpp"
@@ -173,11 +175,15 @@ void SceneObject::render(glm::vec3 positionT,
                   glm::vec3 rotationT,
                   glm::vec3 scaleT)
 {
+    qDebug() << "in render";
+    QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
+
     this->scene_objectShader.use();
     
     setLights();
     
     int globalLightLoc = glGetUniformLocation(scene_objectShader.ID, "globalLight");
+    glm::vec3 ambientLight = this->scene->getAmbientLight();
     glUniform3f(globalLightLoc, ambientLight.r, ambientLight.g, ambientLight.b);
 
     glm::mat4 scalingMatrix = glm::scale(glm::mat4(), Scale);
@@ -260,7 +266,7 @@ void SceneObject::setTexture()  {
     
     // load and generate the texture
     int width, height, nrChannels;
-    unsigned char *crateImageData = SOIL_load_image("/Users/nwaters/code/go_stop/go_stop/assets/metal_container.png",
+    unsigned char *crateImageData = SOIL_load_image("/Users/nwaters/code/go_stop/assets/metal_container.png",
                                                     &width,
                                                     &height,
                                                     &nrChannels,
@@ -304,7 +310,7 @@ void SceneObject::setTexture()  {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     
     // load and generate the texture
-    unsigned char *specularMap = SOIL_load_image("/Users/nwaters/code/go_stop/go_stop/assets/metal_container_specular.png",
+    unsigned char *specularMap = SOIL_load_image("/Users/nwaters/code/go_stop/assets/metal_container_specular.png",
                                                  &width,
                                                  &height,
                                                  &nrChannels,
@@ -369,8 +375,8 @@ void SceneObject::resetShader() {
 }
 
 void SceneObject::setDefaultShader() {
-    this->defaultShader = Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/scene_object/scene_object.vert",
-                                 "/Users/nwaters/code/go_stop/go_stop/go_stop/scene_object/scene_object.frag");
+    this->defaultShader = Shader("/Users/nwaters/code/go_stop/go_stop/scene_object/scene_object.vert",
+                                 "/Users/nwaters/code/go_stop/go_stop/scene_object/scene_object.frag");
 }
 
 Shader SceneObject::getDefaultShader() {

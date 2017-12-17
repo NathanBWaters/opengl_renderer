@@ -39,6 +39,6 @@ void PointLight::setMaterial() {
 }
 
 void PointLight::setDefaultShader() {
-    this->defaultShader = Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/point_light/point_light.vert",
-                                 "/Users/nwaters/code/go_stop/go_stop/go_stop/point_light/point_light.frag");
+    this->defaultShader = Shader("/Users/nwaters/code/go_stop/go_stop/point_light/point_light.vert",
+                                 "/Users/nwaters/code/go_stop/go_stop/point_light/point_light.frag");
 }

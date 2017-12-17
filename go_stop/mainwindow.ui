@@ -14,42 +14,43 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QWidget" name="verticalLayoutWidget">
+   <property name="mouseTracking">
+    <bool>false</bool>
+   </property>
+   <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>160</width>
-      <height>261</height>
+      <width>113</width>
+      <height>32</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout"/>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
    </widget>
-   <widget class="QWidget" name="gridLayoutWidget">
+   <widget class="glWidget" name="glWidgetWindow">
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>60</y>
-      <width>160</width>
-      <height>80</height>
+      <x>0</x>
+      <y>40</y>
+      <width>800</width>
+      <height>600</height>
      </rect>
     </property>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
-      <widget class="QToolButton" name="toolButton">
-       <property name="text">
-        <string>...</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QPushButton" name="pushButton">
-       <property name="text">
-        <string>Hello</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>16777215</width>
+      <height>16777215</height>
+     </size>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -91,6 +92,13 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>glWidget</class>
+   <extends>QOpenGLWidget</extends>
+   <header>glwidget.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

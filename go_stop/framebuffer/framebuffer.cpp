@@ -113,8 +113,8 @@ void FrameBuffer::createPlane() {
 }
 
 void FrameBuffer::createDefaultShader() {
-    this->defaultShader = Shader("/Users/nwaters/code/go_stop/go_stop/go_stop/framebuffer/framebuffer.vert",
-                                 "/Users/nwaters/code/go_stop/go_stop/go_stop/framebuffer/framebuffer.frag");
+    this->defaultShader = Shader("/Users/nwaters/code/go_stop/go_stop/framebuffer/framebuffer.vert",
+                                 "/Users/nwaters/code/go_stop/go_stop/framebuffer/framebuffer.frag");
     this->defaultShader.use();
 }
 

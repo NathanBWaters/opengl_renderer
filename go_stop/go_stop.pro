@@ -35,6 +35,7 @@ SOURCES += \
     scene_object/scene_object.cpp \
     skybox/skybox.cpp \
     triangle/triangle.cpp \
+    glwidget.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -49,6 +50,7 @@ HEADERS += \
     scene_object/scene_object.hpp \
     skybox/skybox.hpp \
     triangle/triangle.hpp \
+    glwidget.h
 
 FORMS += \
         mainwindow.ui
