@@ -93,7 +93,9 @@ DEPENDPATH += $$PWD/../lib/assimp
 INCLUDEPATH += $$PWD/../lib
 DEPENDPATH += $$PWD/../lib
 
-unix: LIBS += -L$$PWD/../lib/ -lgainput.1.0.0
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../lib/gainput-1.0.0/lib/release/ -lgainput.1.0.0
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../lib/gainput-1.0.0/lib/debug/ -lgainput.1.0.0
+else:unix: LIBS += -L$$PWD/../lib/gainput-1.0.0/lib/ -lgainput.1.0.0
 
 INCLUDEPATH += $$PWD/../lib/gainput
 DEPENDPATH += $$PWD/../lib/gainput

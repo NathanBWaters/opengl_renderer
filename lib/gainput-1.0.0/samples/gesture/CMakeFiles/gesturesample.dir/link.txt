@@ -1,0 +1,1 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/gesturesample.dir/gesturesample.cpp.o CMakeFiles/gesturesample.dir/__/samplefw/SampleFramework.cpp.o  -o gesturesample ../../lib/libgainputstatic.a -framework Foundation -framework IOKit -framework AppKit 

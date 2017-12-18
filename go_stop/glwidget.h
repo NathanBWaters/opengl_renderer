@@ -4,6 +4,9 @@
 #include <QOpenGLWidget>
 #include <QTimer>
 #include <QObject>
+#include <QDebug>
+#include <QOpenGLFunctions>
+#include <gainput/gainput.h>
 
 #include "scene/Scene.hpp"
 #include "mesh/mesh.hpp"
@@ -18,6 +21,29 @@ private:
     Scene *scene_;
     QTimer *timer_;
 
+    gainput::InputManager* manager_;
+    gainput::InputMap* map_;
+    gainput::DeviceId mouseId_;
+    gainput::DeviceId keyboardId_;
+    gainput::DeviceId padId_;
+
+    // Define your user buttons
+    enum KeyboardKeys
+    {
+        KeyUp,
+        KeyLeft,
+        KeyDown,
+        KeyRight,
+        KeyForward,
+        KeyBackward,
+        KeyControl,
+        MouseX,
+    	MouseY,
+    };
+
+    float FPS = 16.666666666f;
+    float UPDATE_AMOUNT = FPS / 1000.0F;
+
 private slots:
     void reRender();
 
@@ -27,7 +53,11 @@ public:
 
     void initializeGL();
 
+    void setupInputMap();
+
     void setScene(Scene *scene);
+
+    void processInput();
 
     Scene * getScene();
 
