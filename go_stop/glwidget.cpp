@@ -5,12 +5,26 @@
 glWidget::glWidget(QWidget *parent) :
     QOpenGLWidget(parent)
 {
-
+    QTimer *timer = new QTimer(this);
+    timer_ = timer;
+    connect(timer, SIGNAL(timeout()), this, SLOT(reRender()));
+    timer->start(1);
 }
 
 glWidget::~glWidget() {
 
 }
+
+void glWidget::reRender() {
+    qDebug() << "called re-render";
+//    processInput();
+    update();
+}
+
+
+//void glWidget::processInput() {
+
+//}
 
 /**
  * @brief glWidget::setScene
@@ -26,10 +40,12 @@ void glWidget::initializeGL()
     scene_->initialize();
 }
 
+Scene * glWidget::getScene() {
+    return scene_;
+}
 
 void glWidget::paintGL()
 {
-    qDebug() << "Called paintGL with scene: " << scene_;
     // Draw the scene:
     glm::vec3 ambientLight = scene_->getAmbientLight(),
     glClearColor(ambientLight.r, ambientLight.g, ambientLight.b);
@@ -39,4 +55,6 @@ void glWidget::paintGL()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); // don't forget to clear the stencil buffer!
 
     scene_->render();
+
+    // calls itself to re-render
 }

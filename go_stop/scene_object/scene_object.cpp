@@ -175,7 +175,6 @@ void SceneObject::render(glm::vec3 positionT,
                   glm::vec3 rotationT,
                   glm::vec3 scaleT)
 {
-    qDebug() << "in render";
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
 
     this->scene_objectShader.use();
@@ -197,8 +196,9 @@ void SceneObject::render(glm::vec3 positionT,
     glm::mat4 modelMatrix = translationMatrix * rotationMatrix * scalingMatrix;
     
     // Set viewMatrix position (which is the camera position)
+    Camera *camera = this->scene->getCamera();
     int viewPositionLoc = glGetUniformLocation(scene_objectShader.ID, "viewPosition");
-    glUniform3f(viewPositionLoc, camera.Position.x, camera.Position.y, camera.Position.z);
+    glUniform3f(viewPositionLoc, camera->Position.x, camera->Position.y, camera->Position.z);
     
     // Set the model matrix (where the scene_object is in world space)
     int modelMatrixLoc = glGetUniformLocation(scene_objectShader.ID, "modelMatrix");
@@ -206,7 +206,7 @@ void SceneObject::render(glm::vec3 positionT,
     
     // Set view matrix
     int viewMatrixLoc = glGetUniformLocation(scene_objectShader.ID, "viewMatrix");
-    glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, glm::value_ptr(camera.GetViewMatrix()));
+    glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, glm::value_ptr(camera->GetViewMatrix()));
     
     // Set projection matrix
     int projectionMatrixLoc = glGetUniformLocation(scene_objectShader.ID, "projectionMatrix");

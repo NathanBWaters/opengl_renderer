@@ -16,15 +16,24 @@
 class Scene
 {
 private:
+    // the ambient light in the scene
     glm::vec3 ambientLight_;
 
-public:
+    // all items (meshes, lights) in the scene
     std::vector<SceneObject*> sceneItems;
+
+    // all the lights in the scene
     std::vector<PointLight*> lights;
-    
-    Scene(glm::vec3 ambientLight = glm::vec3(0.0f, 0.0f, 0.0f));
+
+    // the camera in the scene
+    Camera *camera_;
+
+public:
+    Scene(Camera *camera, glm::vec3 ambientLight = glm::vec3(0.0f, 0.0f, 0.0f));
     
     void addItem(SceneObject* scene_object);
+
+    Camera* getCamera();
     
     void addLight(PointLight* light);
     

@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include "../cube/cube.hpp"
 
+class Scene;
+
 class Skybox : public Cube
 {
 

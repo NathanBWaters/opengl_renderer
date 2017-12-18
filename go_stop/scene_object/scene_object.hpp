@@ -30,8 +30,6 @@ extern const unsigned int SCREEN_HEIGHT;
 
 extern glm::vec3 ambientLight;
 
-extern Camera camera;
-
 extern glm::vec3 POINT_LIGHT_POSITION;
 
 class Scene;

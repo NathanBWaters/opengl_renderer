@@ -16,6 +16,8 @@ public:
     explicit MainWindow(QWidget *parent = 0, Scene *scene = 0);
     ~MainWindow();
 
+    void keyPressEvent(QKeyEvent *event);
+
 private slots:
     void on_pushButton_clicked();
 

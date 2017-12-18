@@ -36,7 +36,9 @@ void Skybox::render(glm::vec3 positionT,
     
     // Set view matrix
     int viewMatrixLoc = glGetUniformLocation(scene_objectShader.ID, "viewMatrix");
-    glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, glm::value_ptr(camera.GetViewMatrix()));
+
+    Camera *camera = this->scene->getCamera();
+    glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, glm::value_ptr(camera->GetViewMatrix()));
     
     // Set projection matrix
     int projectionMatrixLoc = glGetUniformLocation(scene_objectShader.ID, "projectionMatrix");

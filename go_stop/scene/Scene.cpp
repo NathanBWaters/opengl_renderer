@@ -13,14 +13,19 @@
 #include "../point_light/point_light.hpp"
 
 
-Scene::Scene(glm::vec3 ambientLight)
+Scene::Scene(Camera *camera, glm::vec3 ambientLight)
 {
     std::cout << "Creating scene " << std::endl;
     this->ambientLight_ = ambientLight;
+    this->camera_ = camera;
 }
 
 void Scene::addItem(SceneObject* scene_object) {
     this->sceneItems.push_back(scene_object);
+}
+
+Camera* Scene::getCamera(){
+    return this->camera_;
 }
 
 void Scene::addLight(PointLight* light) {
@@ -83,16 +88,9 @@ void Scene::rotate(glm::vec3 rotationT) {
 }
 
 void Scene::render() {
-    qDebug() << "In render";
-    qDebug() << "Size: " << this->sceneItems.size();
-    qDebug() << "Max Size: " << this->sceneItems.max_size();
-    qDebug() << "Is empty: " << this->sceneItems.empty();
-    qDebug() << "address: " << &this->sceneItems[0];
     for ( auto item : this->sceneItems )
     {
-        qDebug() << "Rendering 1 item";
         item->render();
-        qDebug() << "Rendered";
     }
 }
 
