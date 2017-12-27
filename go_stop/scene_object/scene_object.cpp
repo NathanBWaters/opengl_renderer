@@ -211,22 +211,8 @@ void SceneObject::render(glm::vec3 positionT,
     // Set projection matrix
     int projectionMatrixLoc = glGetUniformLocation(scene_objectShader.ID, "projectionMatrix");
     glUniformMatrix4fv(projectionMatrixLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
-    
-    // setting image one, which is on the texture unit GL_TEXTURE0
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, scene_objectTextureLoc1);
-    // setting image two, which is on the texture unit GL_TEXTURE1
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, scene_objectTextureLoc2);
-    
-    glBindVertexArray(scene_objectVAO);
-    
-    // Drawing from the EBO through the VAO.
-    glDrawArrays(GL_TRIANGLES, 0, getNumVertices());
-    
-    glBindVertexArray(0);
 
-    draw();
+    this->draw();
 }
 
 void SceneObject::draw() {

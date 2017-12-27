@@ -1,4 +1,5 @@
 #include "glwidget.h"
+#include "model/model.hpp"
 
 extern const unsigned int SCREEN_WIDTH;
 extern const unsigned int SCREEN_HEIGHT;
@@ -110,11 +111,9 @@ void glWidget::paintGL()
     // Draw the scene:
     glm::vec3 ambientLight = scene_->getAmbientLight();
     glClearColor(ambientLight.r, ambientLight.g, ambientLight.b, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_STENCIL_TEST);
     glEnable(GL_DEPTH_TEST);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); // don't forget to clear the stencil buffer!
-
     scene_->render();
 
     // calls itself to re-render
