@@ -225,6 +225,23 @@ void SceneObject::render(glm::vec3 positionT,
     glDrawArrays(GL_TRIANGLES, 0, getNumVertices());
     
     glBindVertexArray(0);
+
+    draw();
+}
+
+void SceneObject::draw() {
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, scene_objectTextureLoc1);
+    // setting image two, which is on the texture unit GL_TEXTURE1
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, scene_objectTextureLoc2);
+    
+    glBindVertexArray(scene_objectVAO);
+    
+    // Drawing from the EBO through the VAO.
+    glDrawArrays(GL_TRIANGLES, 0, getNumVertices());
+    
+    glBindVertexArray(0);
 }
 
 void SceneObject::addToScene() {

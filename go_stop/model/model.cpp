@@ -20,10 +20,12 @@ Model::Model(Scene* scene,
 	loadModel(path);
 }
 
-void Model::Draw(Shader shader)
+void Model::draw()
 {
-    for(unsigned int i = 0; i < meshes.size(); i++)
-        meshes[i].Draw(shader);
+    std::cout << "Hit draw for mesh" << std::endl;
+    for(unsigned int i = 0; i < meshes.size(); i++) {
+        meshes[i].Draw(this->getShader());
+    }
 }
 
 void Model::loadModel(string const &path)

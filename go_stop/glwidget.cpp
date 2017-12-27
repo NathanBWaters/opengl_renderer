@@ -28,7 +28,7 @@ void glWidget::setupInputMap() {
     map_->MapBool(KeyRight, keyboardId_, gainput::KeyD);
     map_->MapBool(KeyForward, keyboardId_, gainput::KeyE);
     map_->MapBool(KeyBackward, keyboardId_, gainput::KeyQ);
-    map_->MapBool(KeyControl, keyboardId_, gainput::KeyCtrlL);
+    map_->MapBool(KeyOption, keyboardId_, gainput::KeyAltL);
 
     map_->MapFloat(MouseX, mouseId_, gainput::MouseAxisX);
     map_->MapFloat(MouseY, mouseId_, gainput::MouseAxisY);
@@ -49,8 +49,7 @@ void glWidget::processInput() {
 
     // Get vector of mouse delta from previous frame to determine camera lookAt
     // direction.
-    if (map_->GetBool(KeyControl)) {
-        std::cout << "Control on" << std::endl;
+    if (map_->GetBool(KeyOption)) {
         if (map_->GetFloatDelta(MouseX) != 0.0f || map_->GetFloatDelta(MouseY) != 0.0f)
         {
             std::cout << "Got a difference!" << std::endl;
@@ -109,8 +108,8 @@ Scene * glWidget::getScene() {
 void glWidget::paintGL()
 {
     // Draw the scene:
-    glm::vec3 ambientLight = scene_->getAmbientLight(),
-    glClearColor(ambientLight.r, ambientLight.g, ambientLight.b);
+    glm::vec3 ambientLight = scene_->getAmbientLight();
+    glClearColor(ambientLight.r, ambientLight.g, ambientLight.b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_STENCIL_TEST);
     glEnable(GL_DEPTH_TEST);

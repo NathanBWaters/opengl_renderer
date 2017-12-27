@@ -58,9 +58,6 @@ unix: LIBS += -L$$PWD/../lib/ -lassimp.4.0.1
 INCLUDEPATH += $$PWD/../lib/assimp
 DEPENDPATH += $$PWD/../lib/assimp
 
-#INCLUDEPATH += $$PWD/../lib/glad/include
-#DEPENDPATH += $$PWD/../lib/glad/include
-
 unix: LIBS += -L$$PWD/../lib/ -lassimp.4.0.1
 
 INCLUDEPATH += $$PWD/../../glm

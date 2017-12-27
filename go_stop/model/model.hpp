@@ -49,7 +49,7 @@ public:
           glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f));
     
     // draws the model, and thus all its meshes
-    void Draw(Shader shader);
+    void draw();
         
 private:
     /*  Functions   */

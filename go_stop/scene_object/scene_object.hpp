@@ -88,6 +88,11 @@ public:
                         glm::vec3 scaleT = glm::vec3(1.0f, 1.0f, 1.0f));
 
     /**
+     * The final draw call
+     */
+    virtual void draw();
+
+    /**
      * Sets texture information on the scene_object
      */
     virtual void setTexture();

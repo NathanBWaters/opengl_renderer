@@ -36,7 +36,7 @@ private:
         KeyRight,
         KeyForward,
         KeyBackward,
-        KeyControl,
+        KeyOption,
         MouseX,
     	MouseY,
     };

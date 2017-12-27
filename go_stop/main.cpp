@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
     // create initial scene
     Camera camera(glm::vec3(0.0f, 0.0f, 9.0f));
 
-    Scene scene(&camera);
+    Scene scene(&camera, glm::vec3(0.5f, 0.1f, 0.1f));
 
     Cube scene_object(&scene,
                   glm::vec3(2.0f, 0.0f, 2.0f),
@@ -87,6 +87,12 @@ int main(int argc, char *argv[])
                            glm::vec3(0.0f, -2.5f, -2.0f),
                            glm::vec3(0.0f, 0.0f, 0.0f),
                            glm::vec3(0.2f, 0.2f, 0.2f));
+
+    Model nanoSuit(&scene,
+                   "/Users/nwaters/code/go_stop/assets/nanosuit/nanosuit.obj",
+                   glm::vec3(-1.0f, 0.0f, 2.0f),
+                   glm::vec3(0.0f, 0.0f, 0.0f),
+                   glm::vec3(0.2f, 0.2f, 0.2f));
 
     // create main window
     MainWindow w(0, &scene);
