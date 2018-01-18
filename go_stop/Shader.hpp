@@ -16,7 +16,7 @@ public:
     // ------------------------------------------------------------------------
     Shader() {
         // fun times
-    };
+    }
     
     Shader(const char* vertexPath, const char* fragmentPath)
     {

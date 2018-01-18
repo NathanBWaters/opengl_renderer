@@ -35,6 +35,7 @@ class Model : public SceneObject
 {
 public:
     /*  Model Data */
+    string _path;
     vector<Texture> textures_loaded;    // stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
     vector<Mesh> meshes;
     string directory;
@@ -48,8 +49,11 @@ public:
           glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f),
           glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f));
     
+    void createModel() override;
+
     // draws the model, and thus all its meshes
-    void draw();
+    void draw() override;
+
         
 private:
     /*  Functions   */

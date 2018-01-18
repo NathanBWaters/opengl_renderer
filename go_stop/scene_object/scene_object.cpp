@@ -51,56 +51,7 @@ void SceneObject::init() {
     setDefaultShader();
     resetShader();
     
-    // set up vertex data (and buffer(s)) and configure vertex attributes
-    // ------------------------------------------------------------------
-    float * vertices = getVertices();
-    glGenVertexArrays(1, &scene_objectVAO);
-    glGenBuffers(1, &scene_objectVBO);
-    
-    // VAO
-    // You bind the Vertex Array Object first, then bind and set vertex buffer(s), and then
-    // configure vertex attributes(s).
-    glBindVertexArray(scene_objectVAO);
-    
-    // VBO
-    glBindBuffer(GL_ARRAY_BUFFER, scene_objectVBO);
-    
-    glBufferData(GL_ARRAY_BUFFER,
-                 getNumVertices() * getSpan() * sizeof(float),
-                 vertices,
-                 GL_STATIC_DRAW);
-    
-    // vertices position, location == 0, span 3
-    glVertexAttribPointer(0,                 // location in vertex shader
-                          3,                 // number of vertices for positional value
-                          GL_FLOAT,          // data type
-                          GL_FALSE,          //
-                          getSpan() * sizeof(float), // span of one vertex data
-                          (void*)0);         // where on the vertex does it start
-    // you must enable to position of the vertex location of position.  You can see the size of the
-    // vertex attribut array by calling GL_MAX_VERTEX_ATTRIBS.  They are disabled by default.
-    glEnableVertexAttribArray(0);
-    
-    // normals vertex, location == 1, span 3
-    glVertexAttribPointer(1,                          // location in vertex shader
-                          3,                          // number of vertices for normal vector
-                          GL_FLOAT,                   // data type
-                          GL_FALSE,                   //
-                          getSpan() * sizeof(float),  // span of one vertex
-                          (void*)(5* sizeof(float))); // where on the vertex does it start
-    glEnableVertexAttribArray(1);                     // location of position
-    
-    // texture position, location == 2, span 2
-    glVertexAttribPointer(2,                          // location in vertex shader
-                          2,                          // number of vertices for texture value
-                          GL_FLOAT,                   // data type
-                          GL_FALSE,                   //
-                          getSpan() * sizeof(float),          // span of one vertex
-                          (void*)(3* sizeof(float))); // where on the vertex does it start
-    glEnableVertexAttribArray(2);                     // location of position
-    
-    // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    createModel();
     
     ////////////////////////////////////////////////
     // Set texture information
@@ -128,6 +79,63 @@ void SceneObject::init() {
     // Projection Matrix to convert view space to clip space
     glm::mat4 projection;
     projectionMatrix = glm::perspective(glm::radians(45.0f), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
+}
+
+/**
+ * @brief SceneObject::createModel
+ * Creates the vertices and loads the VAO
+ */
+void SceneObject::createModel() {
+    // set up vertex data (and buffer(s)) and configure vertex attributes
+    // ------------------------------------------------------------------
+    float * vertices = getVertices();
+    glGenVertexArrays(1, &scene_objectVAO);
+    glGenBuffers(1, &scene_objectVBO);
+
+    // VAO
+    // You bind the Vertex Array Object first, then bind and set vertex buffer(s), and then
+    // configure vertex attributes(s).
+    glBindVertexArray(scene_objectVAO);
+
+    // VBO
+    glBindBuffer(GL_ARRAY_BUFFER, scene_objectVBO);
+
+    glBufferData(GL_ARRAY_BUFFER,
+                 getNumVertices() * getSpan() * sizeof(float),
+                 vertices,
+                 GL_STATIC_DRAW);
+
+    // vertices position, location == 0, span 3
+    glVertexAttribPointer(0,                 // location in vertex shader
+                          3,                 // number of vertices for positional value
+                          GL_FLOAT,          // data type
+                          GL_FALSE,          //
+                          getSpan() * sizeof(float), // span of one vertex data
+                          (void*)0);         // where on the vertex does it start
+    // you must enable to position of the vertex location of position.  You can see the size of the
+    // vertex attribut array by calling GL_MAX_VERTEX_ATTRIBS.  They are disabled by default.
+    glEnableVertexAttribArray(0);
+
+    // normals vertex, location == 1, span 3
+    glVertexAttribPointer(1,                          // location in vertex shader
+                          3,                          // number of vertices for normal vector
+                          GL_FLOAT,                   // data type
+                          GL_FALSE,                   //
+                          getSpan() * sizeof(float),  // span of one vertex
+                          (void*)(5* sizeof(float))); // where on the vertex does it start
+    glEnableVertexAttribArray(1);                     // location of position
+
+    // texture position, location == 2, span 2
+    glVertexAttribPointer(2,                          // location in vertex shader
+                          2,                          // number of vertices for texture value
+                          GL_FLOAT,                   // data type
+                          GL_FALSE,                   //
+                          getSpan() * sizeof(float),          // span of one vertex
+                          (void*)(3* sizeof(float))); // where on the vertex does it start
+    glEnableVertexAttribArray(2);                     // location of position
+
+    // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void SceneObject::setLights() {
@@ -175,8 +183,7 @@ void SceneObject::render(glm::vec3 positionT,
                   glm::vec3 rotationT,
                   glm::vec3 scaleT)
 {
-    QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
-
+    std::cout << "VAO in render: " << scene_objectVAO << std::endl;
     this->scene_objectShader.use();
     
     setLights();

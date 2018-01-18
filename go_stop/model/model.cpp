@@ -17,7 +17,11 @@ Model::Model(Scene* scene,
           	 glm::vec3 rotation,
           	 glm::vec3 scale) :
 	SceneObject(scene, position, rotation, scale) {
-	loadModel(path);
+    _path = path;
+}
+
+void Model::createModel() {
+    loadModel(_path);
 }
 
 void Model::draw()
@@ -57,14 +61,13 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene) {
     std::cout << "Mesh has position: " << mesh->HasPositions() << std::endl;
     std::cout << "Mesh mNormals: " << mesh->HasNormals() << std::endl;
     std::cout << "Mesh HasTangentsAndBitangents: " << mesh->HasTangentsAndBitangents() << std::endl;
-    
+
     // Walk through each of the mesh's vertices
     for(unsigned int i = 0; i < mesh->mNumVertices; i++)
     {
         Vertex vertex;
         glm::vec3 vector; // we declare a placeholder vector since assimp uses its own vector class that doesn't directly convert to glm's vec3 class so we transfer the data to this placeholder glm::vec3 first.
         // positions
-		// std::cout << "i is: " << i << std::endl;
         vector.x = mesh->mVertices[i].x;
         vector.y = mesh->mVertices[i].y;
         vector.z = mesh->mVertices[i].z;

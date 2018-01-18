@@ -82,7 +82,6 @@ void Mesh::Draw(Shader shader) {
         // and finally bind the texture
         glBindTexture(GL_TEXTURE_2D, textures[i].id);
     }
-    std::cout << "Going to render num indices: " << indices.size() << std::endl;
     // draw mesh
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);

@@ -80,7 +80,7 @@ public:
     /**
      * Initializes the SceneObject
      */
-    virtual void init();
+    void init();
     
     // ------------------------------------------------------------------------
     virtual void render(glm::vec3 positionT = glm::vec3(0.0f, 0.0f, 0.0f),
@@ -91,6 +91,11 @@ public:
      * The final draw call
      */
     virtual void draw();
+
+    /**
+     * Configures vertices or loads a model
+     */
+    virtual void createModel();
 
     /**
      * Sets texture information on the scene_object
