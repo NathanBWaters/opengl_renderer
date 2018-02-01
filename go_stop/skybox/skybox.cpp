@@ -23,9 +23,7 @@ void Skybox::setShader(Shader newShader) {
     // do nothing
 }
 
-void Skybox::render(glm::vec3 positionT,
-                    glm::vec3 rotationT,
-                    glm::vec3 scaleT) {
+void Skybox::render() {
 
     glDepthMask(GL_FALSE);
     this->defaultShader.use();

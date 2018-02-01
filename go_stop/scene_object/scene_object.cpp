@@ -179,9 +179,7 @@ void SceneObject::setLights() {
     }
 }
 
-void SceneObject::render(glm::vec3 positionT,
-                  glm::vec3 rotationT,
-                  glm::vec3 scaleT)
+void SceneObject::render()
 {
     std::cout << "VAO in render: " << scene_objectVAO << std::endl;
     this->scene_objectShader.use();

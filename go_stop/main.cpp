@@ -69,9 +69,14 @@ int main(int argc, char *argv[])
                glm::vec3(0.0f, 0.0f, 0.0f),
                glm::vec3(1.0f, 1.0f, 1.0f));
 
+    Cube ground_plane(&scene,
+                      glm::vec3(-3.0f, -2.0f, -7.0f),
+                      glm::vec3(0.0f, 0.0f, 0.0f),
+                      glm::vec3(1000.0f, 0.01f, 1000.0f));
+
     // blue light
     PointLight pointLight1(&scene,
-                           glm::vec3(0.4f, 0.6f, 2.2f),
+                           glm::vec3(0.4f, 0.6f, 4.0f),
                            glm::vec3(-1.0f, 1.3f, 5.0f),
                            glm::vec3(0.0f, 0.0f, 0.0f),
                            glm::vec3(0.2f, 0.2f, 0.2f));
@@ -86,7 +91,7 @@ int main(int argc, char *argv[])
     // green light
     PointLight pointLight3(&scene,
                            glm::vec3(0.5f, 2.0f, 0.2f),
-                           glm::vec3(0.0f, -2.5f, -2.0f),
+                           glm::vec3(0.0f, -1.5f, -2.0f),
                            glm::vec3(0.0f, 0.0f, 0.0f),
                            glm::vec3(0.2f, 0.2f, 0.2f));
 

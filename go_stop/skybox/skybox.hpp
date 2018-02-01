@@ -29,20 +29,18 @@ public:
     /**
      * Sets the shader for the Skybox
      */
-    void setDefaultShader();
+    void setDefaultShader() override;
     
     /**
      * Sets the textures for the Skybox
      */
-    void setTexture();
+    void setTexture() override;
     
     /**
      * Override the parent setShader so it has no effect on the skybox
      */
     void setShader(Shader newShader) override;
     
-    void render(glm::vec3 positionT = glm::vec3(0.0f, 0.0f, 0.0f),
-                glm::vec3 rotationT = glm::vec3(0.0f, 0.0f, 0.0f),
-                glm::vec3 scaleT = glm::vec3(1.0f, 1.0f, 1.0f)) override;
+    void render() override;
 };
 #endif /* skybox_hpp */
