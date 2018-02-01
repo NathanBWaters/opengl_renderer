@@ -50,32 +50,32 @@ Shader SceneObject::getShader() {
 void SceneObject::init() {
     setDefaultShader();
     resetShader();
-    
+
     createModel();
-    
+
     ////////////////////////////////////////////////
     // Set texture information
     ////////////////////////////////////////////////
     setTexture();
-    
+
     ////////////////////////////////////////////////
     // Set material information
     ////////////////////////////////////////////////
     setMaterial();
-    
+
     ////////////////////////////////////////////////
     //  Light Information
     ////////////////////////////////////////////////
     setLights();
-    
+
     // Unbind the VBO and VAO at the end, but not the EBO because it's part of the VAO.
-    
+
     // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens.
     // Modifying other VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs)
     // when it's not directly necessary.
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
-    
+
     // Projection Matrix to convert view space to clip space
     glm::mat4 projection;
     projectionMatrix = glm::perspective(glm::radians(45.0f), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);

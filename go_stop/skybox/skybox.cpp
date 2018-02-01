@@ -26,19 +26,14 @@ void Skybox::setShader(Shader newShader) {
 void Skybox::render(glm::vec3 positionT,
                     glm::vec3 rotationT,
                     glm::vec3 scaleT) {
+
+    glDepthMask(GL_FALSE);
     this->defaultShader.use();
 
-    glm::mat4 scalingMatrix = glm::scale(glm::mat4(), glm::vec3(5.0f, 5.0f, 5.0f));
-
-    // Set the model matrix (where the scene_object is in world space)
-    int modelMatrixLoc = glGetUniformLocation(scene_objectShader.ID, "modelMatrix");
-    glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, glm::value_ptr(scalingMatrix));
-    
     // Set view matrix
     int viewMatrixLoc = glGetUniformLocation(scene_objectShader.ID, "viewMatrix");
-
     Camera *camera = this->scene->getCamera();
-    glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, glm::value_ptr(camera->GetViewMatrix()));
+    glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, glm::value_ptr(glm::mat4(glm::mat3(camera->GetViewMatrix()))));
     
     // Set projection matrix
     int projectionMatrixLoc = glGetUniformLocation(scene_objectShader.ID, "projectionMatrix");
@@ -50,9 +45,8 @@ void Skybox::render(glm::vec3 positionT,
     glBindTexture(GL_TEXTURE_CUBE_MAP, this->scene_objectTextureLoc1);
     glDrawArrays(GL_TRIANGLES, 0, this->getNumVertices());
     glBindVertexArray(0);
-//    glDepthFunc(GL_LESS); // set depth function back to default
-    
-    glBindVertexArray(0);
+
+    glDepthMask(GL_TRUE);
 }
 
 void Skybox::setTexture() {

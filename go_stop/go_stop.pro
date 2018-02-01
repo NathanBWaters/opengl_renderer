@@ -33,6 +33,7 @@ SOURCES += \
     point_light/point_light.cpp \
     scene/Scene.cpp \
     scene_object/scene_object.cpp \
+    skybox/skybox.cpp \
     triangle/triangle.cpp \
     glwidget.cpp
 
@@ -47,6 +48,7 @@ HEADERS += \
     point_light/point_light.hpp \
     scene/Scene.hpp \
     scene_object/scene_object.hpp \
+    skybox/skybox.hpp \
     triangle/triangle.hpp \
     glwidget.h
 

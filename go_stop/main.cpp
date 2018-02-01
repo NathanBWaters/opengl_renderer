@@ -17,7 +17,7 @@
 #include "model/model.hpp"
 #include "mesh/mesh.hpp"
 #include "cube/cube.hpp"
-//#include "skybox/skybox.hpp"
+#include "skybox/skybox.hpp"
 #include "framebuffer/framebuffer.hpp"
 #include "triangle/triangle.hpp"
 #include "point_light/point_light.hpp"
@@ -51,6 +51,8 @@ int main(int argc, char *argv[])
     Camera camera(glm::vec3(0.0f, 0.0f, 9.0f));
 
     Scene scene(&camera, glm::vec3(0.5f, 0.1f, 0.1f));
+
+    Skybox skybox(&scene);
 
     Cube scene_object(&scene,
                   glm::vec3(2.0f, 0.0f, 2.0f),

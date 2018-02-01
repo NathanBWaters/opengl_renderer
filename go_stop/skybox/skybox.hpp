@@ -10,6 +10,8 @@
 #define skybox_hpp
 
 #include <stdio.h>
+#include "../scene/Scene.hpp"
+#include "../scene_object/scene_object.hpp"
 #include "../cube/cube.hpp"
 
 class Scene;
