@@ -26,7 +26,6 @@ void Model::createModel() {
 
 void Model::draw()
 {
-    std::cout << "Hit draw for mesh" << std::endl;
     for(unsigned int i = 0; i < meshes.size(); i++) {
         meshes[i].Draw(this->getShader());
     }

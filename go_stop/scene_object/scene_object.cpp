@@ -181,7 +181,6 @@ void SceneObject::setLights() {
 
 void SceneObject::render()
 {
-    std::cout << "VAO in render: " << scene_objectVAO << std::endl;
     this->scene_objectShader.use();
     
     setLights();
