@@ -2,7 +2,7 @@
 #define SHADER_H
 
 #include <OpenGL/gl3.h>
-
+#include <QOpenGLFunctions>
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -52,16 +52,19 @@ public:
         const char * fShaderCode = fragmentCode.c_str();
         // 2. compile shaders
         unsigned int vertex, fragment;
+
         // vertex shader
         vertex = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vertex, 1, &vShaderCode, NULL);
         glCompileShader(vertex);
         checkCompileErrors(vertex, "VERTEX");
+
         // fragment Shader
         fragment = glCreateShader(GL_FRAGMENT_SHADER);
         glShaderSource(fragment, 1, &fShaderCode, NULL);
         glCompileShader(fragment);
         checkCompileErrors(fragment, "FRAGMENT");
+
         // shader Program
         ID = glCreateProgram();
         glAttachShader(ID, vertex);
@@ -151,7 +154,7 @@ private:
             if (!success)
             {
                 glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-                std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+                std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\ninfoLog - " << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
             }
         }
         else
@@ -160,7 +163,7 @@ private:
             if (!success)
             {
                 glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-                std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+                std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\ninfoLog - " << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
             }
         }
     }

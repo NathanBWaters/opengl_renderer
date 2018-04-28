@@ -80,7 +80,7 @@ public:
     /**
      * Initializes the SceneObject
      */
-    void init();
+    virtual void init();
     
     // ------------------------------------------------------------------------
     virtual void render();
@@ -117,20 +117,24 @@ public:
     
     glm::vec3 getPosition();
     
-    void setLights();
-
-    virtual void setShader(Shader newShader);
-    
     /**
      * Resets the shader to the default shader
      */
     void resetShader();
     
     Shader getShader();
+
+    void setAmbientLight();
+
+    void setTranslations();
     
     // ------------------------------------------------------------------------
     // Methods that can be overridden by derived classes
     // ------------------------------------------------------------------------
+    virtual void setLights();
+
+    virtual void setShader(Shader newShader);
+
     void addToScene();
 
     virtual float * getVertices();

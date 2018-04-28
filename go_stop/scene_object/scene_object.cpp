@@ -98,8 +98,10 @@ void SceneObject::createModel() {
     glBindVertexArray(scene_objectVAO);
 
     // VBO
+    // Bind the VBO created to GL_ARRAY_BUFFER to make it active
     glBindBuffer(GL_ARRAY_BUFFER, scene_objectVBO);
 
+    // Pass in the data
     glBufferData(GL_ARRAY_BUFFER,
                  getNumVertices() * getSpan() * sizeof(float),
                  vertices,
@@ -134,7 +136,8 @@ void SceneObject::createModel() {
                           (void*)(3* sizeof(float))); // where on the vertex does it start
     glEnableVertexAttribArray(2);                     // location of position
 
-    // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
+    // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex
+    // buffer object so afterwards we can safely unbind
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
@@ -179,46 +182,71 @@ void SceneObject::setLights() {
     }
 }
 
-void SceneObject::render()
-{
-    this->scene_objectShader.use();
-    
-    setLights();
-    
+/**
+ * @brief SceneObject::setAmbientLight
+ * Sets the ambient lights on the attribute "globalLight" in the fragment shader
+ */
+void SceneObject::setAmbientLight() {
     int globalLightLoc = glGetUniformLocation(scene_objectShader.ID, "globalLight");
     glm::vec3 ambientLight = this->scene->getAmbientLight();
     glUniform3f(globalLightLoc, ambientLight.r, ambientLight.g, ambientLight.b);
+}
 
+/**
+ * @brief SceneObject
+ * Sets the world matrix, view matrix, and camera matrix
+ */
+void SceneObject::setTranslations() {
     glm::mat4 scalingMatrix = glm::scale(glm::mat4(), Scale);
-    
+
     glm::mat4 rotationMatrix = glm::rotate(glm::mat4(), rotationX, glm::vec3(1.0f, 0.0f, 0.0f));
     rotationMatrix = glm::rotate(rotationMatrix, rotationY, glm::vec3(0.0f, 1.0f, 0.0f));
     rotationMatrix = glm::rotate(rotationMatrix, rotationZ, glm::vec3(0.0f, 0.0f, 1.0f));
 
     glm::mat4 translationMatrix = glm::translate(glm::mat4(), Translation);
-    
+
     glm::mat4 modelMatrix = translationMatrix * rotationMatrix * scalingMatrix;
-    
+
     // Set viewMatrix position (which is the camera position)
     Camera *camera = this->scene->getCamera();
     int viewPositionLoc = glGetUniformLocation(scene_objectShader.ID, "viewPosition");
     glUniform3f(viewPositionLoc, camera->Position.x, camera->Position.y, camera->Position.z);
-    
+
     // Set the model matrix (where the scene_object is in world space)
     int modelMatrixLoc = glGetUniformLocation(scene_objectShader.ID, "modelMatrix");
     glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, glm::value_ptr(modelMatrix));
-    
+
     // Set view matrix
     int viewMatrixLoc = glGetUniformLocation(scene_objectShader.ID, "viewMatrix");
     glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, glm::value_ptr(camera->GetViewMatrix()));
-    
+
     // Set projection matrix
     int projectionMatrixLoc = glGetUniformLocation(scene_objectShader.ID, "projectionMatrix");
     glUniformMatrix4fv(projectionMatrixLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 
+}
+
+void SceneObject::render()
+{
+    this->scene_objectShader.use();
+    
+    // set the point lights from the scene
+    setLights();
+    
+    // set the global ambient light
+    setAmbientLight();
+
+    // set the world, camera, and view translations
+    setTranslations();
+
+    // draw the object
     this->draw();
 }
 
+/**
+ * @brief SceneObject::draw
+ * Actually renders the object
+ */
 void SceneObject::draw() {
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, scene_objectTextureLoc1);
@@ -357,8 +385,8 @@ glm::vec3 SceneObject::getPosition()  {
 }
 
 // ------------------------------------------------------------------------
-    // Methods that can be overridden by derived classes
-    // ------------------------------------------------------------------------
+// Methods that can be overridden by derived classes
+// ------------------------------------------------------------------------
 float * SceneObject::getVertices()  {
     std::cout << "Getting vertices for SceneObject: " << std::endl;
     return DEFAULT_MESH_VERTICES;

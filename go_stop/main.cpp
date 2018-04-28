@@ -22,6 +22,7 @@
 #include "triangle/triangle.hpp"
 #include "point_light/point_light.hpp"
 #include "scene/Scene.hpp"
+#include "particle_system/particle_system.hpp"
 
 // Window settings
 const unsigned int SCREEN_WIDTH = 800;
@@ -31,7 +32,6 @@ const unsigned int SCREEN_HEIGHT = 600;
 float lastX = SCREEN_WIDTH / 2.0f;
 float lastY = SCREEN_HEIGHT / 2.0f;
 bool firstMouse = true;
-//extern bool useMouseControls;
 
 // timing
 float deltaTime = 0.0f;    // time between current frame and last frame
@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 
     // blue light
     PointLight pointLight1(&scene,
-                           glm::vec3(0.4f, 0.6f, 4.0f),
+                           glm::vec3(0.4f, 0.6f, 2.0f),
                            glm::vec3(-1.0f, 1.3f, 5.0f),
                            glm::vec3(0.0f, 0.0f, 0.0f),
                            glm::vec3(0.2f, 0.2f, 0.2f));
@@ -100,6 +100,13 @@ int main(int argc, char *argv[])
                    glm::vec3(-1.0f, 0.0f, 2.0f),
                    glm::vec3(0.0f, 0.0f, 0.0f),
                    glm::vec3(0.2f, 0.2f, 0.2f));
+
+    ParticleSystem particle_system(
+                   &scene,
+                   glm::vec3(-1.0f, 0.0f, 2.0f),
+                   glm::vec3(0.0f, 0.0f, 0.0f),
+                   glm::vec3(0.2f, 0.2f, 0.2f),
+                   100);
 
     // create main window
     MainWindow w(0, &scene);

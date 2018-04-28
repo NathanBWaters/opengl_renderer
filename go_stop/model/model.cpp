@@ -56,10 +56,10 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene) {
     vector<unsigned int> indices;
     vector<Texture> textures;
     
-    std::cout << "Mesh name: " << mesh->mName.C_Str() << std::endl;
-    std::cout << "Mesh has position: " << mesh->HasPositions() << std::endl;
-    std::cout << "Mesh mNormals: " << mesh->HasNormals() << std::endl;
-    std::cout << "Mesh HasTangentsAndBitangents: " << mesh->HasTangentsAndBitangents() << std::endl;
+//    std::cout << "Mesh name: " << mesh->mName.C_Str() << std::endl;
+//    std::cout << "Mesh has position: " << mesh->HasPositions() << std::endl;
+//    std::cout << "Mesh mNormals: " << mesh->HasNormals() << std::endl;
+//    std::cout << "Mesh HasTangentsAndBitangents: " << mesh->HasTangentsAndBitangents() << std::endl;
 
     // Walk through each of the mesh's vertices
     for(unsigned int i = 0; i < mesh->mNumVertices; i++)

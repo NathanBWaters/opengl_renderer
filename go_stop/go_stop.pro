@@ -35,6 +35,7 @@ SOURCES += \
     scene_object/scene_object.cpp \
     skybox/skybox.cpp \
     triangle/triangle.cpp \
+    particle_system/particle_system.cpp \
     glwidget.cpp
 
 HEADERS += \
@@ -50,6 +51,8 @@ HEADERS += \
     scene_object/scene_object.hpp \
     skybox/skybox.hpp \
     triangle/triangle.hpp \
+    particle_system/particle_system.hpp \
+    particle/particle.hpp \
     glwidget.h
 
 FORMS += \
@@ -75,6 +78,8 @@ DISTFILES += \
     model/model.vert \
     point_light/point_light.vert \
     scene_object/scene_object.vert \
+    particle_system/particle_system.vert \
+    particle_system/particle_system.frag \
     skybox/skybox.vert
 
 unix: LIBS += -L$$PWD/../lib/ -lSOIL
