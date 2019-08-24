@@ -8,3 +8,6 @@ Extremely fun side project.  It has some of the following features:
 4) Moveable camera
 5) Particle system
 6) .obj loader
+
+Here is an example render:
+![example](./example_render.gif)
